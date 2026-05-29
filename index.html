@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge3D — Transformando Ideias em Realidade</title>
+<meta name="description" content="Chaveiros articulados e personalizados impressos em 3D. Forge3D — Transformando Ideias em Realidade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #E87E04;
+  --orange-bright: #FF9A1F;
+  --silver: #C0C8D0;
+  --silver-light: #E8ECF0;
+  --dark: #0A0A0A;
+  --dark-2: #111111;
+  --dark-3: #1A1A1A;
+  --dark-4: #222222;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--silver-light);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── HEADER ── */
+header {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem 4rem;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(ellipse, rgba(232,126,4,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+}
+
+.logo-wrap {
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s cubic-bezier(.16,1,.3,1) both;
+}
+
+.logo-wrap img {
+  width: min(280px, 65vw);
+  height: auto;
+  filter: drop-shadow(0 0 40px rgba(232,126,4,0.35));
+}
+
+.tagline {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(13px, 3vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s 0.15s cubic-bezier(.16,1,.3,1) both;
+}
+
+.hero-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(28px, 8vw, 52px);
+  font-weight: 700;
+  color: var(--silver-light);
+  line-height: 1.1;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s 0.25s cubic-bezier(.16,1,.3,1) both;
+}
+
+.hero-title span { color: var(--orange); }
+
+.hero-sub {
+  font-size: clamp(14px, 3.5vw, 17px);
+  color: var(--silver);
+  max-width: 520px;
+  margin: 1rem auto 0;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s 0.35s cubic-bezier(.16,1,.3,1) both;
+}
+
+.cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 2.5rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s 0.45s cubic-bezier(.16,1,.3,1) both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--orange);
+  color: #000;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 0 0 rgba(232,126,4,0);
+}
+
+.btn-primary:hover {
+  background: var(--orange-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232,126,4,0.4);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--silver-light);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 13px 28px;
+  border: 1px solid rgba(192,200,208,0.25);
+  border-radius: 2px;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  transform: translateY(-2px);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--silver);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: fadeUp 1s 1s both, bounce 2s 2s infinite;
+  z-index: 1;
+}
+
+.scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, var(--orange), transparent);
+}
+
+/* ── SECTION BASE ── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 5rem 1.5rem;
+}
+
+.section-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(24px, 6vw, 40px);
+  font-weight: 700;
+  color: var(--silver-light);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--silver);
+  font-weight: 300;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* ── PRODUTOS ── */
+#produtos { background: var(--dark-2); }
+
+.container { max-width: 900px; margin: 0 auto; }
+
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: rgba(232,126,4,0.15);
+  border: 1px solid rgba(232,126,4,0.15);
+  margin-top: 3rem;
+}
+
+.prod-card {
+  background: var(--dark-3);
+  padding: 2rem 1.5rem;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.prod-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.prod-card:hover { background: var(--dark-4); }
+.prod-card:hover::before { opacity: 1; }
+
+.prod-icon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.prod-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--silver-light);
+  margin-bottom: 6px;
+}
+
+.prod-desc {
+  font-size: 13px;
+  color: var(--silver);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.prod-price {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.prod-price small {
+  font-size: 13px;
+  color: var(--silver);
+  font-weight: 400;
+}
+
+/* ── DIFERENCIAIS ── */
+#diferenciais { background: var(--dark); }
+
+.diff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.diff-item { display: flex; flex-direction: column; gap: 10px; }
+
+.diff-num {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(232,126,4,0.15);
+  line-height: 1;
+}
+
+.diff-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--silver-light);
+}
+
+.diff-text {
+  font-size: 13px;
+  color: var(--silver);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ── PERSONALIZAÇÃO BANNER ── */
+.custom-banner {
+  background: var(--dark-3);
+  border: 1px solid rgba(232,126,4,0.2);
+  border-left: 3px solid var(--orange);
+  padding: 2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 5rem;
+}
+
+.custom-banner-text h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--silver-light);
+  margin-bottom: 4px;
+}
+
+.custom-banner-text p {
+  font-size: 14px;
+  color: var(--silver);
+  font-weight: 300;
+}
+
+/* ── CONTATO ── */
+#contato {
+  background: var(--dark-2);
+  text-align: center;
+}
+
+#contato .section-desc { margin: 0 auto; }
+
+.contact-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--dark-3);
+  border: 1px solid rgba(192,200,208,0.1);
+  border-radius: 2px;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.15s;
+  min-width: 220px;
+}
+
+.contact-card:hover {
+  border-color: var(--orange);
+  transform: translateY(-2px);
+}
+
+.contact-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.contact-info { text-align: left; }
+
+.contact-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--silver);
+  font-weight: 400;
+}
+
+.contact-value {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--silver-light);
+}
+
+.notice {
+  margin-top: 2rem;
+  font-size: 12px;
+  color: rgba(192,200,208,0.4);
+  font-weight: 300;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  background: var(--dark);
+  border-top: 1px solid rgba(232,126,4,0.15);
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--silver-light);
+}
+
+.footer-brand span { color: var(--orange); }
+
+.footer-copy {
+  font-size: 12px;
+  color: rgba(192,200,208,0.4);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,126,4,0.3), transparent);
+  margin: 0;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── WHATSAPP FAB ── */
+.fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  background: #25D366;
+  color: #fff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 26px;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeUp 1s 1.5s both;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 32px rgba(37,211,102,0.55);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 540px) {
+  .custom-banner { flex-direction: column; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- WhatsApp FAB -->
+<a class="fab" href="https://wa.me/5584999019339" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">💬</a>
+
+<!-- HERO -->
+<header>
+  <div class="logo-wrap">
+    <img src="logo.png" alt="Forge3D — Transformando Ideias em Realidade" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block'">
+    <div id="text-logo" style="display:none; font-family:'Rajdhani',sans-serif; font-size:48px; font-weight:700; color:#C0C8D0;">FORGE<span style="color:#E87E04;">3D</span></div>
+  </div>
+  <p class="tagline">Transformando Ideias em Realidade</p>
+  <h1 class="hero-title">Chaveiros <span>articulados</span><br>e personalizados</h1>
+  <p class="hero-sub">Impressos em 3D com tecnologia de ponta. Cada peça é única, feita sob medida para você.</p>
+  <div class="cta-group">
+    <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vi%20o%20QR%20Code%20e%20quero%20fazer%20um%20pedido%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">💬 Fazer pedido</a>
+    <a href="#produtos" class="btn-secondary">Ver produtos ↓</a>
+  </div>
+  <div class="scroll-hint">Role para ver</div>
+</header>
+
+<div class="divider"></div>
+
+<!-- PRODUTOS -->
+<section id="produtos">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Catálogo</p>
+      <h2 class="section-title">Nossos produtos</h2>
+      <p class="section-desc">Chaveiros articulados e personalizados com acabamento profissional. Escolha o seu ou peça um modelo exclusivo.</p>
+    </div>
+
+    <div class="prod-grid reveal">
+      <div class="prod-card">
+        <span class="prod-icon">🔗</span>
+        <p class="prod-name">Chaveiro Articulado</p>
+        <p class="prod-desc">Modelos com peças móveis impressas em 3D. Acabamento suave, resistente e divertido.</p>
+        <p class="prod-price">A partir de <br><strong>R$ 15</strong> <small>/ unidade</small></p>
+      </div>
+      <div class="prod-card">
+        <span class="prod-icon">✨</span>
+        <p class="prod-name">Personalizado</p>
+        <p class="prod-desc">Com nome, inicial ou tema especial. Presente perfeito e lembrança única.</p>
+        <p class="prod-price">A partir de <br><strong>R$ 22</strong> <small>/ unidade</small></p>
+      </div>
+      <div class="prod-card">
+        <span class="prod-icon">📦</span>
+        <p class="prod-name">Kit 3 unidades</p>
+        <p class="prod-desc">Leve mais, pague menos. Ótimo para presentear ou para coleção.</p>
+        <p class="prod-price"><strong>R$ 40</strong> <small>/ kit</small></p>
+      </div>
+    </div>
+
+    <div class="custom-banner reveal">
+      <div class="custom-banner-text">
+        <h3>Quer um modelo exclusivo?</h3>
+        <p>Traga sua ideia — personagens, logos, iniciais, temas — e fazemos para você.</p>
+      </div>
+      <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20um%20chaveiro%20personalizado%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Pedir personalizado</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Por que Forge3D</p>
+      <h2 class="section-title">Qualidade que você toca</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-item reveal">
+        <p class="diff-num">01</p>
+        <p class="diff-title">Impressão de alta precisão</p>
+        <p class="diff-text">Equipamento Bambu Lab de última geração com acabamento milimétrico em cada peça.</p>
+      </div>
+      <div class="diff-item reveal">
+        <p class="diff-num">02</p>
+        <p class="diff-title">100% personalizado</p>
+        <p class="diff-text">Cada chaveiro pode ter nome, cor, tema e formato sob medida para o seu pedido.</p>
+      </div>
+      <div class="diff-item reveal">
+        <p class="diff-num">03</p>
+        <p class="diff-title">Entrega rápida</p>
+        <p class="diff-text">Prazo reduzido. Combinamos por WhatsApp e entregamos no evento ou enviamos.</p>
+      </div>
+      <div class="diff-item reveal">
+        <p class="diff-num">04</p>
+        <p class="diff-title">Preço justo</p>
+        <p class="diff-text">Direto do produtor para você. Sem intermediários, com qualidade garantida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Contato</p>
+      <h2 class="section-title">Fale com a gente</h2>
+      <p class="section-desc">Faça seu pedido, tire dúvidas ou solicite um orçamento de personalização. Respondemos rápido!</p>
+    </div>
+    <div class="contact-cards reveal">
+      <a class="contact-card" href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vim%20pelo%20QR%20Code%20e%20quero%20saber%20mais%20sobre%20os%20produtos%20da%20Forge3D." target="_blank" rel="noopener">
+        <span class="contact-icon">💬</span>
+        <div class="contact-info">
+          <p class="contact-label">WhatsApp</p>
+          <p class="contact-value">(84) 99901-9339</p>
+        </div>
+      </a>
+    </div>
+    <p class="notice reveal">📍 São Paulo, Brasil &nbsp;·&nbsp; Atendimento via WhatsApp</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-brand">FORGE<span>3D</span></p>
+  <p class="footer-copy">© 2026 Forge3D · Transformando Ideias em Realidade</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
