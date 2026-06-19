@@ -332,7 +332,18 @@ section {
   margin-top: 3rem;
 }
 
-.diff-item { display: flex; flex-direction: column; gap: 10px; }
+.diff-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1.25rem;
+  margin: -1.25rem;
+  border-radius: 4px;
+  cursor: default;
+  transition: background 0.3s;
+}
+
+.diff-item:hover { background: rgba(232,126,4,0.04); }
 
 .diff-num {
   font-family: 'Rajdhani', sans-serif;
@@ -340,6 +351,15 @@ section {
   font-weight: 700;
   color: rgba(232,126,4,0.15);
   line-height: 1;
+  display: inline-block;
+  transform: scale(1) translateY(0);
+  transition: transform 0.3s cubic-bezier(.16,1,.3,1), color 0.3s;
+  transform-origin: left center;
+}
+
+.diff-item:hover .diff-num {
+  transform: scale(1.22) translateY(-4px);
+  color: rgba(232,126,4,0.45);
 }
 
 .diff-title {
@@ -534,6 +554,8 @@ footer {
   flex-wrap: wrap;
   gap: 8px;
   margin: 2rem 0 2.5rem;
+  position: relative;
+  z-index: 5;
 }
 
 .pf-btn {
@@ -566,21 +588,29 @@ footer {
 
 .pf-item {
   position: relative;
-  aspect-ratio: 1;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   cursor: pointer;
   background: var(--dark-4);
+  display: block;
 }
-.pf-item.hidden { display: none; }
+.pf-item.hidden { display: none !important; }
 
 .pf-img {
-  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.4s cubic-bezier(.16,1,.3,1);
 }
 
 .pf-placeholder {
+  position: absolute;
+  inset: 0;
   width: 100%; height: 100%;
   display: flex;
   flex-direction: column;
@@ -595,6 +625,7 @@ footer {
   text-transform: uppercase;
   text-align: center;
   padding: 1rem;
+  box-sizing: border-box;
   transition: transform 0.4s cubic-bezier(.16,1,.3,1);
 }
 .pf-placeholder-icon { font-size: 28px; opacity: 0.35; }
@@ -822,13 +853,13 @@ footer {
     </div>
 
     <div class="portfolio-filters reveal">
-      <button class="pf-btn active" onclick="filterPortfolio('todos', this)">Todos</button>
-      <button class="pf-btn" onclick="filterPortfolio('chaveiro', this)">Chaveiros</button>
-      <button class="pf-btn" onclick="filterPortfolio('personalizado', this)">Personalizados</button>
-      <button class="pf-btn" onclick="filterPortfolio('especial', this)">Especiais</button>
-      <button class="pf-btn" onclick="filterPortfolio('brinde', this)">Brindes</button>
-      <button class="pf-btn" onclick="filterPortfolio('brinquedo', this)">Brinquedos</button>
-      <button class="pf-btn" onclick="filterPortfolio('decoracao', this)">Decoração</button>
+      <button class="pf-btn active" type="button" data-filter="todos">Todos</button>
+      <button class="pf-btn" type="button" data-filter="chaveiro">Chaveiros</button>
+      <button class="pf-btn" type="button" data-filter="personalizado">Personalizados</button>
+      <button class="pf-btn" type="button" data-filter="especial">Especiais</button>
+      <button class="pf-btn" type="button" data-filter="brinde">Brindes</button>
+      <button class="pf-btn" type="button" data-filter="brinquedo">Brinquedos</button>
+      <button class="pf-btn" type="button" data-filter="decoracao">Decoração</button>
     </div>
 
     <div class="portfolio-grid reveal" id="portfolioGrid">
@@ -1316,14 +1347,20 @@ const obs = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
 // ── Portfolio filter ──
-function filterPortfolio(cat, btn) {
-  document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+function filterPortfolio(cat) {
   document.querySelectorAll('.pf-item').forEach(item => {
     const show = cat === 'todos' || item.dataset.cat === cat;
     item.classList.toggle('hidden', !show);
   });
 }
+
+document.querySelectorAll('.pf-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    filterPortfolio(this.dataset.filter);
+  });
+});
 
 // ── Lightbox ──
 const items = Array.from(document.querySelectorAll('.pf-item'));
