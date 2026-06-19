@@ -558,7 +558,7 @@ footer {
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2px;
   background: rgba(232,126,4,0.1);
   border: 1px solid rgba(232,126,4,0.1);
@@ -704,6 +704,9 @@ footer {
 @media (max-width: 600px) {
   .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
 }
+@media (min-width: 601px) and (max-width: 900px) {
+  .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
+}
 @media (max-width: 540px) {
   .custom-banner { flex-direction: column; }
   footer { flex-direction: column; text-align: center; }
@@ -822,15 +825,17 @@ footer {
       <button class="pf-btn active" onclick="filterPortfolio('todos', this)">Todos</button>
       <button class="pf-btn" onclick="filterPortfolio('chaveiro', this)">Chaveiros</button>
       <button class="pf-btn" onclick="filterPortfolio('personalizado', this)">Personalizados</button>
-      <button class="pf-btn" onclick="filterPortfolio('brinde', this)">Brindes</button>
       <button class="pf-btn" onclick="filterPortfolio('especial', this)">Especiais</button>
+      <button class="pf-btn" onclick="filterPortfolio('brinde', this)">Brindes</button>
+      <button class="pf-btn" onclick="filterPortfolio('brinquedo', this)">Brinquedos</button>
+      <button class="pf-btn" onclick="filterPortfolio('decoracao', this)">Decoração</button>
     </div>
 
     <div class="portfolio-grid reveal" id="portfolioGrid">
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Cobra" onclick="openLb(0)">
         <div class="pf-placeholder">
-          <span class="pf-placeholder-icon">🔗</span>
+          <span class="pf-placeholder-icon">🐍</span>
           <span>foto_01.jpg</span>
           <span class="pf-placeholder-hint">Substitua pela sua foto</span>
         </div>
@@ -840,22 +845,10 @@ footer {
         </div>
       </div>
 
-      <div class="pf-item" data-cat="personalizado" data-name="Chaveiro com Nome" onclick="openLb(1)">
-        <img class="pf-img" src="foto_02.jpg" alt="Luminária Problema dos Três Corpos para Lâmpada Led">
-          <span class="pf-placeholder-icon">✨</span>
-          <span>foto_02.jpg</span>
-          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
-        </div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro com Nome</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Dragão" onclick="openLb(2)">
+      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Dragão" onclick="openLb(1)">
         <div class="pf-placeholder">
           <span class="pf-placeholder-icon">🐉</span>
-          <span>foto_03.jpg</span>
+          <span>foto_02.jpg</span>
           <span class="pf-placeholder-hint">Substitua pela sua foto</span>
         </div>
         <div class="pf-overlay">
@@ -864,58 +857,10 @@ footer {
         </div>
       </div>
 
-      <div class="pf-item" data-cat="brinde" data-name="Brinde Corporativo" onclick="openLb(3)">
-        <img class="pf-img" src="foto_04.jpg" alt="Triceratops Esqueleto Flexível">
-          <span class="pf-placeholder-icon">🎁</span>
-          <span>foto_04.jpg</span>
-          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
-        </div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Brinde Corporativo</p>
-          <p class="pf-item-cat">Brinde</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Chaveiro Temático RPG" onclick="openLb(4)">
-        <img class="pf-img" src="foto_05.jpg" alt="Letreiro Personalizado Dinossauros">
-          <span class="pf-placeholder-icon">⚔️</span>
-          <span>foto_05.jpg</span>
-          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
-        </div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Temático RPG</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="especial" data-name="Peça Decorativa" onclick="openLb(5)">
-       <img class="pf-img" src="foto_06.jpg" alt="Suporte Elevador para iPad/Tablet">
-          <span class="pf-placeholder-icon">🏺</span>
-          <span>foto_06.jpg</span>
-          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
-        </div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Peça Decorativa</p>
-          <p class="pf-item-cat">Especial</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinde" data-name="Kit Lembrança de Evento" onclick="openLb(6)">
-        <img class="pf-img" src="foto_07.jpg" alt="Estatua Ressonância Celestial - Além da Visão">
-          <span class="pf-placeholder-icon">🎉</span>
-          <span>foto_07.jpg</span>
-          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
-        </div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Kit Lembrança de Evento</p>
-          <p class="pf-item-cat">Brinde</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Tubarão" onclick="openLb(7)">
+      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Tubarão" onclick="openLb(2)">
         <div class="pf-placeholder">
           <span class="pf-placeholder-icon">🦈</span>
-          <span>foto_08.jpg</span>
+          <span>foto_03.jpg</span>
           <span class="pf-placeholder-hint">Substitua pela sua foto</span>
         </div>
         <div class="pf-overlay">
@@ -924,15 +869,375 @@ footer {
         </div>
       </div>
 
-      <div class="pf-item" data-cat="especial" data-name="Miniatura Personalizada" onclick="openLb(8)">
-        <img class="pf-img" src="foto_09.jpg" alt="Porta-canetas Enfermeira Fofa">
-          <span class="pf-placeholder-icon">🧩</span>
+      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Polvo" onclick="openLb(3)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🐙</span>
+          <span>foto_04.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Chaveiro Articulado Polvo</p>
+          <p class="pf-item-cat">Chaveiro</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Dinossauro" onclick="openLb(4)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🦖</span>
+          <span>foto_05.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Chaveiro Articulado Dinossauro</p>
+          <p class="pf-item-cat">Chaveiro</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Peixe" onclick="openLb(5)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🐠</span>
+          <span>foto_06.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Chaveiro Articulado Peixe</p>
+          <p class="pf-item-cat">Chaveiro</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="personalizado" data-name="Letra Decorativa com Nome" onclick="openLb(6)">
+        <img class="pf-img" src="portfolio/foto_04.jpg" alt="Letra Decorativa com Nome">
+        <div class="pf-overlay">
+          <p class="pf-item-name">Letra Decorativa com Nome</p>
+          <p class="pf-item-cat">Personalizado</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="personalizado" data-name="Chaveiro com Nome Gravado" onclick="openLb(7)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🔖</span>
+          <span>foto_08.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Chaveiro com Nome Gravado</p>
+          <p class="pf-item-cat">Personalizado</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="personalizado" data-name="Topo de Bolo Personalizado" onclick="openLb(8)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🎂</span>
           <span>foto_09.jpg</span>
           <span class="pf-placeholder-hint">Substitua pela sua foto</span>
         </div>
         <div class="pf-overlay">
-          <p class="pf-item-name">Miniatura Personalizada</p>
+          <p class="pf-item-name">Topo de Bolo Personalizado</p>
+          <p class="pf-item-cat">Personalizado</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="personalizado" data-name="Placa de Porta com Nome" onclick="openLb(9)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🚪</span>
+          <span>foto_10.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Placa de Porta com Nome</p>
+          <p class="pf-item-cat">Personalizado</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="personalizado" data-name="Suporte de Mesa Personalizado" onclick="openLb(10)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🪧</span>
+          <span>foto_11.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Suporte de Mesa Personalizado</p>
+          <p class="pf-item-cat">Personalizado</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="personalizado" data-name="Medalha Comemorativa" onclick="openLb(11)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🏅</span>
+          <span>foto_12.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Medalha Comemorativa</p>
+          <p class="pf-item-cat">Personalizado</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="especial" data-name="Suporte de Tablet Articulado" onclick="openLb(12)">
+        <img class="pf-img" src="portfolio/foto_05.jpg" alt="Suporte de Tablet Articulado">
+        <div class="pf-overlay">
+          <p class="pf-item-name">Suporte de Tablet Articulado</p>
           <p class="pf-item-cat">Especial</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="especial" data-name="Porta-Canetas Enfermeira" onclick="openLb(13)">
+        <img class="pf-img" src="portfolio/foto_07.jpg" alt="Porta-Canetas Enfermeira">
+        <div class="pf-overlay">
+          <p class="pf-item-name">Porta-Canetas Enfermeira</p>
+          <p class="pf-item-cat">Especial</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="especial" data-name="Peça Técnica sob Medida" onclick="openLb(14)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">⚙️</span>
+          <span>foto_15.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Peça Técnica sob Medida</p>
+          <p class="pf-item-cat">Especial</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="especial" data-name="Suporte para Ferramentas" onclick="openLb(15)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🛠️</span>
+          <span>foto_16.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Suporte para Ferramentas</p>
+          <p class="pf-item-cat">Especial</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="especial" data-name="Engrenagem Funcional" onclick="openLb(16)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">⚡</span>
+          <span>foto_17.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Engrenagem Funcional</p>
+          <p class="pf-item-cat">Especial</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="especial" data-name="Peça de Reposição" onclick="openLb(17)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🔩</span>
+          <span>foto_18.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Peça de Reposição</p>
+          <p class="pf-item-cat">Especial</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinde" data-name="Kit Lembrança de Evento" onclick="openLb(18)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🎉</span>
+          <span>foto_19.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Kit Lembrança de Evento</p>
+          <p class="pf-item-cat">Brinde</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinde" data-name="Brinde Corporativo Personalizado" onclick="openLb(19)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🎁</span>
+          <span>foto_20.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Brinde Corporativo Personalizado</p>
+          <p class="pf-item-cat">Brinde</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinde" data-name="Porta-Cartão de Mesa" onclick="openLb(20)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">💼</span>
+          <span>foto_21.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Porta-Cartão de Mesa</p>
+          <p class="pf-item-cat">Brinde</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinde" data-name="Lembrancinha de Aniversário" onclick="openLb(21)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🎈</span>
+          <span>foto_22.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Lembrancinha de Aniversário</p>
+          <p class="pf-item-cat">Brinde</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinde" data-name="Brinde para Casamento" onclick="openLb(22)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">💍</span>
+          <span>foto_23.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Brinde para Casamento</p>
+          <p class="pf-item-cat">Brinde</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinde" data-name="Mimo Personalizado" onclick="openLb(23)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🎀</span>
+          <span>foto_24.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Mimo Personalizado</p>
+          <p class="pf-item-cat">Brinde</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinquedo" data-name="Dinossauro Articulado Triceratops" onclick="openLb(24)">
+        <img class="pf-img" src="portfolio/foto_02.jpg" alt="Dinossauro Articulado Triceratops">
+        <div class="pf-overlay">
+          <p class="pf-item-name">Dinossauro Articulado Triceratops</p>
+          <p class="pf-item-cat">Brinquedo</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinquedo" data-name="Boneco Articulado" onclick="openLb(25)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🤖</span>
+          <span>foto_26.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Boneco Articulado</p>
+          <p class="pf-item-cat">Brinquedo</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinquedo" data-name="Quebra-Cabeça 3D" onclick="openLb(26)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🧩</span>
+          <span>foto_27.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Quebra-Cabeça 3D</p>
+          <p class="pf-item-cat">Brinquedo</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinquedo" data-name="Miniatura de RPG" onclick="openLb(27)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🎲</span>
+          <span>foto_28.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Miniatura de RPG</p>
+          <p class="pf-item-cat">Brinquedo</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinquedo" data-name="Fidget Toy" onclick="openLb(28)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🌀</span>
+          <span>foto_29.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Fidget Toy</p>
+          <p class="pf-item-cat">Brinquedo</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="brinquedo" data-name="Boneco de Ação" onclick="openLb(29)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🦸</span>
+          <span>foto_30.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Boneco de Ação</p>
+          <p class="pf-item-cat">Brinquedo</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="decoracao" data-name="Luminária Orgânica de Mesa" onclick="openLb(30)">
+        <img class="pf-img" src="portfolio/foto_09.jpg" alt="Luminária Orgânica de Mesa">
+        <div class="pf-overlay">
+          <p class="pf-item-name">Luminária Orgânica de Mesa</p>
+          <p class="pf-item-cat">Decoração</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="decoracao" data-name="Escultura O Pensador" onclick="openLb(31)">
+        <img class="pf-img" src="portfolio/foto_06.jpg" alt="Escultura O Pensador">
+        <div class="pf-overlay">
+          <p class="pf-item-name">Escultura O Pensador</p>
+          <p class="pf-item-cat">Decoração</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="decoracao" data-name="Vaso Decorativo" onclick="openLb(32)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🏺</span>
+          <span>foto_33.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Vaso Decorativo</p>
+          <p class="pf-item-cat">Decoração</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="decoracao" data-name="Porta-Vela Geométrico" onclick="openLb(33)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🕯️</span>
+          <span>foto_34.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Porta-Vela Geométrico</p>
+          <p class="pf-item-cat">Decoração</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="decoracao" data-name="Organizador de Mesa" onclick="openLb(34)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🗃️</span>
+          <span>foto_35.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Organizador de Mesa</p>
+          <p class="pf-item-cat">Decoração</p>
+        </div>
+      </div>
+
+      <div class="pf-item" data-cat="decoracao" data-name="Mandala Decorativa" onclick="openLb(35)">
+        <div class="pf-placeholder">
+          <span class="pf-placeholder-icon">🌸</span>
+          <span>foto_36.jpg</span>
+          <span class="pf-placeholder-hint">Substitua pela sua foto</span>
+        </div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">Mandala Decorativa</p>
+          <p class="pf-item-cat">Decoração</p>
         </div>
       </div>
 
