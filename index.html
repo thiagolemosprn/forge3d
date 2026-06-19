@@ -580,7 +580,7 @@ footer {
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   background: rgba(232,126,4,0.1);
   border: 1px solid rgba(232,126,4,0.1);
@@ -735,9 +735,6 @@ footer {
 @media (max-width: 600px) {
   .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (min-width: 601px) and (max-width: 900px) {
-  .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
-}
 @media (max-width: 540px) {
   .custom-banner { flex-direction: column; }
   footer { flex-direction: column; text-align: center; }
@@ -877,7 +874,7 @@ footer {
       </div>
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Dragão" onclick="openLb(1)">
-        <img class="pf-img" src="foto_02.jpg" alt="Luminária Problema dos Três Corpos para Lâmpada Led">
+        <div class="pf-placeholder">
           <span class="pf-placeholder-icon">🐉</span>
           <span>foto_02.jpg</span>
           <span class="pf-placeholder-hint">Substitua pela sua foto</span>
@@ -937,7 +934,7 @@ footer {
       </div>
 
       <div class="pf-item" data-cat="personalizado" data-name="Letra Decorativa com Nome" onclick="openLb(6)">
-        <img class="pf-img" src="portfolio/foto_04.jpg" alt="Letra Decorativa com Nome">
+        <img class="pf-img" src="foto_04.jpg" alt="Letra Decorativa com Nome">
         <div class="pf-overlay">
           <p class="pf-item-name">Letra Decorativa com Nome</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1005,7 +1002,7 @@ footer {
       </div>
 
       <div class="pf-item" data-cat="especial" data-name="Suporte de Tablet Articulado" onclick="openLb(12)">
-        <img class="pf-img" src="portfolio/foto_05.jpg" alt="Suporte de Tablet Articulado">
+        <img class="pf-img" src="foto_05.jpg" alt="Suporte de Tablet Articulado">
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte de Tablet Articulado</p>
           <p class="pf-item-cat">Especial</p>
@@ -1013,7 +1010,7 @@ footer {
       </div>
 
       <div class="pf-item" data-cat="especial" data-name="Porta-Canetas Enfermeira" onclick="openLb(13)">
-        <img class="pf-img" src="portfolio/foto_07.jpg" alt="Porta-Canetas Enfermeira">
+        <img class="pf-img" src="foto_07.jpg" alt="Porta-Canetas Enfermeira">
         <div class="pf-overlay">
           <p class="pf-item-name">Porta-Canetas Enfermeira</p>
           <p class="pf-item-cat">Especial</p>
@@ -1141,7 +1138,7 @@ footer {
       </div>
 
       <div class="pf-item" data-cat="brinquedo" data-name="Dinossauro Articulado Triceratops" onclick="openLb(24)">
-        <img class="pf-img" src="portfolio/foto_02.jpg" alt="Dinossauro Articulado Triceratops">
+        <img class="pf-img" src="foto_02.jpg" alt="Dinossauro Articulado Triceratops">
         <div class="pf-overlay">
           <p class="pf-item-name">Dinossauro Articulado Triceratops</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1209,7 +1206,7 @@ footer {
       </div>
 
       <div class="pf-item" data-cat="decoracao" data-name="Luminária Orgânica de Mesa" onclick="openLb(30)">
-        <img class="pf-img" src="foto_02.jpg" alt="Luminária Orgânica de Mesa">
+        <img class="pf-img" src="foto_09.jpg" alt="Luminária Orgânica de Mesa">
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária Orgânica de Mesa</p>
           <p class="pf-item-cat">Decoração</p>
