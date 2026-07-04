@@ -3,28 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forge3D — Transformando Ideias em Realidade</title>
-<meta name="description" content="Damos forma às suas ideias através da impressão 3D. Produtos personalizados, brindes, peças funcionais e soluções sob medida com qualidade profissional. Forge3D — Precisão em cada camada.">
+<title>Forge3D — Precisão em cada camada</title>
+<meta name="description" content="Impressão 3D de alta qualidade. Produtos personalizados, brindes, peças funcionais e soluções sob medida. Forge3D — Precisão em cada camada.">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #E87E04;
-  --orange-bright: #FF9A1F;
-  --silver: #C0C8D0;
-  --silver-light: #E8ECF0;
-  --dark: #0A0A0A;
-  --dark-2: #111111;
-  --dark-3: #1A1A1A;
-  --dark-4: #222222;
-}
-
+/* ══════════════════════════════════════
+   RESET & TOKENS
+══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
+
+:root {
+  --orange:        #E87E04;
+  --orange-dim:    rgba(232,126,4,0.15);
+  --orange-glow:   rgba(232,126,4,0.35);
+  --silver:        #C0C8D0;
+  --silver-light:  #E8ECF0;
+  --dark:          #080808;
+  --dark-2:        #0E0E0E;
+  --dark-3:        #161616;
+  --dark-4:        #1E1E1E;
+  --nav-h:         68px;
+}
 
 body {
   background: var(--dark);
@@ -33,807 +37,622 @@ body {
   font-weight: 400;
   line-height: 1.6;
   overflow-x: hidden;
+  cursor: none;
 }
 
-/* ── NOISE TEXTURE overlay ── */
-body::before {
-  content: '';
+/* ══════════════════════════════════════
+   CUSTOM CURSOR
+══════════════════════════════════════ */
+.cursor-dot, .cursor-ring {
   position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none;
-  z-index: 0;
-  opacity: 0.4;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition-property: width, height, opacity, background;
+  transition-duration: 0.2s;
 }
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--orange);
+  top: 0; left: 0;
+  transition: none;
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1.5px solid rgba(232,126,4,0.6);
+  top: 0; left: 0;
+  transition: width .25s, height .25s, border-color .25s, top .08s linear, left .08s linear;
+}
+.cursor-ring.hover { width: 48px; height: 48px; border-color: var(--orange); }
+@media (hover: none) { .cursor-dot, .cursor-ring { display: none; } body { cursor: auto; } }
 
-/* ── HEADER ── */
-header {
-  position: relative;
-  min-height: 100svh;
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  z-index: 500;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem 1.5rem 4rem;
-  overflow: hidden;
+  padding: 0 2.5rem;
+  gap: 2rem;
+  background: rgba(8,8,8,0);
+  transition: background 0.4s, border-color 0.4s;
+  border-bottom: 1px solid transparent;
+}
+.navbar.scrolled {
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(20px);
+  border-color: rgba(232,126,4,0.1);
 }
 
-header::before {
-  content: '';
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(ellipse, rgba(232,126,4,0.12) 0%, transparent 70%);
-  pointer-events: none;
+.nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+.nav-logo { height: 38px; width: auto; }
+.nav-brand-text { font-family:'Rajdhani',sans-serif; font-size:21px; font-weight:700; color:var(--silver-light); line-height:1; }
+.nav-brand-text span { color:var(--orange); }
+.nav-tagline { font-size:10px; color:var(--silver); letter-spacing:0.12em; margin-top:2px; }
+
+.nav-menu { display:flex; align-items:center; gap:2rem; margin-left:auto; list-style:none; }
+.nav-menu a {
+  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase; color:var(--silver);
+  text-decoration:none; position:relative; transition:color 0.2s;
+}
+.nav-menu a::after {
+  content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px;
+  background:var(--orange); transform:scaleX(0); transform-origin:left;
+  transition:transform 0.3s cubic-bezier(.16,1,.3,1);
+}
+.nav-menu a:hover { color:var(--silver-light); }
+.nav-menu a:hover::after { transform:scaleX(1); }
+
+.nav-actions { display:flex; align-items:center; gap:1rem; flex-shrink:0; }
+.nav-icon { color:var(--silver); text-decoration:none; font-size:19px; transition:color 0.2s; display:flex; align-items:center; }
+.nav-icon:hover { color:var(--orange); }
+
+.nav-cta {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--orange); color:#000;
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:0.14em; text-transform:uppercase; text-decoration:none;
+  padding:9px 18px; border-radius:1px;
+  transition:background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.nav-cta:hover { background:#FF9A1F; transform:translateY(-1px); box-shadow:0 4px 20px rgba(232,126,4,0.4); }
+
+.nav-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; margin-left:auto; }
+.nav-toggle span { display:block; width:22px; height:1.5px; background:var(--silver-light); border-radius:2px; transition:transform 0.3s, opacity 0.3s; }
+
+/* ══════════════════════════════════════
+   CANVAS PARTICLES
+══════════════════════════════════════ */
+#particleCanvas {
+  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.45;
 }
 
-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  position:relative; min-height:100svh;
+  display:flex; align-items:center;
+  padding: calc(var(--nav-h) + 2rem) 2.5rem 4rem;
+  overflow:hidden;
 }
 
-.logo-wrap {
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.9s cubic-bezier(.16,1,.3,1) both;
+/* Hero background — the uploaded image */
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background: url('hero-bg.png') right center / contain no-repeat;
+  background-color: var(--dark);
+  will-change: transform;
 }
 
-.logo-wrap img {
-  width: min(280px, 65vw);
-  height: auto;
-  border-radius: 16px;
-  box-shadow:
-    0 0 0 1px rgba(232,126,4,0.15),
-    0 20px 60px rgba(232,126,4,0.25),
-    0 4px 20px rgba(0,0,0,0.5);
+/* Dark overlay only on the left side so the image stays vivid on right */
+.hero-bg::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(100deg,
+    rgba(8,8,8,1)    0%,
+    rgba(8,8,8,0.92) 38%,
+    rgba(8,8,8,0.55) 60%,
+    rgba(8,8,8,0.05) 100%);
 }
 
-.tagline {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(13px, 3vw, 15px);
-  font-weight: 500;
-  letter-spacing: 0.35em;
-  color: var(--orange);
-  text-transform: uppercase;
-  margin-top: 1rem;
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.9s 0.15s cubic-bezier(.16,1,.3,1) both;
+/* Ambient orange glow from the right matching the image */
+.hero-bg::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse 55% 70% at 82% 55%, rgba(232,126,4,0.12) 0%, transparent 70%);
+}
+
+.hero-content { position:relative; z-index:2; max-width:620px; }
+
+.hero-eyebrow {
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:0.42em; color:var(--orange); text-transform:uppercase;
+  margin-bottom:1.2rem; opacity:0;
+  animation: fadeUp 0.8s 0.3s cubic-bezier(.16,1,.3,1) forwards;
 }
 
 .hero-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(28px, 8vw, 52px);
-  font-weight: 700;
-  color: var(--silver-light);
-  line-height: 1.1;
-  margin-top: 2rem;
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.9s 0.25s cubic-bezier(.16,1,.3,1) both;
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(48px, 9vw, 96px);
+  font-weight:700; line-height:0.92;
+  color:var(--silver-light); text-transform:uppercase;
+  margin-bottom:1.5rem; opacity:0;
+  animation: fadeUp 0.8s 0.5s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-.hero-title span { color: var(--orange); }
+/* Layer-by-layer logo reveal — the "signature" animation */
+.hero-title .line1 { display:block; clip-path:inset(0 100% 0 0); animation: revealLine 0.9s 0.6s cubic-bezier(.16,1,.3,1) forwards; }
+.hero-title .line2 { display:block; clip-path:inset(0 100% 0 0); animation: revealLine 0.9s 0.85s cubic-bezier(.16,1,.3,1) forwards; }
+.hero-title .line3 { display:block; clip-path:inset(0 100% 0 0); animation: revealLine 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards; }
+.hero-title .accent { color:var(--orange); }
 
 .hero-sub {
-  font-size: clamp(14px, 3.5vw, 17px);
-  color: var(--silver);
-  max-width: 520px;
-  margin: 1rem auto 0;
-  font-weight: 300;
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.9s 0.35s cubic-bezier(.16,1,.3,1) both;
+  font-size:clamp(14px,1.8vw,17px); color:var(--silver); font-weight:300;
+  max-width:440px; line-height:1.75; margin-bottom:2.5rem; opacity:0;
+  animation: fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-.cta-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 2.5rem;
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.9s 0.45s cubic-bezier(.16,1,.3,1) both;
+/* Live layer counter */
+.hero-counter {
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:2.5rem; opacity:0;
+  animation: fadeUp 0.8s 1.35s cubic-bezier(.16,1,.3,1) forwards;
 }
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--orange);
-  color: #000;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 14px 28px;
-  border-radius: 2px;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 0 0 rgba(232,126,4,0);
+.counter-bar {
+  width:120px; height:2px; background:rgba(232,126,4,0.15); border-radius:1px; overflow:hidden;
 }
-
-.btn-primary:hover {
-  background: var(--orange-bright);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(232,126,4,0.4);
+.counter-fill {
+  height:100%; width:0%; background:var(--orange); border-radius:1px;
+  animation: fillBar 3s 1.5s ease-out forwards;
 }
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: var(--silver-light);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 13px 28px;
-  border: 1px solid rgba(192,200,208,0.25);
-  border-radius: 2px;
-  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+.counter-label {
+  font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:600;
+  letter-spacing:0.25em; color:var(--orange); text-transform:uppercase;
 }
+.counter-num { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; color:var(--silver); }
 
-.btn-secondary:hover {
-  border-color: var(--orange);
-  color: var(--orange);
-  transform: translateY(-2px);
-}
+.hero-ctas { display:flex; flex-wrap:wrap; gap:12px; opacity:0; animation: fadeUp 0.8s 1.5s cubic-bezier(.16,1,.3,1) forwards; }
 
+/* Scroll indicator */
 .scroll-hint {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: var(--silver);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  animation: fadeUp 1s 1s both, bounce 2s 2s infinite;
-  z-index: 1;
+  position:absolute; bottom:2rem; left:2.5rem; z-index:2;
+  display:flex; flex-direction:column; align-items:flex-start; gap:8px;
+  opacity:0; animation: fadeUp 1s 2s cubic-bezier(.16,1,.3,1) forwards;
+}
+.scroll-hint span { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--silver); }
+.scroll-line {
+  width:1px; height:48px;
+  background:linear-gradient(to bottom, var(--orange), transparent);
+  animation: scrollPulse 2s 2.5s infinite;
 }
 
-.scroll-hint::after {
-  content: '';
-  width: 1px;
-  height: 36px;
-  background: linear-gradient(to bottom, var(--orange), transparent);
+/* ══════════════════════════════════════
+   BENEFITS BAR
+══════════════════════════════════════ */
+.benefits-bar {
+  position:relative; z-index:2;
+  background:var(--dark-3);
+  border-top:1px solid rgba(232,126,4,0.12);
+  border-bottom:1px solid rgba(232,126,4,0.12);
 }
+.benefits-inner {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr);
+}
+.benefit-item {
+  display:flex; align-items:center; gap:14px;
+  padding:18px 24px;
+  border-right:1px solid rgba(232,126,4,0.08);
+  transition:background 0.3s;
+}
+.benefit-item:hover { background:rgba(232,126,4,0.04); }
+.benefit-item:last-child { border-right:none; }
+.benefit-icon { font-size:20px; color:var(--orange); flex-shrink:0; }
+.benefit-text strong { display:block; font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-light); }
+.benefit-text small { font-size:11px; color:var(--silver); }
 
-/* ── SECTION BASE ── */
-section {
-  position: relative;
-  z-index: 1;
-  padding: 5rem 1.5rem;
-}
+/* ══════════════════════════════════════
+   SHARED SECTION STYLES
+══════════════════════════════════════ */
+section { position:relative; z-index:1; }
+.container { max-width:1100px; margin:0 auto; padding:0 2rem; }
+.section-inner { padding:5rem 0; }
 
 .section-label {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.4em;
-  color: var(--orange);
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:600;
+  letter-spacing:0.42em; color:var(--orange); text-transform:uppercase; margin-bottom:0.5rem;
 }
-
 .section-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(24px, 6vw, 40px);
-  font-weight: 700;
-  color: var(--silver-light);
-  line-height: 1.15;
-  margin-bottom: 1rem;
+  font-family:'Rajdhani',sans-serif; font-size:clamp(26px,5vw,42px);
+  font-weight:700; color:var(--silver-light); line-height:1.1; margin-bottom:1rem;
 }
+.section-desc { font-size:14px; color:var(--silver); font-weight:300; max-width:500px; line-height:1.75; }
 
-.section-desc {
-  font-size: 15px;
-  color: var(--silver);
-  font-weight: 300;
-  max-width: 520px;
-  line-height: 1.7;
+.divider { height:1px; background:linear-gradient(90deg, transparent, rgba(232,126,4,0.2), transparent); }
+
+/* ══════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════ */
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--orange); color:#000;
+  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700;
+  letter-spacing:0.14em; text-transform:uppercase; text-decoration:none;
+  padding:14px 30px; border-radius:1px;
+  transition:background 0.2s, transform 0.15s, box-shadow 0.2s;
+  position:relative; overflow:hidden;
 }
+.btn-primary::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform:translateX(-100%); transition:transform 0.5s;
+}
+.btn-primary:hover { background:#FF9A1F; transform:translateY(-2px); box-shadow:0 8px 30px rgba(232,126,4,0.45); }
+.btn-primary:hover::before { transform:translateX(100%); }
 
-/* ── PRODUTOS ── */
-#produtos { background: var(--dark-2); }
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:8px;
+  background:transparent; color:var(--silver-light);
+  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase; text-decoration:none;
+  padding:13px 30px; border:1px solid rgba(192,200,208,0.25); border-radius:1px;
+  transition:border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color:var(--orange); color:var(--orange); transform:translateY(-2px); }
 
-.container { max-width: 900px; margin: 0 auto; }
+/* ══════════════════════════════════════
+   PRODUTOS
+══════════════════════════════════════ */
+#produtos { background:var(--dark-2); }
 
 .prod-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1px;
-  background: rgba(232,126,4,0.15);
-  border: 1px solid rgba(232,126,4,0.15);
-  margin-top: 3rem;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1px; background:rgba(232,126,4,0.1);
+  border:1px solid rgba(232,126,4,0.1); margin-top:3rem;
 }
-
 .prod-card {
-  background: var(--dark-3);
-  padding: 2rem 1.5rem;
-  transition: background 0.25s;
-  position: relative;
-  overflow: hidden;
+  background:var(--dark-3); padding:2rem 1.5rem;
+  transition:background 0.25s; position:relative; overflow:hidden;
 }
-
 .prod-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--orange), transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--orange),transparent);
+  opacity:0; transition:opacity 0.3s;
 }
+.prod-card:hover { background:var(--dark-4); }
+.prod-card:hover::before { opacity:1; }
+.prod-icon { font-size:28px; margin-bottom:1rem; display:block; transition:transform 0.3s; }
+.prod-card:hover .prod-icon { transform:scale(1.2) rotate(-5deg); }
+.prod-name { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); margin-bottom:6px; }
+.prod-desc { font-size:13px; color:var(--silver); font-weight:300; line-height:1.65; margin-bottom:1rem; }
+.prod-price { font-family:'Rajdhani',sans-serif; font-size:19px; font-weight:700; color:var(--orange); }
+.prod-price small { font-size:12px; color:var(--silver); font-weight:400; }
 
-.prod-card:hover { background: var(--dark-4); }
-.prod-card:hover::before { opacity: 1; }
-
-.prod-icon {
-  font-size: 32px;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.prod-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--silver-light);
-  margin-bottom: 6px;
-}
-
-.prod-desc {
-  font-size: 13px;
-  color: var(--silver);
-  font-weight: 300;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.prod-price {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--orange);
-}
-
-.prod-price small {
-  font-size: 13px;
-  color: var(--silver);
-  font-weight: 400;
-}
-
-/* ── DIFERENCIAIS ── */
-#diferenciais { background: var(--dark); }
-
-.diff-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.diff-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 1.25rem;
-  margin: -1.25rem;
-  border-radius: 4px;
-  cursor: default;
-  transition: background 0.3s;
-}
-
-.diff-item:hover { background: rgba(232,126,4,0.04); }
-
-.diff-num {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 48px;
-  font-weight: 700;
-  color: rgba(232,126,4,0.15);
-  line-height: 1;
-  display: inline-block;
-  transform: scale(1) translateY(0);
-  transition: transform 0.3s cubic-bezier(.16,1,.3,1), color 0.3s;
-  transform-origin: left center;
-}
-
-.diff-item:hover .diff-num {
-  transform: scale(1.22) translateY(-4px);
-  color: rgba(232,126,4,0.45);
-}
-
-.diff-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--silver-light);
-}
-
-.diff-text {
-  font-size: 13px;
-  color: var(--silver);
-  font-weight: 300;
-  line-height: 1.6;
-}
-
-/* ── PERSONALIZAÇÃO BANNER ── */
 .custom-banner {
-  background: var(--dark-3);
-  border: 1px solid rgba(232,126,4,0.2);
-  border-left: 3px solid var(--orange);
-  padding: 2rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 5rem;
+  background:var(--dark-3); border:1px solid rgba(232,126,4,0.18);
+  border-left:3px solid var(--orange); padding:1.75rem 2rem;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1.5rem; margin-top:3rem;
+  position:relative; overflow:hidden;
+  transition:box-shadow 0.3s;
 }
+.custom-banner:hover { box-shadow:0 0 40px rgba(232,126,4,0.08); }
+.custom-banner h3 { font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; color:var(--silver-light); margin-bottom:4px; }
+.custom-banner p { font-size:13px; color:var(--silver); font-weight:300; }
 
-.custom-banner-text h3 {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--silver-light);
-  margin-bottom: 4px;
-}
-
-.custom-banner-text p {
-  font-size: 14px;
-  color: var(--silver);
-  font-weight: 300;
-}
-
-/* ── CONTATO ── */
-#contato {
-  background: var(--dark-2);
-  text-align: center;
-}
-
-#contato .section-desc { margin: 0 auto; }
-
-.contact-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 2.5rem;
-}
-
-.contact-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--dark-3);
-  border: 1px solid rgba(192,200,208,0.1);
-  border-radius: 2px;
-  padding: 1rem 1.5rem;
-  text-decoration: none;
-  transition: border-color 0.2s, transform 0.15s;
-  min-width: 220px;
-}
-
-.contact-card:hover {
-  border-color: var(--orange);
-  transform: translateY(-2px);
-}
-
-.contact-icon {
-  font-size: 28px;
-  line-height: 1;
-}
-
-.contact-info { text-align: left; }
-
-.contact-label {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--silver);
-  font-weight: 400;
-}
-
-.contact-value {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--silver-light);
-}
-
-.notice {
-  margin-top: 2rem;
-  font-size: 12px;
-  color: rgba(192,200,208,0.4);
-  font-weight: 300;
-}
-
-/* ── FOOTER ── */
-footer {
-  position: relative;
-  z-index: 1;
-  background: var(--dark);
-  border-top: 1px solid rgba(232,126,4,0.15);
-  padding: 2rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.footer-brand {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--silver-light);
-}
-
-.footer-brand span { color: var(--orange); }
-
-.footer-copy {
-  font-size: 12px;
-  color: rgba(192,200,208,0.4);
-}
-
-/* ── DIVIDER ── */
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(232,126,4,0.3), transparent);
-  margin: 0;
-}
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(6px); }
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ── WHATSAPP FAB ── */
-.fab {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 100;
-  background: #25D366;
-  color: #fff;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 26px;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
-  animation: fadeUp 1s 1.5s both;
-}
-
-.fab:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 32px rgba(37,211,102,0.55);
-}
-
-/* ── PORTFÓLIO ── */
-#portfolio { background: var(--dark-3); }
+/* ══════════════════════════════════════
+   PORTFÓLIO
+══════════════════════════════════════ */
+#portfolio { background:var(--dark-3); }
+#portfolio .section-inner { padding:5rem 0; }
 
 .portfolio-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 2rem 0 2.5rem;
-  position: relative;
-  z-index: 5;
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin:2rem 0 2.5rem; position:relative; z-index:5;
 }
-
 .pf-btn {
-  padding: 7px 18px;
-  border: 1px solid rgba(192,200,208,0.2);
-  border-radius: 2px;
-  background: transparent;
-  color: var(--silver);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  padding:7px 18px; border:1px solid rgba(192,200,208,0.18); border-radius:1px;
+  background:transparent; color:var(--silver);
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;
+  transition:border-color 0.2s, color 0.2s, background 0.2s;
 }
-.pf-btn:hover, .pf-btn.active {
-  border-color: var(--orange);
-  color: var(--orange);
-  background: rgba(232,126,4,0.06);
-}
+.pf-btn:hover, .pf-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(232,126,4,0.06); }
 
 .portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: rgba(232,126,4,0.1);
-  border: 1px solid rgba(232,126,4,0.1);
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:2px; background:rgba(232,126,4,0.08); border:1px solid rgba(232,126,4,0.08);
 }
-
 .pf-item {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  cursor: pointer;
-  background: var(--dark-4);
-  display: block;
+  position:relative; width:100%; aspect-ratio:1/1;
+  overflow:hidden; cursor:pointer; background:var(--dark-4); display:block;
 }
-.pf-item.hidden { display: none !important; }
-
+.pf-item.hidden { display:none !important; }
 .pf-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  background: var(--dark-4);
-  transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; display:block;
+  background:var(--dark-4); transition:transform 0.5s cubic-bezier(.16,1,.3,1);
 }
-
 .pf-placeholder {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: var(--dark-4);
-  border: 1px dashed rgba(232,126,4,0.2);
-  color: var(--silver);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 1rem;
-  box-sizing: border-box;
-  transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+  position:absolute; inset:0; width:100%; height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; background:var(--dark-4); border:1px dashed rgba(232,126,4,0.15);
+  color:var(--silver); font-size:11px; letter-spacing:0.1em;
+  text-transform:uppercase; text-align:center; padding:1rem;
+  transition:transform 0.5s cubic-bezier(.16,1,.3,1);
 }
-.pf-placeholder-icon { font-size: 28px; opacity: 0.35; }
-.pf-placeholder-hint { font-size: 10px; color: rgba(192,200,208,0.28); margin-top:2px; text-transform:none; letter-spacing:0.04em; }
-
-.pf-item:hover .pf-img,
-.pf-item:hover .pf-placeholder { transform: scale(1.04); }
-
+.pf-placeholder-icon { font-size:26px; opacity:0.3; }
+.pf-placeholder-hint { font-size:10px; color:rgba(192,200,208,0.25); margin-top:2px; text-transform:none; letter-spacing:0.04em; }
+.pf-item:hover .pf-img, .pf-item:hover .pf-placeholder { transform:scale(1.06); }
 .pf-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 55%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1rem;
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
+  opacity:0; transition:opacity 0.35s;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:0.9rem;
 }
-.pf-item:hover .pf-overlay { opacity: 1; }
-
-.pf-item-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-}
-.pf-item-cat {
-  font-size: 10px;
-  color: var(--orange);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-/* lightbox */
-.lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0,0,0,0.92);
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-.lightbox.open { display: flex; }
-
-.lb-inner {
-  position: relative;
-  max-width: 520px;
-  width: 100%;
-  background: var(--dark-3);
-  border: 1px solid rgba(232,126,4,0.2);
-}
-.lb-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
-.lb-placeholder {
-  width: 100%; aspect-ratio: 1;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 12px; background: var(--dark-4);
-  color: var(--silver); font-size: 13px;
-}
-.lb-placeholder-icon { font-size: 44px; opacity: 0.28; }
-
-.lb-info {
-  padding: 1.1rem 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.lb-name { font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; color:var(--silver-light); }
-.lb-cat  { font-size:11px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; }
-
-.lb-close {
-  position: absolute; top:10px; right:10px;
-  width:32px; height:32px;
-  background: rgba(0,0,0,0.6);
-  border: none; border-radius: 50%;
-  color: #fff; font-size:18px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-}
-.lb-wpp {
-  display:inline-flex; align-items:center; gap:6px;
-  background:#25D366; color:#fff;
-  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700;
-  text-decoration:none; padding:8px 16px; border-radius:2px;
-  white-space:nowrap;
-}
-.lb-nav { display:flex; gap:6px; }
-.lb-nav-btn {
-  width:34px; height:34px;
-  background:var(--dark-4);
-  border:1px solid rgba(192,200,208,0.15);
-  color:var(--silver); font-size:16px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  border-radius:2px; transition:border-color 0.2s, color 0.2s;
-}
-.lb-nav-btn:hover { border-color:var(--orange); color:var(--orange); }
-
+.pf-item:hover .pf-overlay { opacity:1; }
+.pf-item-name { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; color:#fff; }
+.pf-item-cat { font-size:10px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; }
 .portfolio-cta { text-align:center; margin-top:3rem; }
 .portfolio-cta p { font-size:14px; color:var(--silver); margin-bottom:1rem; }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 600px) {
-  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+/* ══════════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════════ */
+.lightbox {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:rgba(0,0,0,0.94); align-items:center; justify-content:center; padding:1rem;
+  backdrop-filter:blur(8px);
 }
-@media (max-width: 540px) {
-  .custom-banner { flex-direction: column; }
-  footer { flex-direction: column; text-align: center; }
-  .lb-info { flex-direction: column; align-items: flex-start; }
+.lightbox.open { display:flex; }
+.lb-inner { position:relative; max-width:520px; width:100%; background:var(--dark-3); border:1px solid rgba(232,126,4,0.2); }
+.lb-img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+.lb-placeholder { width:100%; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--dark-4); color:var(--silver); font-size:13px; }
+.lb-placeholder-icon { font-size:44px; opacity:0.25; }
+.lb-info { padding:1.1rem 1.4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.lb-name { font-family:'Rajdhani',sans-serif; font-size:19px; font-weight:700; color:var(--silver-light); }
+.lb-cat  { font-size:11px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; }
+.lb-close { position:absolute; top:10px; right:10px; width:32px; height:32px; background:rgba(0,0,0,0.7); border:none; border-radius:50%; color:#fff; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.lb-wpp { display:inline-flex; align-items:center; gap:6px; background:#25D366; color:#fff; font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; text-decoration:none; padding:8px 16px; border-radius:1px; white-space:nowrap; }
+.lb-nav { display:flex; gap:6px; }
+.lb-nav-btn { width:34px; height:34px; background:var(--dark-4); border:1px solid rgba(192,200,208,0.12); color:var(--silver); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:1px; transition:border-color 0.2s, color 0.2s; }
+.lb-nav-btn:hover { border-color:var(--orange); color:var(--orange); }
+
+/* ══════════════════════════════════════
+   DIFERENCIAIS
+══════════════════════════════════════ */
+#diferenciais { background:var(--dark); overflow:hidden; }
+#diferenciais .section-inner { padding:5rem 0; }
+
+.diff-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2.5rem; margin-top:3rem; }
+.diff-item { display:flex; flex-direction:column; gap:10px; padding:1.5rem; border:1px solid rgba(232,126,4,0); border-radius:2px; transition:border-color 0.3s, background 0.3s, transform 0.3s; }
+.diff-item:hover { border-color:rgba(232,126,4,0.12); background:rgba(232,126,4,0.03); transform:translateY(-4px); }
+.diff-num {
+  font-family:'Rajdhani',sans-serif; font-size:52px; font-weight:700;
+  color:rgba(232,126,4,0.12); line-height:1; display:inline-block;
+  transform:scale(1) translateY(0); transform-origin:left center;
+  transition:transform 0.35s cubic-bezier(.16,1,.3,1), color 0.35s;
+}
+.diff-item:hover .diff-num { transform:scale(1.2) translateY(-4px); color:rgba(232,126,4,0.4); }
+.diff-title { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--silver-light); }
+.diff-text { font-size:13px; color:var(--silver); font-weight:300; line-height:1.65; }
+
+/* ══════════════════════════════════════
+   CONTATO
+══════════════════════════════════════ */
+#contato { background:var(--dark-2); text-align:center; }
+#contato .section-inner { padding:5rem 0; }
+.contact-cards { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:2.5rem; }
+.contact-card {
+  display:flex; align-items:center; gap:12px;
+  background:var(--dark-3); border:1px solid rgba(192,200,208,0.08);
+  border-radius:1px; padding:1rem 1.5rem; text-decoration:none;
+  transition:border-color 0.2s, transform 0.2s, box-shadow 0.2s; min-width:220px;
+}
+.contact-card:hover { border-color:var(--orange); transform:translateY(-2px); box-shadow:0 8px 30px rgba(232,126,4,0.1); }
+.contact-icon { font-size:24px; }
+.contact-label { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--silver); }
+.contact-value { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); }
+.notice { margin-top:2rem; font-size:12px; color:rgba(192,200,208,0.35); }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background:var(--dark); border-top:1px solid rgba(232,126,4,0.12);
+  padding:2rem 2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+}
+.footer-brand { display:flex; align-items:center; gap:10px; }
+.footer-brand-text { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--silver-light); }
+.footer-brand-text span { color:var(--orange); }
+.footer-copy { font-size:11px; color:rgba(192,200,208,0.35); }
+
+/* ══════════════════════════════════════
+   FAB
+══════════════════════════════════════ */
+.fab {
+  position:fixed; bottom:1.75rem; right:1.75rem; z-index:400;
+  background:#25D366; color:#fff; width:54px; height:54px;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  text-decoration:none; font-size:24px;
+  box-shadow:0 4px 20px rgba(37,211,102,0.35);
+  transition:transform 0.25s, box-shadow 0.25s;
+}
+.fab:hover { transform:scale(1.1); box-shadow:0 8px 32px rgba(37,211,102,0.5); }
+
+/* ══════════════════════════════════════
+   REVEAL
+══════════════════════════════════════ */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ══════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════ */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes revealLine { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0 0% 0 0); } }
+@keyframes fillBar { from { width:0%; } to { width:100%; } }
+@keyframes scrollPulse { 0%,100% { opacity:0.4; transform:scaleY(1); } 50% { opacity:1; transform:scaleY(1.15); } }
+@keyframes orbitPulse { 0%,100% { opacity:0.5; transform:scale(1); } 50% { opacity:1; transform:scale(1.05); } }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width:900px) {
+  .nav-menu { display:none; }
+  .nav-menu.open { display:flex; flex-direction:column; position:absolute; top:var(--nav-h); left:0; right:0; background:rgba(8,8,8,0.97); padding:1.5rem 2rem; gap:1.5rem; border-bottom:1px solid rgba(232,126,4,0.12); z-index:490; }
+  .nav-toggle { display:flex; }
+  .nav-actions .nav-cta { font-size:11px; padding:8px 14px; }
+  .benefits-inner { grid-template-columns:repeat(2,1fr); }
+  .hero-bg { background-size:cover; background-position:70% center; }
+}
+@media (max-width:600px) {
+  .portfolio-grid { grid-template-columns:repeat(2,1fr); }
+  .benefits-inner { grid-template-columns:1fr; }
+  .benefit-item { border-right:none; border-bottom:1px solid rgba(232,126,4,0.08); }
+  .benefit-item:last-child { border-bottom:none; }
+  footer { flex-direction:column; text-align:center; }
+  .custom-banner { flex-direction:column; }
+  .lb-info { flex-direction:column; align-items:flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
 }
 </style>
 </head>
 <body>
 
-<!-- WhatsApp FAB -->
-<a class="fab" href="https://wa.me/5584999019339" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">💬</a>
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Particle canvas -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- FAB -->
+<a class="fab" href="https://wa.me/5584999019339" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="nav-brand" href="#">
+    <img class="nav-logo" src="logo-simbolo.png" alt="Forge3D" onerror="this.style.display='none'">
+    <div>
+      <div class="nav-brand-text">FORGE<span>3D</span></div>
+      <div class="nav-tagline">Precisão em cada camada.</div>
+    </div>
+  </a>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#produtos">Produtos</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#diferenciais">Sobre Nós</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <a class="nav-icon" href="https://instagram.com/forge3d" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a class="nav-cta" href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." target="_blank" rel="noopener">Orçamento →</a>
+  </div>
+</nav>
 
 <!-- HERO -->
-<header>
-  <div class="logo-wrap">
-    <img src="logo.png" alt="Forge3D — Precisão em cada camada" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block'">
-    <div id="text-logo" style="display:none; font-family:'Rajdhani',sans-serif; font-size:48px; font-weight:700; color:#C0C8D0;">FORGE<span style="color:#E87E04;">3D</span></div>
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Engenharia de</p>
+    <h1 class="hero-title">
+      <span class="line1">Precisão</span>
+      <span class="line2">em <span class="accent">manufatura</span></span>
+      <span class="line3">digital</span>
+    </h1>
+    <p class="hero-sub">Transformamos ideias em soluções reais através de design e impressão 3D de alta qualidade.</p>
+    <div class="hero-counter">
+      <div class="counter-bar"><div class="counter-fill"></div></div>
+      <span class="counter-label">Imprimindo</span>
+      <span class="counter-num" id="layerCount">0</span>
+      <span class="counter-label">camadas</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento →</a>
+      <a href="#portfolio" class="btn-secondary">Ver Projetos →</a>
+    </div>
   </div>
-  <h1 class="hero-title" style="margin-top:2.5rem;">Damos forma<br>às suas <span>ideias</span></h1>
-  <p class="hero-sub">Desenvolvemos produtos personalizados, brindes, peças funcionais, itens decorativos e soluções sob medida com qualidade profissional, tecnologia avançada e acabamento de alto padrão.</p>
-  <div class="cta-group">
-    <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vi%20o%20QR%20Code%20e%20quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">💬 Solicitar Orçamento</a>
-    <a href="#produtos" class="btn-secondary">Conheça Nossos Projetos ↓</a>
+  <div class="scroll-hint">
+    <span>Rolar</span>
+    <div class="scroll-line"></div>
   </div>
-  <div class="scroll-hint">Role para ver</div>
-</header>
+</section>
+
+<!-- BENEFITS BAR -->
+<div class="benefits-bar">
+  <div class="benefits-inner">
+    <div class="benefit-item">
+      <span class="benefit-icon">🚚</span>
+      <div class="benefit-text"><strong>Entregamos para todo o Brasil</strong><small>Via Correios ou transportadora</small></div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">🛡️</span>
+      <div class="benefit-text"><strong>Compromisso com qualidade</strong><small>Alto padrão de acabamento</small></div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">🔒</span>
+      <div class="benefit-text"><strong>Compra segura e protegida</strong><small>PIX, cartão ou transferência</small></div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">💬</span>
+      <div class="benefit-text"><strong>Atendimento personalizado</strong><small>Respondemos rápido no WhatsApp</small></div>
+    </div>
+  </div>
+</div>
 
 <div class="divider"></div>
 
 <!-- PRODUTOS -->
 <section id="produtos">
   <div class="container">
-    <div class="reveal">
-      <p class="section-label">Soluções</p>
-      <h2 class="section-title">Soluções em Impressão 3D</h2>
-      <p class="section-desc">Transformamos ideias em produtos reais. Desenvolvemos projetos personalizados para clientes, empresas, eventos, colecionadores e aplicações técnicas.</p>
-    </div>
-
-    <div class="prod-grid reveal">
-      <div class="prod-card">
-        <span class="prod-icon">🎨</span>
-        <p class="prod-name">Produtos Personalizados</p>
-        <p class="prod-desc">Peças exclusivas desenvolvidas conforme sua necessidade, com acabamento profissional e total personalização.</p>
-        <p class="prod-price">A partir de <br><strong>R$ 15</strong> <small>/ unidade</small></p>
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Soluções</p>
+        <h2 class="section-title">Soluções em Impressão 3D</h2>
+        <p class="section-desc">Desenvolvemos projetos personalizados para clientes, empresas, eventos, colecionadores e aplicações técnicas.</p>
       </div>
-      <div class="prod-card">
-        <span class="prod-icon">🎁</span>
-        <p class="prod-name">Brindes e Presentes</p>
-        <p class="prod-desc">Soluções criativas para empresas, eventos, campanhas promocionais e presentes especiais.</p>
-        <p class="prod-price">A partir de <br><strong>R$ 22</strong> <small>/ unidade</small></p>
+      <div class="prod-grid reveal">
+        <div class="prod-card">
+          <span class="prod-icon">🎨</span>
+          <p class="prod-name">Produtos Personalizados</p>
+          <p class="prod-desc">Peças exclusivas desenvolvidas conforme sua necessidade, com acabamento profissional.</p>
+          <p class="prod-price">A partir de <strong>R$ 15</strong> <small>/ unidade</small></p>
+        </div>
+        <div class="prod-card">
+          <span class="prod-icon">🎁</span>
+          <p class="prod-name">Brindes e Presentes</p>
+          <p class="prod-desc">Soluções criativas para empresas, eventos e campanhas promocionais.</p>
+          <p class="prod-price">A partir de <strong>R$ 22</strong> <small>/ unidade</small></p>
+        </div>
+        <div class="prod-card">
+          <span class="prod-icon">⚙️</span>
+          <p class="prod-name">Projetos Especiais</p>
+          <p class="prod-desc">Peças técnicas, decoração, colecionáveis e projetos exclusivos sob medida.</p>
+          <p class="prod-price"><strong>Sob consulta</strong></p>
+        </div>
       </div>
-      <div class="prod-card">
-        <span class="prod-icon">⚙️</span>
-        <p class="prod-name">Projetos Especiais</p>
-        <p class="prod-desc">Desenvolvimento de peças técnicas, decoração, colecionáveis e projetos exclusivos sob medida.</p>
-        <p class="prod-price"><strong>Sob consulta</strong></p>
-      </div>
-    </div>
-
-    <div class="custom-banner reveal">
-      <div class="custom-banner-text">
-        <h3>Tem uma ideia?</h3>
-        <p>Transformamos conceitos, desenhos, logotipos e necessidades específicas em produtos reais através da impressão 3D.</p>
-      </div>
-      <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20projeto%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Projeto</a>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- DIFERENCIAIS -->
-<section id="diferenciais">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Por que escolher a Forge3D</p>
-      <h2 class="section-title">Precisão em cada camada</h2>
-    </div>
-    <div class="diff-grid">
-      <div class="diff-item reveal">
-        <p class="diff-num">01</p>
-        <p class="diff-title">Precisão em cada camada</p>
-        <p class="diff-text">Tecnologia de última geração para resultados consistentes e alta qualidade em cada impressão.</p>
-      </div>
-      <div class="diff-item reveal">
-        <p class="diff-num">02</p>
-        <p class="diff-title">Soluções Personalizadas</p>
-        <p class="diff-text">Cada projeto é desenvolvido conforme a necessidade do cliente, do conceito à entrega final.</p>
-      </div>
-      <div class="diff-item reveal">
-        <p class="diff-num">03</p>
-        <p class="diff-title">Produção Sob Demanda</p>
-        <p class="diff-text">Produzimos exatamente o que você precisa, sem desperdícios e com agilidade.</p>
-      </div>
-      <div class="diff-item reveal">
-        <p class="diff-num">04</p>
-        <p class="diff-title">Atendimento Especializado</p>
-        <p class="diff-text">Acompanhamos seu projeto desde a ideia até a entrega final, com suporte próximo e dedicado.</p>
+      <div class="custom-banner reveal">
+        <div>
+          <h3>Tem uma ideia?</h3>
+          <p>Transformamos conceitos, desenhos e logotipos em produtos reais através da impressão 3D.</p>
+        </div>
+        <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20projeto%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Projeto</a>
       </div>
     </div>
   </div>
@@ -843,8 +662,7 @@ footer {
 
 <!-- PORTFÓLIO -->
 <section id="portfolio">
-  <div class="container">
-    <div class="reveal">
+  <div class="section-inner"><div class="reveal">
       <p class="section-label">Portfólio</p>
       <h2 class="section-title">Nossos projetos</h2>
       <p class="section-desc">Cada peça é impressa com precisão e cuidado. Veja alguns dos nossos trabalhos e peça o seu.</p>
@@ -1847,6 +1665,84 @@ footer {
   </div>
 </section>
 
+<div class="divider"></div>
+
+
+
+<div class="divider"></div>
+
+
+
+<div class="divider"></div>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="container">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Por que escolher a Forge3D</p>
+        <h2 class="section-title">Precisão em cada camada</h2>
+      </div>
+      <div class="diff-grid">
+        <div class="diff-item reveal">
+          <p class="diff-num">01</p>
+          <p class="diff-title">Precisão em cada camada</p>
+          <p class="diff-text">Tecnologia de última geração para resultados consistentes e alta qualidade em cada impressão.</p>
+        </div>
+        <div class="diff-item reveal">
+          <p class="diff-num">02</p>
+          <p class="diff-title">Soluções Personalizadas</p>
+          <p class="diff-text">Cada projeto é desenvolvido conforme a necessidade do cliente, do conceito à entrega.</p>
+        </div>
+        <div class="diff-item reveal">
+          <p class="diff-num">03</p>
+          <p class="diff-title">Produção Sob Demanda</p>
+          <p class="diff-text">Produzimos exatamente o que você precisa, sem desperdícios e com agilidade.</p>
+        </div>
+        <div class="diff-item reveal">
+          <p class="diff-num">04</p>
+          <p class="diff-title">Atendimento Especializado</p>
+          <p class="diff-text">Acompanhamos seu projeto desde a ideia até a entrega final com suporte dedicado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Contato</p>
+        <h2 class="section-title">Vamos construir seu projeto?</h2>
+        <p class="section-desc" style="margin:0 auto 0">Entre em contato para solicitar um orçamento ou desenvolver uma ideia.</p>
+      </div>
+      <div class="contact-cards reveal">
+        <a class="contact-card" href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20produtos%20da%20Forge3D." target="_blank" rel="noopener">
+          <span class="contact-icon">💬</span>
+          <div>
+            <p class="contact-label">WhatsApp</p>
+            <p class="contact-value">(84) 99901-9339</p>
+          </div>
+        </a>
+      </div>
+      <p class="notice reveal">📍 Rio Grande do Norte, Brasil · Atendimento via WhatsApp</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <img src="logo-simbolo.png" alt="Forge3D" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'">
+    <div class="footer-brand-text">FORGE<span>3D</span></div>
+  </div>
+  <p class="footer-copy">© 2026 Forge3D · Precisão em cada camada · Transformando ideias em realidade</p>
+</footer>
+
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLbOutside(event)">
   <div class="lb-inner">
@@ -1855,7 +1751,7 @@ footer {
     <div class="lb-info">
       <div>
         <p class="lb-name" id="lbName"></p>
-        <p class="lb-cat" id="lbCat"></p>
+        <p class="lb-cat"  id="lbCat"></p>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div class="lb-nav">
@@ -1868,127 +1764,135 @@ footer {
   </div>
 </div>
 
-<div class="divider"></div>
-
-<!-- CONTATO -->
-<section id="contato">
-  <div class="container">
-    <div class="reveal">
-      <p class="section-label">Contato</p>
-      <h2 class="section-title">Vamos construir seu projeto?</h2>
-      <p class="section-desc">Entre em contato para solicitar um orçamento, desenvolver uma ideia ou conhecer as soluções da Forge3D.</p>
-    </div>
-    <div class="contact-cards reveal">
-      <a class="contact-card" href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vim%20pelo%20QR%20Code%20e%20quero%20saber%20mais%20sobre%20os%20produtos%20da%20Forge3D." target="_blank" rel="noopener">
-        <span class="contact-icon">💬</span>
-        <div class="contact-info">
-          <p class="contact-label">WhatsApp</p>
-          <p class="contact-value">(84) 99901-9339</p>
-        </div>
-      </a>
-    </div>
-    <p class="notice reveal">📍 Rio Grande do Norte, Brasil &nbsp;·&nbsp; Atendimento via WhatsApp</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div style="display:flex; align-items:center; gap:10px;">
-    <img src="logo-simbolo.png" alt="Símbolo Forge3D" style="width:32px; height:32px; object-fit:contain;">
-    <p class="footer-brand">FORGE<span>3D</span></p>
-  </div>
-  <p class="footer-copy">© 2026 Forge3D · Precisão em cada camada · Transformando ideias em realidade</p>
-</footer>
-
 <script>
-// ── Scroll reveal ──
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 80);
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+/* ══ CURSOR ══ */
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+(function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button,.pf-item,.pf-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+});
 
-// ── Portfolio filter ──
-function filterPortfolio(cat) {
-  document.querySelectorAll('.pf-item').forEach(item => {
-    const show = cat === 'todos' || item.dataset.cat === cat;
-    item.classList.toggle('hidden', !show);
+/* ══ NAVBAR SCROLL ══ */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>{ navbar.classList.toggle('scrolled', window.scrollY > 60); }, {passive:true});
+
+/* ══ NAVBAR TOGGLE ══ */
+document.getElementById('navToggle').addEventListener('click',()=>{ document.getElementById('navMenu').classList.toggle('open'); });
+document.querySelectorAll('#navMenu a').forEach(a=>{ a.addEventListener('click',()=>document.getElementById('navMenu').classList.remove('open')); });
+
+/* ══ PARALLAX HERO ══ */
+const heroBg = document.getElementById('heroBg');
+window.addEventListener('scroll',()=>{ heroBg.style.transform=`translateY(${window.scrollY*0.35}px)`; },{passive:true});
+
+/* ══ LAYER COUNTER ══ */
+(function animCounter(){
+  let n=0, target=248;
+  const el=document.getElementById('layerCount');
+  const step=()=>{ if(n<target){ n+=Math.ceil((target-n)/18); el.textContent=n; setTimeout(step,40); } else { el.textContent=target; } };
+  setTimeout(step, 1500);
+})();
+
+/* ══ PARTICLES ══ */
+(function initParticles(){
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles=[];
+  const COLS = ['rgba(232,126,4,', 'rgba(192,200,208,'];
+
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  function Particle(){
+    this.reset = function(){
+      this.x = Math.random()*W;
+      this.y = H + Math.random()*20;
+      this.r = Math.random()*1.5+0.3;
+      this.vy = -(Math.random()*0.6+0.2);
+      this.vx = (Math.random()-0.5)*0.3;
+      this.alpha = Math.random()*0.6+0.2;
+      this.col = COLS[Math.random()<0.35?0:1];
+      this.life = 0;
+      this.maxLife = Math.random()*200+100;
+    };
+    this.reset();
+    this.y = Math.random()*H;
+    this.life = Math.random()*this.maxLife;
+  }
+
+  for(let i=0;i<80;i++) particles.push(new Particle());
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.life++;
+      if(p.life>p.maxLife) p.reset();
+      p.x+=p.vx; p.y+=p.vy;
+      const prog = p.life/p.maxLife;
+      const a = p.alpha * (prog<0.1 ? prog*10 : prog>0.8 ? (1-prog)*5 : 1);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.col + a.toFixed(2) + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══ SCROLL REVEAL ══ */
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'), i*80); obs.unobserve(e.target); } });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ══ PORTFOLIO FILTER ══ */
+function filterPortfolio(cat){
+  document.querySelectorAll('.pf-item').forEach(item=>{
+    const show = cat==='todos'||item.dataset.cat===cat;
+    item.classList.toggle('hidden',!show);
   });
 }
-
-document.querySelectorAll('.pf-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.pf-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
     this.classList.add('active');
     filterPortfolio(this.dataset.filter);
   });
 });
 
-// ── Lightbox ──
+/* ══ LIGHTBOX ══ */
 const items = Array.from(document.querySelectorAll('.pf-item'));
 let currentIdx = 0;
-
-function getVisibleItems() {
-  return items.filter(i => !i.classList.contains('hidden'));
+function getVisibleItems(){ return items.filter(i=>!i.classList.contains('hidden')); }
+function openLb(idx){ currentIdx=idx; renderLb(idx); document.getElementById('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
+function renderLb(idx){
+  const item=items[idx]; if(!item)return;
+  const name=item.dataset.name||'Produto Forge3D';
+  const cat=item.dataset.cat||'';
+  const imgEl=item.querySelector('.pf-img');
+  const imgLoaded=imgEl&&imgEl.style.display!=='none'&&imgEl.complete&&imgEl.naturalWidth>0;
+  const media=document.getElementById('lbMedia');
+  if(imgLoaded){ media.innerHTML=`<img class="lb-img" src="${imgEl.src}" alt="${name}">`; }
+  else{ const icon=item.querySelector('.pf-placeholder-icon'); media.innerHTML=`<div class="lb-placeholder"><span class="lb-placeholder-icon">${icon?icon.textContent:'📷'}</span><span style="font-size:12px;color:var(--silver);letter-spacing:0.1em;text-transform:uppercase;">Foto em breve</span></div>`; }
+  document.getElementById('lbName').textContent=name;
+  document.getElementById('lbCat').textContent=cat.charAt(0).toUpperCase()+cat.slice(1);
+  const msg=encodeURIComponent(`Olá! Vi o portfólio e quero saber mais sobre: ${name}.`);
+  document.getElementById('lbWpp').href=`https://wa.me/5584999019339?text=${msg}`;
 }
-
-function openLb(globalIdx) {
-  currentIdx = globalIdx;
-  renderLb(globalIdx);
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
+function navigateLb(dir){
+  const visible=getVisibleItems();
+  const visIdx=visible.indexOf(items[currentIdx]);
+  const next=visible[(visIdx+dir+visible.length)%visible.length];
+  currentIdx=items.indexOf(next); renderLb(currentIdx);
 }
-
-function renderLb(idx) {
-  const item = items[idx];
-  if (!item) return;
-  const name = item.dataset.name || 'Produto Forge3D';
-  const cat  = item.dataset.cat  || '';
-  const imgEl = item.querySelector('.pf-img');
-  const imgLoaded = imgEl && imgEl.style.display !== 'none' && imgEl.complete && imgEl.naturalWidth > 0;
-
-  const media = document.getElementById('lbMedia');
-  if (imgLoaded) {
-    media.innerHTML = `<img class="lb-img" src="${imgEl.src}" alt="${name}">`;
-  } else {
-    const icon = item.querySelector('.pf-placeholder-icon');
-    media.innerHTML = `<div class="lb-placeholder"><span class="lb-placeholder-icon">${icon ? icon.textContent : '📷'}</span><span style="font-size:12px;color:var(--silver);letter-spacing:0.1em;text-transform:uppercase;">Foto em breve</span></div>`;
-  }
-
-  document.getElementById('lbName').textContent = name;
-  document.getElementById('lbCat').textContent  = cat.charAt(0).toUpperCase() + cat.slice(1);
-  const msg = encodeURIComponent(`Olá! Vi o portfólio e quero saber mais sobre: ${name}.`);
-  document.getElementById('lbWpp').href = `https://wa.me/5584999019339?text=${msg}`;
-}
-
-function navigateLb(dir) {
-  const visible = getVisibleItems();
-  const visIdx  = visible.indexOf(items[currentIdx]);
-  const next    = visible[(visIdx + dir + visible.length) % visible.length];
-  currentIdx = items.indexOf(next);
-  renderLb(currentIdx);
-}
-
-function closeLb() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function closeLbOutside(e) {
-  if (e.target === document.getElementById('lightbox')) closeLb();
-}
-
-document.addEventListener('keydown', e => {
-  const lb = document.getElementById('lightbox');
-  if (!lb.classList.contains('open')) return;
-  if (e.key === 'Escape')      closeLb();
-  if (e.key === 'ArrowRight')  navigateLb(1);
-  if (e.key === 'ArrowLeft')   navigateLb(-1);
-});
+function closeLb(){ document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; }
+function closeLbOutside(e){ if(e.target===document.getElementById('lightbox')) closeLb(); }
+document.addEventListener('keydown',e=>{ const lb=document.getElementById('lightbox'); if(!lb.classList.contains('open'))return; if(e.key==='Escape')closeLb(); if(e.key==='ArrowRight')navigateLb(1); if(e.key==='ArrowLeft')navigateLb(-1); });
 </script>
 </body>
 </html>
