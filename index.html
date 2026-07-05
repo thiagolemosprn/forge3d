@@ -4,566 +4,602 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forge3D — Precisão em cada camada</title>
-<meta name="description" content="Projetamos, desenvolvemos e fabricamos produtos personalizados com engenharia, design e manufatura digital de alta precisão.">
+<meta name="description" content="Impressão 3D de alta qualidade. Produtos personalizados, brindes, peças funcionais e soluções sob medida. Forge3D — Precisão em cada camada.">
 <link rel="icon" type="image/png" href="logo-simbolo.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<link rel="icon" type="image/png" sizes="32x32"   href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64"   href="favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180"       href="favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ══ RESET ══ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+/* ══════════════════════════════════════
+   RESET & TOKENS
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-:root{
-  --orange:       #E87E04;
-  --orange-hi:    #FF9820;
-  --orange-glow:  rgba(232,126,4,0.25);
-  --silver:       #B0BAC4;
-  --silver-hi:    #E8ECF0;
-  --dark:         #080808;
-  --dark-2:       #0C0C0C;
-  --dark-3:       #141414;
-  --dark-4:       #1C1C1C;
-  --nav-h:        76px;
-  --max-w:        1400px;
-}
-
-body{
-  background:var(--dark);
-  color:var(--silver-hi);
-  font-family:'Barlow',sans-serif;
-  overflow-x:hidden;
+:root {
+  --orange:        #E87E04;
+  --orange-bright: #FF9A1F;
+  --silver:        #C0C8D0;
+  --silver-light:  #E8ECF0;
+  --dark:          #080808;
+  --dark-2:        #0E0E0E;
+  --dark-3:        #161616;
+  --dark-4:        #1E1E1E;
+  --nav-h:         80px;
+  --site-max:      1280px;
 }
 
-/* ══ CURSOR ══ */
-.cursor-dot,.cursor-ring{
-  position:fixed;pointer-events:none;z-index:9999;
-  border-radius:50%;transform:translate(-50%,-50%);
-}
-.cursor-dot{width:6px;height:6px;background:var(--orange);top:0;left:0;}
-.cursor-ring{
-  width:30px;height:30px;border:1.5px solid rgba(232,126,4,0.55);top:0;left:0;
-  transition:width .2s,height .2s,border-color .2s;
-}
-.cursor-ring.hover{width:46px;height:46px;border-color:var(--orange);}
-@media(hover:none){.cursor-dot,.cursor-ring{display:none;}}
-
-/* ══ PARTICLES ══ */
-#canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;}
-
-/* ══ NAV ══ */
-.nav-outer{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  transition:background .4s,border-color .4s;
-  border-bottom:1px solid transparent;
-}
-.nav-outer.scrolled{
-  background:rgba(8,8,8,.94);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-color:rgba(232,126,4,.1);
-}
-.nav-inner{
-  max-width:var(--max-w);margin:0 auto;
-  height:var(--nav-h);display:flex;align-items:center;
-  padding:0 2.5rem;gap:2rem;
+body {
+  background: var(--dark);
+  color: var(--silver-light);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* brand */
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
-.nav-logo{height:52px;width:auto;}
-.nav-brand-words{line-height:1;}
-.nav-brand-name{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:26px;font-weight:800;letter-spacing:.04em;
-  color:var(--silver-hi);
+/* ══════════════════════════════════════
+   CUSTOM CURSOR
+══════════════════════════════════════ */
+.cursor-dot, .cursor-ring {
+  position: fixed; pointer-events: none; z-index: 9999;
+  border-radius: 50%; transform: translate(-50%,-50%);
 }
-.nav-brand-name em{color:var(--orange);font-style:normal;}
-.nav-brand-tag{font-size:10.5px;color:var(--silver);letter-spacing:.12em;margin-top:2px;}
+.cursor-dot {
+  width: 6px; height: 6px; background: var(--orange); top: 0; left: 0;
+}
+.cursor-ring {
+  width: 32px; height: 32px; border: 1.5px solid rgba(232,126,4,0.6); top: 0; left: 0;
+  transition: width .25s, height .25s, border-color .25s;
+}
+.cursor-ring.hover { width: 48px; height: 48px; border-color: var(--orange); }
+@media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
 
-/* menu */
-.nav-menu{display:flex;align-items:center;gap:2.2rem;margin-left:auto;list-style:none;}
-.nav-menu a{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--silver);text-decoration:none;position:relative;transition:color .2s;
-}
-.nav-menu a::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;
-  background:var(--orange);transform:scaleX(0);transform-origin:left;
-  transition:transform .3s cubic-bezier(.16,1,.3,1);
-}
-.nav-menu a:hover{color:var(--silver-hi);}
-.nav-menu a:hover::after{transform:scaleX(1);}
-
-/* actions */
-.nav-actions{display:flex;align-items:center;gap:1.2rem;flex-shrink:0;}
-.nav-icon{
-  color:var(--silver);text-decoration:none;
-  display:flex;align-items:center;justify-content:center;
-  transition:color .2s;
-}
-.nav-icon:hover{color:var(--orange);}
-.nav-icon svg{width:20px;height:20px;}
-
-/* cart */
-.nav-cart{position:relative;display:flex;align-items:center;}
-.nav-cart-badge{
-  position:absolute;top:-6px;right:-8px;
-  background:var(--orange);color:#000;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:10px;font-weight:700;
-  width:17px;height:17px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
+/* ══════════════════════════════════════
+   SITE WRAPPER — max-width centralizado
+══════════════════════════════════════ */
+.site-wrap {
+  max-width: var(--site-max);
+  margin: 0 auto;
+  position: relative;
 }
 
-/* orçamento btn */
-.nav-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--orange);color:#000;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  text-decoration:none;padding:11px 22px;border-radius:6px;
-  transition:background .2s,transform .15s,box-shadow .2s;
-  white-space:nowrap;
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+.navbar-outer {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500; transition: background 0.4s, border-color 0.4s;
+  border-bottom: 1px solid transparent;
 }
-.nav-cta:hover{background:var(--orange-hi);transform:translateY(-1px);box-shadow:0 6px 24px rgba(232,126,4,.5);}
-.nav-cta span{font-size:16px;line-height:1;}
-
-/* hamburger */
-.nav-toggle{
-  display:none;flex-direction:column;gap:5px;
-  cursor:pointer;background:none;border:none;padding:4px;margin-left:auto;
-}
-.nav-toggle span{display:block;width:22px;height:1.5px;background:var(--silver-hi);border-radius:2px;transition:transform .3s,opacity .3s;}
-
-/* ══ HERO ══ */
-.hero{
-  position:relative;min-height:100svh;
-  display:flex;flex-direction:column;
-  overflow:hidden;
+.navbar-outer.scrolled {
+  background: rgba(8,8,8,0.93);
+  backdrop-filter: blur(20px);
+  border-color: rgba(232,126,4,0.1);
 }
 
-/* Background: your image fills the right portion */
-.hero-bg{
-  position:absolute;inset:0;z-index:0;
-  background:
-    url('hero-bg-new.png') right center / 62% auto no-repeat,
-    var(--dark);
-  /* strong left-to-center gradient so text is readable */
-}
-.hero-bg::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(100deg,
-    rgba(8,8,8,1)     0%,
-    rgba(8,8,8,.97)   28%,
-    rgba(8,8,8,.78)   50%,
-    rgba(8,8,8,.15)   75%,
-    rgba(8,8,8,.05)   100%);
-}
-/* ambient orange light from the printing point */
-.hero-bg::after{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 40% 55% at 78% 58%,
-    rgba(232,126,4,.18) 0%,transparent 70%);
+.navbar {
+  max-width: var(--site-max); margin: 0 auto;
+  height: var(--nav-h); display: flex; align-items: center;
+  padding: 0 2.5rem; gap: 2rem;
 }
 
-/* main content row */
-.hero-body{
-  position:relative;z-index:2;
-  flex:1;display:flex;align-items:center;
-  max-width:var(--max-w);margin:0 auto;width:100%;
-  padding:calc(var(--nav-h) + 3.5rem) 2.5rem 3rem;
+.nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
+.nav-logo  { height: 54px; width: auto; }
+.nav-brand-text { font-family:'Rajdhani',sans-serif; font-size:30px; font-weight:700; color:var(--silver-light); line-height:1; }
+.nav-brand-text span { color:var(--orange); }
+.nav-tagline { font-size:11px; color:var(--silver); letter-spacing:0.12em; margin-top:3px; }
+
+.nav-menu { display:flex; align-items:center; gap:2rem; margin-left:auto; list-style:none; }
+.nav-menu a {
+  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase; color:var(--silver);
+  text-decoration:none; position:relative; transition:color 0.2s;
+}
+.nav-menu a::after {
+  content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px;
+  background:var(--orange); transform:scaleX(0); transform-origin:left;
+  transition:transform 0.3s cubic-bezier(.16,1,.3,1);
+}
+.nav-menu a:hover { color:var(--silver-light); }
+.nav-menu a:hover::after { transform:scaleX(1); }
+
+.nav-actions { display:flex; align-items:center; gap:1rem; flex-shrink:0; }
+.nav-icon { color:var(--silver); text-decoration:none; font-size:19px; transition:color 0.2s; display:flex; align-items:center; }
+.nav-icon:hover { color:var(--orange); }
+.nav-cta {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--orange); color:#000;
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:0.14em; text-transform:uppercase; text-decoration:none;
+  padding:9px 20px; border-radius:1px;
+  transition:background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.nav-cta:hover { background:#FF9A1F; transform:translateY(-1px); box-shadow:0 4px 20px rgba(232,126,4,0.4); }
+
+.nav-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; margin-left:auto; }
+.nav-toggle span { display:block; width:22px; height:1.5px; background:var(--silver-light); border-radius:2px; transition:transform 0.3s, opacity 0.3s; }
+
+/* ══════════════════════════════════════
+   CANVAS PARTICLES
+══════════════════════════════════════ */
+#particleCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.4; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  position:relative; min-height:100svh; overflow:hidden;
+  display:flex; align-items:center;
 }
 
-.hero-text{max-width:580px;}
-
-/* eyebrow */
-.hero-eyebrow{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:.42em;
-  color:var(--orange);text-transform:uppercase;
-  margin-bottom:.8rem;
-  opacity:0;animation:fadeUp .7s .2s cubic-bezier(.16,1,.3,1) forwards;
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background: url('hero-bg.png') center right / contain no-repeat;
+  background-color: var(--dark);
+  will-change: transform;
 }
 
-/* big title */
-.hero-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-weight:900;line-height:1.0;text-transform:uppercase;
-  margin-bottom:1.6rem;
-  opacity:0;animation:fadeUp .7s .4s cubic-bezier(.16,1,.3,1) forwards;
+/* Gradient: strong left (text area), fades to transparent right (image shows) */
+.hero-bg::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(100deg,
+    rgba(8,8,8,1)    0%,
+    rgba(8,8,8,0.95) 35%,
+    rgba(8,8,8,0.6)  55%,
+    rgba(8,8,8,0.05) 100%);
 }
-.hero-title .t-white{
-  display:block;
-  font-size:clamp(40px,6.5vw,84px);
-  color:var(--silver-hi);
-  text-shadow:0 0 40px rgba(255,255,255,.04);
-}
-.hero-title .t-orange{
-  display:block;
-  font-size:clamp(40px,6.5vw,84px);
-  color:var(--orange);
-  text-shadow:0 0 60px rgba(232,126,4,.35);
+.hero-bg::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse 50% 65% at 80% 55%, rgba(232,126,4,0.1) 0%, transparent 70%);
 }
 
-/* divider line */
-.hero-divider{
-  width:52px;height:3px;
-  background:var(--orange);
-  margin-bottom:1.4rem;
-  border-radius:2px;
-  opacity:0;animation:fadeUp .7s .55s cubic-bezier(.16,1,.3,1) forwards;
+.hero-inner {
+  position:relative; z-index:2;
+  max-width: var(--site-max); margin: 0 auto;
+  width:100%;
+  padding: calc(var(--nav-h) + 3rem) 2.5rem 4rem;
 }
 
-/* description */
-.hero-desc{
-  font-size:clamp(13px,1.4vw,16px);
-  color:rgba(192,200,208,.85);
-  font-weight:400;line-height:1.75;
-  max-width:460px;margin-bottom:2rem;
-  opacity:0;animation:fadeUp .7s .65s cubic-bezier(.16,1,.3,1) forwards;
+.hero-content { max-width: 52%; }
+
+.hero-eyebrow {
+  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:0.42em; color:var(--orange); text-transform:uppercase;
+  margin-bottom:1rem; opacity:0;
+  animation: fadeUp 0.8s 0.3s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-/* pillars */
-.hero-pillars{
-  display:flex;gap:0;
-  margin-bottom:2rem;
-  opacity:0;animation:fadeUp .7s .78s cubic-bezier(.16,1,.3,1) forwards;
+.hero-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size: clamp(38px, 5.5vw, 72px);
+  font-weight:700; line-height:1.0;
+  color:var(--silver-light); text-transform:uppercase;
+  margin-bottom:1.5rem; opacity:0;
+  overflow:visible;
+  animation: fadeUp 0.8s 0.5s cubic-bezier(.16,1,.3,1) forwards;
 }
-.pillar{
-  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
-  padding:10px 20px 10px 0;
-  border-right:1px solid rgba(232,126,4,.15);
-  margin-right:20px;
-}
-.pillar:last-child{border-right:none;margin-right:0;}
-.pillar-img{width:38px;height:38px;object-fit:contain;}
-.pillar-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--silver-hi);line-height:1;
-}
-.pillar-sub{font-size:11px;color:var(--silver);letter-spacing:.03em;}
 
-/* CTA buttons */
-.hero-ctas{
-  display:flex;flex-wrap:wrap;gap:14px;
-  opacity:0;animation:fadeUp .7s .9s cubic-bezier(.16,1,.3,1) forwards;
-}
-.btn-fill{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--orange);color:#000;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
-  text-decoration:none;padding:15px 30px;border-radius:4px;
-  position:relative;overflow:hidden;
-  transition:background .2s,transform .15s,box-shadow .2s;
-}
-.btn-fill::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.2) 50%,transparent 70%);
-  transform:translateX(-100%);transition:transform .5s;
-}
-.btn-fill:hover{background:var(--orange-hi);transform:translateY(-2px);box-shadow:0 10px 36px rgba(232,126,4,.55);}
-.btn-fill:hover::before{transform:translateX(100%);}
-.btn-outline{
-  display:inline-flex;align-items:center;gap:10px;
-  background:transparent;color:var(--silver-hi);
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
-  text-decoration:none;padding:14px 30px;
-  border:2px solid rgba(232,232,232,.35);border-radius:4px;
-  transition:border-color .2s,color .2s,transform .15s;
-}
-.btn-outline:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px);}
+.hero-title .line1 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.6s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
+.hero-title .line2 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.85s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
+.hero-title .line3 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
+.hero-title .accent { color:var(--orange); }
 
-/* ══ BENEFITS STRIP ══ */
-.benefits{
-  position:relative;z-index:2;
-  background:rgba(12,12,12,.95);
-  border-top:1px solid rgba(232,126,4,.12);
+.hero-sub {
+  font-size:clamp(14px,1.6vw,17px); color:var(--silver); font-weight:300;
+  max-width:440px; line-height:1.75; margin-bottom:2.5rem; opacity:0;
+  animation: fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards;
 }
-.benefits-inner{
-  max-width:var(--max-w);margin:0 auto;
-  display:grid;grid-template-columns:repeat(4,1fr);
-}
-.bene{
-  display:flex;align-items:center;gap:14px;
-  padding:18px 24px;
-  border-right:1px solid rgba(232,126,4,.08);
-  transition:background .3s;
-}
-.bene:hover{background:rgba(232,126,4,.04);}
-.bene:last-child{border-right:none;}
-.bene-img{width:44px;height:44px;object-fit:contain;flex-shrink:0;}
-.bene-text{}
-.bene-label{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--silver);line-height:1.2;
-}
-.bene-value{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--orange);line-height:1.2;margin-top:1px;
-}
-.bene-sub{font-size:11px;color:rgba(176,186,196,.6);margin-top:1px;}
 
-/* ══ DIVIDER ══ */
-.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(232,126,4,.2),transparent);}
-
-/* ══ SECTIONS ══ */
-section{position:relative;z-index:1;}
-.container{max-width:var(--max-w);margin:0 auto;padding:0 2.5rem;}
-.s-inner{padding:4.5rem 0;}
-
-.s-label{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:11px;font-weight:700;letter-spacing:.42em;
-  color:var(--orange);text-transform:uppercase;margin-bottom:.5rem;
+/* Pillars */
+.hero-pillars {
+  display:flex; flex-wrap:wrap; gap:0;
+  margin-bottom:2.5rem; opacity:0;
+  animation: fadeUp 0.8s 1.3s cubic-bezier(.16,1,.3,1) forwards;
+  border-top:1px solid rgba(232,126,4,0.18);
+  border-bottom:1px solid rgba(232,126,4,0.18);
 }
-.s-title{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:clamp(24px,4vw,40px);font-weight:800;
-  color:var(--silver-hi);line-height:1.1;margin-bottom:1rem;letter-spacing:.02em;
+.pillar {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 16px;
+  border-right:1px solid rgba(232,126,4,0.12);
 }
-.s-desc{font-size:14px;color:var(--silver);font-weight:300;max-width:500px;line-height:1.75;}
+.pillar:first-child { padding-left:0; }
+.pillar:last-child { border-right:none; }
+.pillar-icon { width:32px; height:32px; object-fit:contain; flex-shrink:0; }
+.pillar-text strong { display:block; font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-light); }
+.pillar-text small { font-size:10px; color:var(--silver); }
 
-/* ══ PRODUTOS ══ */
-#produtos{background:var(--dark-2);}
-.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2.5rem;}
-.prod-card{
-  background:var(--dark-3);padding:1.75rem 1.5rem;
-  border:1px solid rgba(232,126,4,.07);border-radius:3px;
-  transition:background .25s,border-color .25s,transform .25s;position:relative;overflow:hidden;
+.hero-ctas { display:flex; flex-wrap:wrap; gap:12px; opacity:0; animation: fadeUp 0.8s 1.5s cubic-bezier(.16,1,.3,1) forwards; }
+
+/* Scroll hint */
+.scroll-hint {
+  position:absolute; bottom:2rem; left:2.5rem; z-index:2;
+  display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+  opacity:0; animation: fadeUp 1s 2s cubic-bezier(.16,1,.3,1) forwards;
 }
-.prod-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+.scroll-hint span { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--silver); }
+.scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, var(--orange), transparent); animation: scrollPulse 2s 2.5s infinite; }
+
+/* ══════════════════════════════════════
+   BENEFITS BAR
+══════════════════════════════════════ */
+.benefits-bar {
+  position:relative; z-index:2;
+  background:var(--dark-3);
+  border-top:1px solid rgba(232,126,4,0.12);
+  border-bottom:1px solid rgba(232,126,4,0.12);
+}
+.benefits-inner {
+  max-width: var(--site-max); margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr);
+}
+.benefit-item {
+  display:flex; align-items:center; gap:12px; padding:16px 20px;
+  border-right:1px solid rgba(232,126,4,0.08); transition:background 0.3s;
+}
+.benefit-item:hover { background:rgba(232,126,4,0.04); }
+.benefit-item:last-child { border-right:none; }
+.benefit-icon-img { width:40px; height:40px; object-fit:contain; flex-shrink:0; }
+.benefit-text strong { display:block; font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-light); }
+.benefit-text small { font-size:10px; color:var(--silver); }
+
+/* ══════════════════════════════════════
+   SHARED SECTION
+══════════════════════════════════════ */
+section { position:relative; z-index:1; }
+.container { max-width: var(--site-max); margin:0 auto; padding:0 2rem; }
+.section-inner { padding:4.5rem 0; }
+.section-label { font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.42em; color:var(--orange); text-transform:uppercase; margin-bottom:0.5rem; }
+.section-title { font-family:'Rajdhani',sans-serif; font-size:clamp(24px,4.5vw,40px); font-weight:700; color:var(--silver-light); line-height:1.1; margin-bottom:1rem; }
+.section-desc { font-size:14px; color:var(--silver); font-weight:300; max-width:500px; line-height:1.75; }
+.divider { height:1px; background:linear-gradient(90deg, transparent, rgba(232,126,4,0.2), transparent); }
+
+/* ══════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════ */
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--orange); color:#000;
+  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700;
+  letter-spacing:0.14em; text-transform:uppercase; text-decoration:none;
+  padding:14px 30px; border-radius:1px; position:relative; overflow:hidden;
+  transition:background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform:translateX(-100%); transition:transform 0.5s;
+}
+.btn-primary:hover { background:#FF9A1F; transform:translateY(-2px); box-shadow:0 8px 30px rgba(232,126,4,0.45); }
+.btn-primary:hover::before { transform:translateX(100%); }
+
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:8px;
+  background:transparent; color:var(--silver-light);
+  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase; text-decoration:none;
+  padding:13px 30px; border:1px solid rgba(192,200,208,0.25); border-radius:1px;
+  transition:border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color:var(--orange); color:var(--orange); transform:translateY(-2px); }
+
+/* ══════════════════════════════════════
+   PRODUTOS
+══════════════════════════════════════ */
+#produtos { background:var(--dark-2); }
+
+.prod-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:12px; margin-top:3rem;
+}
+.prod-card {
+  background:var(--dark-3); padding:1.75rem 1.5rem;
+  border:1px solid rgba(232,126,4,0.08); border-radius:2px;
+  transition:background 0.25s, border-color 0.25s, transform 0.25s;
+  position:relative; overflow:hidden;
+}
+.prod-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(90deg,transparent,var(--orange),transparent);
-  opacity:0;transition:opacity .3s;
+  opacity:0; transition:opacity 0.3s;
 }
-.prod-card:hover{background:var(--dark-4);border-color:rgba(232,126,4,.2);transform:translateY(-3px);}
-.prod-card:hover::before{opacity:1;}
-.prod-card-icon{width:50px;height:50px;object-fit:contain;margin-bottom:1rem;display:block;transition:transform .3s;}
-.prod-card:hover .prod-card-icon{transform:scale(1.15) rotate(-5deg);}
-.prod-name{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:18px;font-weight:800;color:var(--silver-hi);margin-bottom:6px;letter-spacing:.02em;
-}
-.prod-desc{font-size:13px;color:var(--silver);font-weight:300;line-height:1.65;margin-bottom:1rem;}
-.prod-price{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:18px;font-weight:700;color:var(--orange);
-}
-.prod-price small{font-size:12px;color:var(--silver);font-weight:400;}
-.custom-banner{
-  background:var(--dark-3);border:1px solid rgba(232,126,4,.18);border-left:3px solid var(--orange);
-  padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:1.5rem;margin-top:2rem;border-radius:0 3px 3px 0;transition:box-shadow .3s;
-}
-.custom-banner:hover{box-shadow:0 0 40px rgba(232,126,4,.07);}
-.custom-banner h3{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:19px;font-weight:800;color:var(--silver-hi);margin-bottom:4px;
-}
-.custom-banner p{font-size:13px;color:var(--silver);font-weight:300;}
+.prod-card:hover { background:var(--dark-4); border-color:rgba(232,126,4,0.2); transform:translateY(-3px); }
+.prod-card:hover::before { opacity:1; }
 
-/* ══ PORTFOLIO ══ */
-#portfolio{background:var(--dark-3);}
-#portfolio .s-inner{padding:4.5rem 2.5rem;}
-.pf-filters{
-  display:flex;flex-wrap:wrap;gap:8px;
-  margin:1.5rem 0 2rem;position:relative;z-index:5;
+.prod-card-icon {
+  width:52px; height:52px; object-fit:contain; margin-bottom:1rem; display:block;
+  transition:transform 0.3s;
 }
-.pf-btn{
-  padding:6px 15px;border:1px solid rgba(192,200,208,.18);border-radius:2px;
-  background:transparent;color:var(--silver);
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  cursor:pointer;transition:border-color .2s,color .2s,background .2s;
+.prod-card:hover .prod-card-icon { transform:scale(1.15) rotate(-5deg); }
+
+.prod-name { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); margin-bottom:6px; }
+.prod-desc { font-size:13px; color:var(--silver); font-weight:300; line-height:1.65; margin-bottom:1rem; }
+.prod-price { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--orange); }
+.prod-price small { font-size:12px; color:var(--silver); font-weight:400; }
+
+.custom-banner {
+  background:var(--dark-3); border:1px solid rgba(232,126,4,0.18);
+  border-left:3px solid var(--orange); padding:1.5rem 2rem;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1.5rem; margin-top:2rem;
+  border-radius:0 2px 2px 0; transition:box-shadow 0.3s;
 }
-.pf-btn:hover,.pf-btn.active{border-color:var(--orange);color:var(--orange);background:rgba(232,126,4,.06);}
-.pf-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
+.custom-banner:hover { box-shadow:0 0 40px rgba(232,126,4,0.07); }
+.custom-banner h3 { font-family:'Rajdhani',sans-serif; font-size:19px; font-weight:700; color:var(--silver-light); margin-bottom:4px; }
+.custom-banner p { font-size:13px; color:var(--silver); font-weight:300; }
+
+/* ══════════════════════════════════════
+   PORTFÓLIO
+══════════════════════════════════════ */
+#portfolio { background:var(--dark-3); }
+#portfolio .section-inner { padding:4.5rem 2.5rem; }
+
+.portfolio-filters {
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin:1.5rem 0 2rem; position:relative; z-index:5;
+}
+.pf-btn {
+  padding:6px 16px; border:1px solid rgba(192,200,208,0.18); border-radius:1px;
+  background:transparent; color:var(--silver);
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;
+  transition:border-color 0.2s, color 0.2s, background 0.2s;
+}
+.pf-btn:hover, .pf-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(232,126,4,0.06); }
+
+.portfolio-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
-.pf-item{
-  position:relative;width:100%;aspect-ratio:1/1;
-  overflow:hidden;cursor:pointer;background:var(--dark-4);display:block;
-  border-radius:4px;border:1px solid rgba(232,126,4,.07);
+.pf-item {
+  position:relative; width:100%; aspect-ratio:1/1;
+  overflow:hidden; cursor:pointer; background:var(--dark-4); display:block;
+  border-radius:4px; border:1px solid rgba(232,126,4,0.07);
 }
-.pf-item.hidden{display:none!important;}
-.pf-img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center;display:block;
-  background:var(--dark-4);transition:transform .5s cubic-bezier(.16,1,.3,1);
+.pf-item.hidden { display:none !important; }
+.pf-img {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; display:block;
+  background:var(--dark-4); transition:transform 0.5s cubic-bezier(.16,1,.3,1);
 }
-.pf-placeholder{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;background:var(--dark-4);border:1px dashed rgba(232,126,4,.12);
-  color:var(--silver);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  text-align:center;padding:.75rem;
-  transition:transform .5s cubic-bezier(.16,1,.3,1);
+.pf-placeholder {
+  position:absolute; inset:0; width:100%; height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; background:var(--dark-4); border:1px dashed rgba(232,126,4,0.15);
+  color:var(--silver); font-size:10px; letter-spacing:0.1em;
+  text-transform:uppercase; text-align:center; padding:0.75rem;
+  transition:transform 0.5s cubic-bezier(.16,1,.3,1);
 }
-.pf-ph-icon{font-size:20px;opacity:.25;}
-.pf-ph-hint{font-size:9px;color:rgba(192,200,208,.2);margin-top:2px;text-transform:none;}
-.pf-item:hover .pf-img,.pf-item:hover .pf-placeholder{transform:scale(1.06);}
-.pf-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 55%);
-  opacity:0;transition:opacity .35s;
-  display:flex;flex-direction:column;justify-content:flex-end;padding:.75rem;
+.pf-placeholder-icon { font-size:22px; opacity:0.3; }
+.pf-placeholder-hint { font-size:9px; color:rgba(192,200,208,0.25); margin-top:2px; text-transform:none; }
+.pf-item:hover .pf-img, .pf-item:hover .pf-placeholder { transform:scale(1.06); }
+.pf-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
+  opacity:0; transition:opacity 0.35s;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:0.75rem;
 }
-.pf-item:hover .pf-overlay{opacity:1;}
-.pf-item-name{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:#fff;}
-.pf-item-cat{font-size:9px;color:var(--orange);letter-spacing:.15em;text-transform:uppercase;margin-top:1px;}
-.pf-cta{text-align:center;margin-top:2.5rem;}
-.pf-cta p{font-size:13px;color:var(--silver);margin-bottom:1rem;}
+.pf-item:hover .pf-overlay { opacity:1; }
+.pf-item-name { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; color:#fff; }
+.pf-item-cat { font-size:9px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:1px; }
+.portfolio-cta { text-align:center; margin-top:2.5rem; }
+.portfolio-cta p { font-size:13px; color:var(--silver); margin-bottom:1rem; }
 
-/* ══ LIGHTBOX ══ */
-.lightbox{
-  display:none;position:fixed;inset:0;z-index:600;
-  background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:1rem;
+/* ══════════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════════ */
+.lightbox {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:rgba(0,0,0,0.94); align-items:center; justify-content:center; padding:1rem;
   backdrop-filter:blur(8px);
 }
-.lightbox.open{display:flex;}
-.lb-inner{position:relative;max-width:520px;width:100%;background:var(--dark-3);border:1px solid rgba(232,126,4,.2);}
-.lb-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
-.lb-placeholder{width:100%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--dark-4);color:var(--silver);}
-.lb-placeholder-icon{font-size:44px;opacity:.22;}
-.lb-info{padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
-.lb-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--silver-hi);}
-.lb-cat{font-size:11px;color:var(--orange);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;}
-.lb-close{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(0,0,0,.7);border:none;border-radius:50%;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.lb-wpp{display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-decoration:none;padding:8px 14px;border-radius:2px;white-space:nowrap;}
-.lb-nav{display:flex;gap:6px;}
-.lb-nav-btn{width:32px;height:32px;background:var(--dark-4);border:1px solid rgba(192,200,208,.12);color:var(--silver);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:2px;transition:border-color .2s,color .2s;}
-.lb-nav-btn:hover{border-color:var(--orange);color:var(--orange);}
+.lightbox.open { display:flex; }
+.lb-inner { position:relative; max-width:520px; width:100%; background:var(--dark-3); border:1px solid rgba(232,126,4,0.2); }
+.lb-img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+.lb-placeholder { width:100%; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--dark-4); color:var(--silver); font-size:13px; }
+.lb-placeholder-icon { font-size:44px; opacity:0.25; }
+.lb-info { padding:1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.lb-name { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); }
+.lb-cat  { font-size:11px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; }
+.lb-close { position:absolute; top:10px; right:10px; width:30px; height:30px; background:rgba(0,0,0,0.7); border:none; border-radius:50%; color:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.lb-wpp { display:inline-flex; align-items:center; gap:6px; background:#25D366; color:#fff; font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; text-decoration:none; padding:8px 14px; border-radius:1px; white-space:nowrap; }
+.lb-nav { display:flex; gap:6px; }
+.lb-nav-btn { width:32px; height:32px; background:var(--dark-4); border:1px solid rgba(192,200,208,0.12); color:var(--silver); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:1px; transition:border-color 0.2s, color 0.2s; }
+.lb-nav-btn:hover { border-color:var(--orange); color:var(--orange); }
 
-/* ══ DIFERENCIAIS ══ */
-#diferenciais{background:var(--dark);}
-.diff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem;}
-.diff-item{
-  display:flex;flex-direction:column;gap:8px;padding:1.25rem;
-  border:1px solid transparent;border-radius:3px;
-  transition:border-color .3s,background .3s,transform .3s;
-}
-.diff-item:hover{border-color:rgba(232,126,4,.12);background:rgba(232,126,4,.03);transform:translateY(-4px);}
-.diff-num{
-  font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:900;
-  color:rgba(232,126,4,.12);line-height:1;
-  display:inline-block;transform-origin:left center;
-  transition:transform .35s cubic-bezier(.16,1,.3,1),color .35s;
-}
-.diff-item:hover .diff-num{transform:scale(1.18) translateY(-4px);color:rgba(232,126,4,.4);}
-.diff-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--silver-hi);letter-spacing:.02em;}
-.diff-text{font-size:12px;color:var(--silver);font-weight:300;line-height:1.65;}
+/* ══════════════════════════════════════
+   DIFERENCIAIS
+══════════════════════════════════════ */
+#diferenciais { background:var(--dark); }
+#diferenciais .section-inner { padding:4.5rem 0; }
+.diff-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:2.5rem; }
+.diff-item { display:flex; flex-direction:column; gap:8px; padding:1.25rem; border:1px solid rgba(232,126,4,0); border-radius:2px; transition:border-color 0.3s, background 0.3s, transform 0.3s; }
+.diff-item:hover { border-color:rgba(232,126,4,0.12); background:rgba(232,126,4,0.03); transform:translateY(-4px); }
+.diff-num { font-family:'Rajdhani',sans-serif; font-size:44px; font-weight:700; color:rgba(232,126,4,0.12); line-height:1; display:inline-block; transform:scale(1) translateY(0); transform-origin:left center; transition:transform 0.35s cubic-bezier(.16,1,.3,1), color 0.35s; }
+.diff-item:hover .diff-num { transform:scale(1.18) translateY(-4px); color:rgba(232,126,4,0.4); }
+.diff-title { font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; color:var(--silver-light); }
+.diff-text { font-size:12px; color:var(--silver); font-weight:300; line-height:1.65; }
 
-/* ══ CONTATO ══ */
-#contato{background:var(--dark-2);text-align:center;}
-.contact-cards{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:2rem;}
-.contact-card{
-  display:flex;align-items:center;gap:12px;
-  background:var(--dark-3);border:1px solid rgba(192,200,208,.08);border-radius:2px;
-  padding:1rem 1.5rem;text-decoration:none;min-width:220px;
-  transition:border-color .2s,transform .2s,box-shadow .2s;
+/* ══════════════════════════════════════
+   CONTATO
+══════════════════════════════════════ */
+#contato { background:var(--dark-2); text-align:center; }
+#contato .section-inner { padding:4.5rem 0; }
+.contact-cards { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:2rem; }
+.contact-card {
+  display:flex; align-items:center; gap:12px;
+  background:var(--dark-3); border:1px solid rgba(192,200,208,0.08);
+  border-radius:1px; padding:1rem 1.5rem; text-decoration:none;
+  transition:border-color 0.2s, transform 0.2s, box-shadow 0.2s; min-width:220px;
 }
-.contact-card:hover{border-color:var(--orange);transform:translateY(-2px);box-shadow:0 8px 30px rgba(232,126,4,.1);}
-.contact-icon{font-size:22px;}
-.contact-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--silver);}
-.contact-value{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--silver-hi);}
-.notice{margin-top:1.5rem;font-size:11px;color:rgba(192,200,208,.3);}
+.contact-card:hover { border-color:var(--orange); transform:translateY(-2px); box-shadow:0 8px 30px rgba(232,126,4,0.1); }
+.contact-icon { font-size:22px; }
+.contact-label { font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--silver); }
+.contact-value { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--silver-light); }
+.notice { margin-top:1.5rem; font-size:11px; color:rgba(192,200,208,0.35); }
 
-/* ══ FOOTER ══ */
-footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
-.footer-inner{
-  max-width:var(--max-w);margin:0 auto;
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background:var(--dark); border-top:1px solid rgba(232,126,4,0.12);
   padding:1.75rem 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
 }
-.footer-brand{display:flex;align-items:center;gap:10px;}
-.footer-name{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:18px;font-weight:800;color:var(--silver-hi);
+.footer-inner {
+  max-width: var(--site-max); margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
 }
-.footer-name em{color:var(--orange);font-style:normal;}
-.footer-copy{font-size:11px;color:rgba(176,186,196,.32);}
+.footer-brand { display:flex; align-items:center; gap:10px; }
+.footer-brand-text { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--silver-light); }
+.footer-brand-text span { color:var(--orange); }
+.footer-copy { font-size:11px; color:rgba(192,200,208,0.35); }
 
-/* ══ FAB ══ */
-.fab{
-  position:fixed;bottom:1.75rem;right:1.75rem;z-index:400;
-  background:#25D366;color:#fff;width:52px;height:52px;
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  text-decoration:none;font-size:23px;
-  box-shadow:0 4px 20px rgba(37,211,102,.35);transition:transform .25s,box-shadow .25s;
+/* FAB */
+.fab {
+  position:fixed; bottom:1.75rem; right:1.75rem; z-index:400;
+  background:#25D366; color:#fff; width:52px; height:52px;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  text-decoration:none; font-size:23px;
+  box-shadow:0 4px 20px rgba(37,211,102,0.35); transition:transform 0.25s, box-shadow 0.25s;
 }
-.fab:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(37,211,102,.5);}
+.fab:hover { transform:scale(1.1); box-shadow:0 8px 32px rgba(37,211,102,0.5); }
 
-/* ══ REVEAL ══ */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
-.reveal.visible{opacity:1;transform:none;}
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
 
-/* ══ KEYFRAMES ══ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+/* ══════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════ */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes revealLine { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0 0% 0 0); } }
+@keyframes scrollPulse { 0%,100% { opacity:0.4; } 50% { opacity:1; } }
 
-/* ══ RESPONSIVE ══ */
-@media(max-width:1024px){
-  .hero-bg{background-size:55% auto;}
-  .diff-grid{grid-template-columns:repeat(2,1fr);}
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero-content { max-width: 60%; }
+  .diff-grid { grid-template-columns:repeat(2,1fr); }
 }
-@media(max-width:900px){
-  .nav-menu{display:none;}
-  .nav-menu.open{
-    display:flex;flex-direction:column;
-    position:absolute;top:var(--nav-h);left:0;right:0;
-    background:rgba(8,8,8,.97);padding:1.5rem 2.5rem;gap:1.5rem;
-    border-bottom:1px solid rgba(232,126,4,.12);z-index:490;
-  }
-  .nav-toggle{display:flex;}
-  .nav-actions .nav-cta{font-size:11px;padding:8px 14px;}
-  .benefits-inner{grid-template-columns:repeat(2,1fr);}
-  .hero-text{max-width:70%;}
-  .hero-bg{background-position:right -5% center;}
-  .prod-grid{grid-template-columns:repeat(2,1fr);}
+@media (max-width: 900px) {
+  .nav-menu { display:none; }
+  .nav-menu.open { display:flex; flex-direction:column; position:absolute; top:var(--nav-h); left:0; right:0; background:rgba(8,8,8,0.97); padding:1.5rem 2rem; gap:1.5rem; border-bottom:1px solid rgba(232,126,4,0.12); z-index:490; }
+  .nav-toggle { display:flex; }
+  .nav-actions .nav-cta { font-size:11px; padding:8px 14px; }
+  .benefits-inner { grid-template-columns:repeat(2,1fr); }
+  .hero-content { max-width:70%; }
+  .hero-bg { background-position: right 10% center; }
+  .prod-grid { grid-template-columns:repeat(2,1fr); }
 }
-@media(max-width:640px){
-  .hero-text{max-width:100%;}
-  .hero-bg{background:var(--dark);}
-  .hero-bg::before{display:none;}
-  .pf-grid{grid-template-columns:repeat(2,1fr);}
-  .benefits-inner{grid-template-columns:1fr;}
-  .bene{border-right:none;border-bottom:1px solid rgba(232,126,4,.08);}
-  .bene:last-child{border-bottom:none;}
-  .footer-inner{flex-direction:column;text-align:center;}
-  .custom-banner{flex-direction:column;}
-  .hero-pillars{flex-wrap:wrap;gap:12px;}
-  .pillar{border-right:none;margin-right:0;padding-right:0;}
-  .diff-grid{grid-template-columns:1fr;}
-  .prod-grid{grid-template-columns:1fr;}
-  .lb-info{flex-direction:column;align-items:flex-start;}
+@media (max-width: 640px) {
+  .hero-content { max-width:100%; }
+  .hero-bg { background: url('hero-bg.png') bottom center / 80% no-repeat; background-color:var(--dark); }
+  .hero-bg::before { background: rgba(8,8,8,0.88); }
+  .portfolio-grid { grid-template-columns:repeat(2,1fr); }
+  .benefits-inner { grid-template-columns:1fr; }
+  .benefit-item { border-right:none; border-bottom:1px solid rgba(232,126,4,0.08); }
+  .benefit-item:last-child { border-bottom:none; }
+  .footer-inner { flex-direction:column; text-align:center; }
+  .custom-banner { flex-direction:column; }
+  .lb-info { flex-direction:column; align-items:flex-start; }
+  .diff-grid { grid-template-columns:1fr; }
+  .prod-grid { grid-template-columns:1fr; }
+  .hero-pillars { display:none; }
 }
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+}
+
+/* ══ CART MODAL ══ */
+.cart-modal {
+  display:none; position:fixed; inset:0; z-index:650;
+  background:rgba(0,0,0,0.88); align-items:flex-start; justify-content:flex-end;
+  backdrop-filter:blur(6px); padding-top:var(--nav-h,76px);
+}
+.cart-modal.open { display:flex; }
+.cart-panel {
+  width:min(420px, 95vw); height:calc(100vh - var(--nav-h,76px));
+  background:var(--dark-3,#141414); border-left:1px solid rgba(232,126,4,.15);
+  display:flex; flex-direction:column; overflow:hidden;
+  animation: slideIn .3s cubic-bezier(.16,1,.3,1);
+}
+@keyframes slideIn { from { transform:translateX(100%); } to { transform:none; } }
+.cart-header {
+  padding:1.25rem 1.5rem;
+  border-bottom:1px solid rgba(232,126,4,.12);
+  display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+}
+.cart-header h2 {
+  font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700;
+  color:var(--silver-hi,#E8ECF0); letter-spacing:.05em;
+}
+.cart-close-btn {
+  width:32px; height:32px; background:var(--dark-4,#1C1C1C);
+  border:1px solid rgba(192,200,208,.15); border-radius:50%;
+  color:var(--silver,#B0BAC4); font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color .2s, color .2s;
+}
+.cart-close-btn:hover { border-color:var(--orange,#E87E04); color:var(--orange,#E87E04); }
+#cartBody { flex:1; overflow-y:auto; padding:0 1.5rem; }
+#cartBody::-webkit-scrollbar { width:4px; }
+#cartBody::-webkit-scrollbar-track { background:transparent; }
+#cartBody::-webkit-scrollbar-thumb { background:rgba(232,126,4,.3); border-radius:2px; }
+.cart-footer {
+  padding:1.25rem 1.5rem;
+  border-top:1px solid rgba(232,126,4,.12); flex-shrink:0;
+}
+.cart-wpp-btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:14px; background:#25D366; color:#000;
+  font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:800;
+  letter-spacing:.1em; text-transform:uppercase; border:none;
+  border-radius:3px; cursor:pointer; transition:background .2s, transform .15s;
+}
+.cart-wpp-btn:hover { background:#1fb856; transform:translateY(-1px); }
+.cart-clear-btn {
+  display:block; width:100%; margin-top:8px; padding:8px;
+  background:transparent; color:var(--silver,#B0BAC4);
+  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; border:none; cursor:pointer;
+  transition:color .2s;
+}
+.cart-clear-btn:hover { color:#ff6b6b; }
+/* badge */
+.nav-cart-badge {
+  position:absolute; top:-6px; right:-8px;
+  background:var(--orange,#E87E04); color:#000;
+  font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700;
+  width:17px; height:17px; border-radius:50%;
+  align-items:center; justify-content:center;
+}
+
 </style>
 </head>
 <body>
 
+<!-- Custom cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
-<canvas id="canvas"></canvas>
+
+<!-- Particle canvas -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- FAB WhatsApp -->
 <a class="fab" href="https://wa.me/5584999019339" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
-<!-- ══ NAVBAR ══ -->
-<div class="nav-outer" id="navOuter">
-  <nav class="nav-inner">
+<!-- NAVBAR -->
+<div class="navbar-outer" id="navbarOuter">
+  <nav class="navbar">
     <a class="nav-brand" href="#">
-      <img class="nav-logo" src="logo-simbolo.png" alt="Forge3D"
-           onerror="this.style.display='none'">
-      <div class="nav-brand-words">
-        <div class="nav-brand-name">FORGE<em>3D</em></div>
-        <div class="nav-brand-tag">Precisão em cada camada.</div>
+      <img class="nav-logo" src="logo-simbolo.png" alt="Forge3D" onerror="this.style.display='none'">
+      <div>
+        <div class="nav-brand-text">FORGE<span>3D</span></div>
+        <div class="nav-tagline">Precisão em cada camada.</div>
       </div>
     </a>
 
@@ -579,136 +615,88 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
     </ul>
 
     <div class="nav-actions">
-      <a class="nav-icon" href="https://instagram.com/forge3dtech"
-         target="_blank" rel="noopener" aria-label="Instagram @forge3dtech">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/>
-        </svg>
+      <a class="nav-icon" href="https://instagram.com/forge3dtech" target="_blank" rel="noopener" aria-label="Instagram @forge3dtech">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
       </a>
-      <div class="nav-cart nav-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 01-8 0"/>
-        </svg>
-        <span class="nav-cart-badge">2</span>
-      </div>
-      <a class="nav-cta"
-         href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D."
-         target="_blank" rel="noopener">
-        Orçamento <span>→</span>
-      </a>
+      <a class="nav-cta" href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." target="_blank" rel="noopener">Orçamento →</a>
     </div>
   </nav>
 </div>
 
-<!-- ══ HERO ══ -->
-<div class="hero" id="hero">
+<!-- HERO -->
+<section class="hero" id="hero">
   <div class="hero-bg" id="heroBg"></div>
-
-  <div class="hero-body">
-    <div class="hero-text">
-      <p class="hero-eyebrow">Engenharia de Precisão</p>
-
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Engenharia de</p>
       <h1 class="hero-title">
-        <span class="t-white">Desenvolvimento</span>
-        <span class="t-orange">e Manufatura</span>
-        <span class="t-orange">Digital</span>
+        <span class="line1">Precisão</span>
+        <span class="line2">em <span class="accent">manufatura</span></span>
+        <span class="line3">digital</span>
       </h1>
-
-      <div class="hero-divider"></div>
-
-      <p class="hero-desc">
-        Projetamos, desenvolvemos e fabricamos produtos personalizados
-        utilizando engenharia, design e manufatura digital de alta precisão.<br>
-        Soluções sob medida para pessoas, empresas e projetos especiais.
-      </p>
-
+      <p class="hero-sub">Transformamos ideias em soluções reais através de design e impressão 3D de alta qualidade.</p>
       <div class="hero-pillars">
         <div class="pillar">
-          <img class="pillar-img" src="icon-alvo.png" alt="Precisão">
-          <div class="pillar-title">Precisão</div>
-          <div class="pillar-sub">dimensional</div>
+          <img class="pillar-icon" src="icon-alvo.png" alt="Precisão">
+          <div class="pillar-text"><strong>Precisão</strong><small>em cada detalhe</small></div>
         </div>
         <div class="pillar">
-          <img class="pillar-img" src="icon-engrenagem1.png" alt="Tecnologia">
-          <div class="pillar-title">Tecnologia</div>
-          <div class="pillar-sub">profissional</div>
+          <img class="pillar-icon" src="icon-engrenagem1.png" alt="Tecnologia">
+          <div class="pillar-text"><strong>Tecnologia</strong><small>e inovação</small></div>
         </div>
         <div class="pillar">
-          <img class="pillar-img" src="icon-escudo1.png" alt="Qualidade">
-          <div class="pillar-title">Qualidade</div>
-          <div class="pillar-sub">garantida</div>
+          <img class="pillar-icon" src="icon-escudo1.png" alt="Qualidade">
+          <div class="pillar-text"><strong>Qualidade</strong><small>garantida</small></div>
         </div>
         <div class="pillar">
-          <img class="pillar-img" src="icon-cubo.png" alt="Soluções">
-          <div class="pillar-title">Soluções</div>
-          <div class="pillar-sub">personalizadas</div>
+          <img class="pillar-icon" src="icon-cubo.png" alt="Soluções">
+          <div class="pillar-text"><strong>Soluções</strong><small>personalizadas</small></div>
         </div>
       </div>
-
       <div class="hero-ctas">
-        <a class="btn-fill"
-           href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D."
-           target="_blank" rel="noopener">
-          Solicitar Orçamento →
-        </a>
-        <a class="btn-outline" href="#portfolio">Explorar Portfólio →</a>
+        <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento →</a>
+        <a href="#portfolio" class="btn-secondary">Ver Projetos →</a>
       </div>
     </div>
   </div>
-</div>
+  <div class="scroll-hint">
+    <span>Rolar</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
 
-<!-- ══ BENEFITS STRIP ══ -->
-<div class="benefits">
+<!-- BENEFITS BAR -->
+<div class="benefits-bar">
   <div class="benefits-inner">
-    <div class="bene">
-      <img class="bene-img" src="icon-caminhao.png" alt="Entrega">
-      <div class="bene-text">
-        <div class="bene-label">Entregamos para</div>
-        <div class="bene-value">Todo o Brasil</div>
-        <div class="bene-sub">com segurança</div>
-      </div>
+    <div class="benefit-item">
+      <img class="benefit-icon-img" src="icon-caminhao.png" alt="Entrega">
+      <div class="benefit-text"><strong>Entregamos para todo o Brasil</strong><small>Via Correios ou transportadora</small></div>
     </div>
-    <div class="bene">
-      <img class="bene-img" src="icon-escudo2.png" alt="Qualidade">
-      <div class="bene-text">
-        <div class="bene-label">Compromisso com</div>
-        <div class="bene-value">a Qualidade</div>
-        <div class="bene-sub">em cada detalhe</div>
-      </div>
+    <div class="benefit-item">
+      <img class="benefit-icon-img" src="icon-escudo2.png" alt="Qualidade">
+      <div class="benefit-text"><strong>Compromisso com qualidade</strong><small>Alto padrão de acabamento</small></div>
     </div>
-    <div class="bene">
-      <img class="bene-img" src="icon-cadeado.png" alt="Segurança">
-      <div class="bene-text">
-        <div class="bene-label">Compra Segura</div>
-        <div class="bene-value">e Protegida</div>
-        <div class="bene-sub">seus dados protegidos</div>
-      </div>
+    <div class="benefit-item">
+      <img class="benefit-icon-img" src="icon-cadeado.png" alt="Segurança">
+      <div class="benefit-text"><strong>Compra segura e protegida</strong><small>PIX, cartão ou transferência</small></div>
     </div>
-    <div class="bene">
-      <img class="bene-img" src="icon-atendimento.png" alt="Atendimento">
-      <div class="bene-text">
-        <div class="bene-label">Atendimento</div>
-        <div class="bene-value">Personalizado</div>
-        <div class="bene-sub">focado em você</div>
-      </div>
+    <div class="benefit-item">
+      <img class="benefit-icon-img" src="icon-atendimento.png" alt="Atendimento">
+      <div class="benefit-text"><strong>Atendimento personalizado</strong><small>Respondemos rápido no WhatsApp</small></div>
     </div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ══ PRODUTOS ══ -->
+<!-- PRODUTOS -->
 <section id="produtos">
   <div class="container">
-    <div class="s-inner">
+    <div class="section-inner">
       <div class="reveal">
-        <p class="s-label">Soluções</p>
-        <h2 class="s-title">Soluções em Impressão 3D</h2>
-        <p class="s-desc">Desenvolvemos projetos personalizados para clientes, empresas, eventos, colecionadores e aplicações técnicas.</p>
+        <p class="section-label">Soluções</p>
+        <h2 class="section-title">Soluções em Impressão 3D</h2>
+        <p class="section-desc">Desenvolvemos projetos personalizados para clientes, empresas, eventos, colecionadores e aplicações técnicas.</p>
       </div>
       <div class="prod-grid reveal">
         <div class="prod-card">
@@ -735,8 +723,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
           <h3>Tem uma ideia?</h3>
           <p>Transformamos conceitos, desenhos e logotipos em produtos reais através da impressão 3D.</p>
         </div>
-        <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20projeto%20na%20Forge3D."
-           class="btn-fill" target="_blank" rel="noopener">Solicitar Projeto</a>
+        <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20projeto%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Projeto</a>
       </div>
     </div>
   </div>
@@ -752,7 +739,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
       <p class="section-desc">Cada peça é impressa com precisão e cuidado. Veja alguns dos nossos trabalhos e peça o seu.</p>
     </div>
 
-    <div class="pf-filters reveal">
+    <div class="portfolio-filters">
       <button class="pf-btn active" type="button" data-filter="todos">Todos</button>
       <button class="pf-btn" type="button" data-filter="chaveiro">Chaveiros</button>
       <button class="pf-btn" type="button" data-filter="organizador">Organizadores</button>
@@ -766,11 +753,11 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
       <button class="pf-btn" type="button" data-filter="luminaria">Luminárias</button>
     </div>
 
-    <div class="pf-grid reveal" id="portfolioGrid">
+    <div class="portfolio-grid" id="portfolioGrid">
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Nike Air Force One (pé esquerdo)" onclick="openLb(0)">
         <img class="pf-img" src="foto_01.jpg" alt="Chaveiro Nike Air Force One (pé esquerdo)" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_01.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_01.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Nike Air Force One (pé esquerdo)</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -779,7 +766,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Bolsa LV de Luxo - Minimalista & Elegante" onclick="openLb(1)">
         <img class="pf-img" src="foto_02.jpg" alt="Chaveiro Bolsa LV de Luxo - Minimalista & Elegante" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_02.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_02.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Bolsa LV de Luxo - Minimalista & Elegante</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -788,7 +775,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro de Keycaps Mecânicas Fidget Personalizadas" onclick="openLb(2)">
         <img class="pf-img" src="foto_03.jpg" alt="Chaveiro de Keycaps Mecânicas Fidget Personalizadas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_03.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_03.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro de Keycaps Mecânicas Fidget Personalizadas</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -797,7 +784,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Nossa Senhora" onclick="openLb(3)">
         <img class="pf-img" src="foto_04.jpg" alt="Chaveiro Nossa Senhora" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_04.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_04.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Nossa Senhora</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -806,7 +793,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro - Nossa Senhora Aparecida" onclick="openLb(4)">
         <img class="pf-img" src="foto_05.jpg" alt="Chaveiro - Nossa Senhora Aparecida" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_05.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_05.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro - Nossa Senhora Aparecida</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -815,7 +802,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Mini Pato Raivoso Amarelo" onclick="openLb(5)">
         <img class="pf-img" src="foto_06.jpg" alt="Chaveiro Mini Pato Raivoso Amarelo" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_06.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_06.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Mini Pato Raivoso Amarelo</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -824,7 +811,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Fidget Estrelado" onclick="openLb(6)">
         <img class="pf-img" src="foto_07.jpg" alt="Chaveiro Fidget Estrelado" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_07.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_07.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Fidget Estrelado</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -833,7 +820,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Charmander" onclick="openLb(7)">
         <img class="pf-img" src="foto_08.jpg" alt="Chaveiro Articulado Charmander" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_08.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_08.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Articulado Charmander</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -842,7 +829,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro com a carinha da Hello Kitty" onclick="openLb(8)">
         <img class="pf-img" src="foto_09.jpg" alt="Chaveiro com a carinha da Hello Kitty" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_09.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_09.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro com a carinha da Hello Kitty</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -851,7 +838,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro de Peso" onclick="openLb(9)">
         <img class="pf-img" src="foto_10.jpg" alt="Chaveiro de Peso" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_10.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_10.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro de Peso</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -860,7 +847,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Nome Mãe" onclick="openLb(10)">
         <img class="pf-img" src="foto_11.jpg" alt="Chaveiro Nome Mãe" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_11.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_11.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiro Nome Mãe</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -869,7 +856,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="chaveiro" data-name="Chaveiros de Cachorro e Gato" onclick="openLb(11)">
         <img class="pf-img" src="foto_12.jpg" alt="Chaveiros de Cachorro e Gato" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🔗</span><span>foto_12.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_12.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Chaveiros de Cachorro e Gato</p>
           <p class="pf-item-cat">Chaveiro</p>
@@ -878,7 +865,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="organizador" data-name="Organizadores de Chá Moderno" onclick="openLb(12)">
         <img class="pf-img" src="foto_13.jpg" alt="Organizadores de Chá Moderno" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🗂️</span><span>foto_13.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_13.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizadores de Chá Moderno</p>
           <p class="pf-item-cat">Organizador</p>
@@ -887,7 +874,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="organizador" data-name="Suporte de celular" onclick="openLb(13)">
         <img class="pf-img" src="foto_14.jpg" alt="Suporte de celular" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🗂️</span><span>foto_14.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_14.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte de celular</p>
           <p class="pf-item-cat">Organizador</p>
@@ -896,7 +883,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="organizador" data-name="Porta-canetas Enfermeira" onclick="openLb(14)">
         <img class="pf-img" src="foto_15.jpg" alt="Porta-canetas Enfermeira" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🗂️</span><span>foto_15.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_15.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Porta-canetas Enfermeira</p>
           <p class="pf-item-cat">Organizador</p>
@@ -905,7 +892,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="organizador" data-name="Organizador Moderno – Tigela" onclick="openLb(15)">
         <img class="pf-img" src="foto_16.jpg" alt="Organizador Moderno – Tigela" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🗂️</span><span>foto_16.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_16.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador Moderno – Tigela</p>
           <p class="pf-item-cat">Organizador</p>
@@ -914,7 +901,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="organizador" data-name="Organizador empilhável" onclick="openLb(16)">
         <img class="pf-img" src="foto_17.jpg" alt="Organizador empilhável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🗂️</span><span>foto_17.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_17.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador empilhável</p>
           <p class="pf-item-cat">Organizador</p>
@@ -923,7 +910,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="organizador" data-name="Caixa de armazenamento moderna" onclick="openLb(17)">
         <img class="pf-img" src="foto_18.jpg" alt="Caixa de armazenamento moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🗂️</span><span>foto_18.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_18.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Caixa de armazenamento moderna</p>
           <p class="pf-item-cat">Organizador</p>
@@ -932,7 +919,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="sazonal" data-name="Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais" onclick="openLb(18)">
         <img class="pf-img" src="foto_19.jpg" alt="Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🎄</span><span>foto_19.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_19.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais</p>
           <p class="pf-item-cat">Sazonal</p>
@@ -941,7 +928,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="sazonal" data-name="Dia dos Pais pai e filha - pai e filho" onclick="openLb(19)">
         <img class="pf-img" src="foto_20.jpg" alt="Dia dos Pais pai e filha - pai e filho" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🎄</span><span>foto_20.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_20.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Dia dos Pais pai e filha - pai e filho</p>
           <p class="pf-item-cat">Sazonal</p>
@@ -950,7 +937,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="sazonal" data-name="Ornamento da Sagrada Família em Oração" onclick="openLb(20)">
         <img class="pf-img" src="foto_21.jpg" alt="Ornamento da Sagrada Família em Oração" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🎄</span><span>foto_21.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_21.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Ornamento da Sagrada Família em Oração</p>
           <p class="pf-item-cat">Sazonal</p>
@@ -959,7 +946,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="sazonal" data-name="Virgem Maria" onclick="openLb(21)">
         <img class="pf-img" src="foto_22.jpg" alt="Virgem Maria" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🎄</span><span>foto_22.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_22.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Virgem Maria</p>
           <p class="pf-item-cat">Sazonal</p>
@@ -968,7 +955,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="sazonal" data-name="Gruta de Nossa Senhora de Lourdes" onclick="openLb(22)">
         <img class="pf-img" src="foto_23.jpg" alt="Gruta de Nossa Senhora de Lourdes" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🎄</span><span>foto_23.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_23.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Gruta de Nossa Senhora de Lourdes</p>
           <p class="pf-item-cat">Sazonal</p>
@@ -977,7 +964,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="sazonal" data-name="Porta terço Nossa Senhora rezando" onclick="openLb(23)">
         <img class="pf-img" src="foto_24.jpg" alt="Porta terço Nossa Senhora rezando" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🎄</span><span>foto_24.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_24.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Porta terço Nossa Senhora rezando</p>
           <p class="pf-item-cat">Sazonal</p>
@@ -986,7 +973,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Dinossauro - T-Rex Esqueleto Flexível" onclick="openLb(24)">
         <img class="pf-img" src="foto_25.jpg" alt="Dinossauro - T-Rex Esqueleto Flexível" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_25.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_25.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Dinossauro - T-Rex Esqueleto Flexível</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -995,7 +982,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Dinossauro - Triceratops Esqueleto Flexível" onclick="openLb(25)">
         <img class="pf-img" src="foto_26.jpg" alt="Dinossauro - Triceratops Esqueleto Flexível" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_26.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_26.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Dinossauro - Triceratops Esqueleto Flexível</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1004,7 +991,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Pokopia Ditto Pokemon Coloring Friends Craft Set 2" onclick="openLb(26)">
         <img class="pf-img" src="foto_27.jpg" alt="Pokopia Ditto Pokemon Coloring Friends Craft Set 2" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_27.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_27.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Pokopia Ditto Pokemon Coloring Friends Craft Set 2</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1013,7 +1000,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Pangolim Flexível" onclick="openLb(27)">
         <img class="pf-img" src="foto_28.jpg" alt="Pangolim Flexível" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_28.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_28.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Pangolim Flexível</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1022,7 +1009,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Modelo Montessori de Desenho para Crianças – Estênceis" onclick="openLb(28)">
         <img class="pf-img" src="foto_29.jpg" alt="Modelo Montessori de Desenho para Crianças – Estênceis" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_29.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_29.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Modelo Montessori de Desenho para Crianças – Estênceis</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1031,7 +1018,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Números Montessori com caixa" onclick="openLb(29)">
         <img class="pf-img" src="foto_30.jpg" alt="Números Montessori com caixa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_30.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_30.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Números Montessori com caixa</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1040,7 +1027,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Brinquedo de Fidget Cubo Infinito" onclick="openLb(30)">
         <img class="pf-img" src="foto_31.jpg" alt="Brinquedo de Fidget Cubo Infinito" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_31.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_31.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Brinquedo de Fidget Cubo Infinito</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1049,7 +1036,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Jogo de equilíbrio - tudo em uma caixa" onclick="openLb(31)">
         <img class="pf-img" src="foto_32.jpg" alt="Jogo de equilíbrio - tudo em uma caixa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_32.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_32.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Jogo de equilíbrio - tudo em uma caixa</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1058,7 +1045,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Jogo de equilíbrio Stickman com caixa" onclick="openLb(32)">
         <img class="pf-img" src="foto_33.jpg" alt="Jogo de equilíbrio Stickman com caixa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_33.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_33.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Jogo de equilíbrio Stickman com caixa</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1067,7 +1054,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Pinball da Copa do Mundo - Jogo de Futebol Mecânico" onclick="openLb(33)">
         <img class="pf-img" src="foto_34.jpg" alt="Pinball da Copa do Mundo - Jogo de Futebol Mecânico" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_34.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_34.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Pinball da Copa do Mundo - Jogo de Futebol Mecânico</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1076,7 +1063,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras" onclick="openLb(34)">
         <img class="pf-img" src="foto_35.jpg" alt="Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_35.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_35.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1085,7 +1072,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="brinquedo" data-name="Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli" onclick="openLb(35)">
         <img class="pf-img" src="foto_36.jpg" alt="Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🧸</span><span>foto_36.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_36.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli</p>
           <p class="pf-item-cat">Brinquedo</p>
@@ -1094,7 +1081,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Estátua - Ninguém Leitor" onclick="openLb(36)">
         <img class="pf-img" src="foto_37.jpg" alt="Estátua - Ninguém Leitor" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_37.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_37.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Estátua - Ninguém Leitor</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1103,7 +1090,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Estátua - Mãe e filhas – Prateleira" onclick="openLb(37)">
         <img class="pf-img" src="foto_38.jpg" alt="Estátua - Mãe e filhas – Prateleira" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_38.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_38.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Estátua - Mãe e filhas – Prateleira</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1112,7 +1099,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Duo Eterno - Escultura do Amor" onclick="openLb(38)">
         <img class="pf-img" src="foto_39.jpg" alt="Duo Eterno - Escultura do Amor" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_39.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_39.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Duo Eterno - Escultura do Amor</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1121,7 +1108,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Estátua Abstrata de Amor e União Familiar" onclick="openLb(39)">
         <img class="pf-img" src="foto_40.jpg" alt="Estátua Abstrata de Amor e União Familiar" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_40.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_40.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Estátua Abstrata de Amor e União Familiar</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1130,7 +1117,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Figura Abstrata Sentada – Arte Escultórica Moderna" onclick="openLb(40)">
         <img class="pf-img" src="foto_41.jpg" alt="Figura Abstrata Sentada – Arte Escultórica Moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_41.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_41.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Figura Abstrata Sentada – Arte Escultórica Moderna</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1139,7 +1126,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Amo meu cachorro Escultura minimalista moderna" onclick="openLb(41)">
         <img class="pf-img" src="foto_42.jpg" alt="Amo meu cachorro Escultura minimalista moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_42.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_42.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Amo meu cachorro Escultura minimalista moderna</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1148,7 +1135,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Escultura Low Poly de Dogue Alemão em Guarda" onclick="openLb(42)">
         <img class="pf-img" src="foto_43.jpg" alt="Escultura Low Poly de Dogue Alemão em Guarda" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_43.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_43.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Escultura Low Poly de Dogue Alemão em Guarda</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1157,7 +1144,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Rena Natalina Voronoi" onclick="openLb(43)">
         <img class="pf-img" src="foto_44.jpg" alt="Rena Natalina Voronoi" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_44.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_44.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Rena Natalina Voronoi</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1166,7 +1153,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Vaso Orgânico" onclick="openLb(44)">
         <img class="pf-img" src="foto_45.jpg" alt="Vaso Orgânico" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_45.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_45.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Vaso Orgânico</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1175,7 +1162,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Vaso de planta - Abertura 10cm/12cm/15cm" onclick="openLb(45)">
         <img class="pf-img" src="foto_46.jpg" alt="Vaso de planta - Abertura 10cm/12cm/15cm" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_46.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_46.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Vaso de planta - Abertura 10cm/12cm/15cm</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1184,7 +1171,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Cachepot de parede moderno com bandeja coletora escondida" onclick="openLb(46)">
         <img class="pf-img" src="foto_47.jpg" alt="Cachepot de parede moderno com bandeja coletora escondida" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_47.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_47.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Cachepot de parede moderno com bandeja coletora escondida</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1193,7 +1180,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="decoracao" data-name="Suportes de Vela e Placa Base" onclick="openLb(47)">
         <img class="pf-img" src="foto_48.jpg" alt="Suportes de Vela e Placa Base" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🏺</span><span>foto_48.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_48.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suportes de Vela e Placa Base</p>
           <p class="pf-item-cat">Decoração</p>
@@ -1202,7 +1189,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Suporte de vassoura" onclick="openLb(48)">
         <img class="pf-img" src="foto_49.jpg" alt="Suporte de vassoura" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_49.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_49.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte de vassoura</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1211,7 +1198,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Suporte para Carregamento de Celular" onclick="openLb(49)">
         <img class="pf-img" src="foto_50.jpg" alt="Suporte para Carregamento de Celular" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_50.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_50.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte para Carregamento de Celular</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1220,7 +1207,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Suporte Elevador para iPad/Tablet" onclick="openLb(50)">
         <img class="pf-img" src="foto_51.jpg" alt="Suporte Elevador para iPad/Tablet" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_51.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_51.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte Elevador para iPad/Tablet</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1229,7 +1216,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte" onclick="openLb(51)">
         <img class="pf-img" src="foto_52.jpg" alt="Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_52.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_52.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1238,7 +1225,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Organizador de Chaves e Entrada WaveShelf" onclick="openLb(52)">
         <img class="pf-img" src="foto_53.jpg" alt="Organizador de Chaves e Entrada WaveShelf" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_53.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_53.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador de Chaves e Entrada WaveShelf</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1247,7 +1234,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Suporte de Parede para Chapinha – Robusto" onclick="openLb(53)">
         <img class="pf-img" src="foto_54.jpg" alt="Suporte de Parede para Chapinha – Robusto" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_54.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_54.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte de Parede para Chapinha – Robusto</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1256,7 +1243,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Organizador de Cabos - Gerenciamento de Cabos" onclick="openLb(54)">
         <img class="pf-img" src="foto_55.jpg" alt="Organizador de Cabos - Gerenciamento de Cabos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_55.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_55.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador de Cabos - Gerenciamento de Cabos</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1265,7 +1252,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Coletor de Pó para Furadeira com guia de perfuração" onclick="openLb(55)">
         <img class="pf-img" src="foto_56.jpg" alt="Coletor de Pó para Furadeira com guia de perfuração" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_56.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_56.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Coletor de Pó para Furadeira com guia de perfuração</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1274,7 +1261,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Funil Pequeno Definitivo" onclick="openLb(56)">
         <img class="pf-img" src="foto_57.jpg" alt="Funil Pequeno Definitivo" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_57.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_57.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Funil Pequeno Definitivo</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1283,7 +1270,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Bico de Aspirador – Ponta Redonda ou Chata - Personalizável" onclick="openLb(57)">
         <img class="pf-img" src="foto_58.jpg" alt="Bico de Aspirador – Ponta Redonda ou Chata - Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_58.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_58.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Bico de Aspirador – Ponta Redonda ou Chata - Personalizável</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1292,7 +1279,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Carregador Moderno de Sacolas de Supermercado" onclick="openLb(58)">
         <img class="pf-img" src="foto_59.jpg" alt="Carregador Moderno de Sacolas de Supermercado" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_59.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_59.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Carregador Moderno de Sacolas de Supermercado</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1301,7 +1288,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="utilitario" data-name="Suportes para Ramos em Formato de Folha" onclick="openLb(59)">
         <img class="pf-img" src="foto_60.jpg" alt="Suportes para Ramos em Formato de Folha" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🛠️</span><span>foto_60.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_60.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suportes para Ramos em Formato de Folha</p>
           <p class="pf-item-cat">Utilitário</p>
@@ -1310,7 +1297,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Presilha para Saco de Café de 1 kg" onclick="openLb(60)">
         <img class="pf-img" src="foto_61.jpg" alt="Presilha para Saco de Café de 1 kg" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_61.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_61.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Presilha para Saco de Café de 1 kg</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1319,7 +1306,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Separador de claras" onclick="openLb(61)">
         <img class="pf-img" src="foto_62.jpg" alt="Separador de claras" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_62.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_62.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Separador de claras</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1328,7 +1315,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Lavador Inteligente de Frutas e Legumes" onclick="openLb(62)">
         <img class="pf-img" src="foto_63.jpg" alt="Lavador Inteligente de Frutas e Legumes" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_63.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_63.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Lavador Inteligente de Frutas e Legumes</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1337,7 +1324,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Suporte de papel toalha com pés de cadeira" onclick="openLb(63)">
         <img class="pf-img" src="foto_64.jpg" alt="Suporte de papel toalha com pés de cadeira" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_64.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_64.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte de papel toalha com pés de cadeira</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1346,7 +1333,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Prensa para Hambúrgueres" onclick="openLb(64)">
         <img class="pf-img" src="foto_65.jpg" alt="Prensa para Hambúrgueres" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_65.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_65.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Prensa para Hambúrgueres</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1355,7 +1342,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Suporte para Utensílios de Cozinha" onclick="openLb(65)">
         <img class="pf-img" src="foto_66.jpg" alt="Suporte para Utensílios de Cozinha" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_66.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_66.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte para Utensílios de Cozinha</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1364,7 +1351,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Xícara medidora – Colher" onclick="openLb(66)">
         <img class="pf-img" src="foto_67.jpg" alt="Xícara medidora – Colher" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_67.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_67.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Xícara medidora – Colher</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1373,7 +1360,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Suporte para Tampas de Panelas e Caçarolas" onclick="openLb(67)">
         <img class="pf-img" src="foto_68.jpg" alt="Suporte para Tampas de Panelas e Caçarolas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_68.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_68.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte para Tampas de Panelas e Caçarolas</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1382,7 +1369,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Organizador de Talheres com Dreno" onclick="openLb(68)">
         <img class="pf-img" src="foto_69.jpg" alt="Organizador de Talheres com Dreno" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_69.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_69.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador de Talheres com Dreno</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1391,7 +1378,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Organizador de Portas de Armário - armazenamento tampa panela" onclick="openLb(69)">
         <img class="pf-img" src="foto_70.jpg" alt="Organizador de Portas de Armário - armazenamento tampa panela" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_70.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_70.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador de Portas de Armário - armazenamento tampa panela</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1400,7 +1387,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Sistema de Gaveta Organizadora Luxuosa Personalizável" onclick="openLb(70)">
         <img class="pf-img" src="foto_71.jpg" alt="Sistema de Gaveta Organizadora Luxuosa Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_71.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_71.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Sistema de Gaveta Organizadora Luxuosa Personalizável</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1409,7 +1396,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="cozinha" data-name="Organizador de Tampa" onclick="openLb(71)">
         <img class="pf-img" src="foto_72.jpg" alt="Organizador de Tampa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🍳</span><span>foto_72.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_72.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador de Tampa</p>
           <p class="pf-item-cat">Cozinha Prática</p>
@@ -1418,7 +1405,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Letreiro - Nome Personalizado – Dinossauros" onclick="openLb(72)">
         <img class="pf-img" src="foto_73.jpg" alt="Letreiro - Nome Personalizado – Dinossauros" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_73.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_73.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Letreiro - Nome Personalizado – Dinossauros</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1427,7 +1414,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Capivara-mente Acordada" onclick="openLb(73)">
         <img class="pf-img" src="foto_74.jpg" alt="Capivara-mente Acordada" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_74.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_74.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Capivara-mente Acordada</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1436,7 +1423,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Qualidade de Coala Matinal Não Garantida" onclick="openLb(74)">
         <img class="pf-img" src="foto_75.jpg" alt="Qualidade de Coala Matinal Não Garantida" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_75.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_75.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Qualidade de Coala Matinal Não Garantida</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1445,7 +1432,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Daffy Duck" onclick="openLb(75)">
         <img class="pf-img" src="foto_76.jpg" alt="Daffy Duck" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_76.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_76.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Daffy Duck</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1454,7 +1441,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Nome inserível de lápis paramétrico personalizável" onclick="openLb(76)">
         <img class="pf-img" src="foto_77.jpg" alt="Nome inserível de lápis paramétrico personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_77.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_77.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Nome inserível de lápis paramétrico personalizável</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1463,7 +1450,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Placa Personalizada de Anúncio de Nascimento de Recém-Nascido" onclick="openLb(77)">
         <img class="pf-img" src="foto_78.jpg" alt="Placa Personalizada de Anúncio de Nascimento de Recém-Nascido" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_78.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_78.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Placa Personalizada de Anúncio de Nascimento de Recém-Nascido</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1472,7 +1459,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Clicker Fidget com Nome Personalizável" onclick="openLb(78)">
         <img class="pf-img" src="foto_79.jpg" alt="Clicker Fidget com Nome Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_79.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_79.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Clicker Fidget com Nome Personalizável</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1481,7 +1468,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Etiqueta de Unhas Personalizada para Salões e Designers de Unhas" onclick="openLb(79)">
         <img class="pf-img" src="foto_80.jpg" alt="Etiqueta de Unhas Personalizada para Salões e Designers de Unhas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_80.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_80.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Etiqueta de Unhas Personalizada para Salões e Designers de Unhas</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1490,7 +1477,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Organizador Multiuso com Capuz de Nome Personalizado" onclick="openLb(80)">
         <img class="pf-img" src="foto_81.jpg" alt="Organizador Multiuso com Capuz de Nome Personalizado" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_81.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_81.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Organizador Multiuso com Capuz de Nome Personalizado</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1499,7 +1486,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Clicker de Keycaps – Brinquedo Anti-estresse" onclick="openLb(81)">
         <img class="pf-img" src="foto_82.jpg" alt="Clicker de Keycaps – Brinquedo Anti-estresse" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_82.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_82.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Clicker de Keycaps – Brinquedo Anti-estresse</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1508,7 +1495,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Placa de Nome com QR Code Personalizável" onclick="openLb(82)">
         <img class="pf-img" src="foto_83.jpg" alt="Placa de Nome com QR Code Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_83.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_83.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Placa de Nome com QR Code Personalizável</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1517,7 +1504,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="personalizado" data-name="Mensagem - Feliz Aniversário - para bolos" onclick="openLb(83)">
         <img class="pf-img" src="foto_84.jpg" alt="Mensagem - Feliz Aniversário - para bolos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">✨</span><span>foto_84.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_84.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Mensagem - Feliz Aniversário - para bolos</p>
           <p class="pf-item-cat">Personalizado</p>
@@ -1526,7 +1513,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Escova de embelezamento para animais de estimação" onclick="openLb(84)">
         <img class="pf-img" src="foto_85.jpg" alt="Escova de embelezamento para animais de estimação" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_85.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_85.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Escova de embelezamento para animais de estimação</p>
           <p class="pf-item-cat">Pet</p>
@@ -1535,7 +1522,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Escovação Purrfecta" onclick="openLb(85)">
         <img class="pf-img" src="foto_86.jpg" alt="Escovação Purrfecta" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_86.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_86.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Escovação Purrfecta</p>
           <p class="pf-item-cat">Pet</p>
@@ -1544,7 +1531,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Escova de Auto-Higiene para Gatos" onclick="openLb(86)">
         <img class="pf-img" src="foto_87.jpg" alt="Escova de Auto-Higiene para Gatos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_87.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_87.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Escova de Auto-Higiene para Gatos</p>
           <p class="pf-item-cat">Pet</p>
@@ -1553,7 +1540,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Pá de Ração para Animais de Estimação - Vários Tamanhos" onclick="openLb(87)">
         <img class="pf-img" src="foto_88.jpg" alt="Pá de Ração para Animais de Estimação - Vários Tamanhos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_88.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_88.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Pá de Ração para Animais de Estimação - Vários Tamanhos</p>
           <p class="pf-item-cat">Pet</p>
@@ -1562,7 +1549,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Pá de Comida para Animais Personalizada de Pata e Osso" onclick="openLb(88)">
         <img class="pf-img" src="foto_89.jpg" alt="Pá de Comida para Animais Personalizada de Pata e Osso" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_89.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_89.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Pá de Comida para Animais Personalizada de Pata e Osso</p>
           <p class="pf-item-cat">Pet</p>
@@ -1571,7 +1558,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Dispenser de Sachê para Comida de Gato e Cachorro" onclick="openLb(89)">
         <img class="pf-img" src="foto_90.jpg" alt="Dispenser de Sachê para Comida de Gato e Cachorro" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_90.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_90.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Dispenser de Sachê para Comida de Gato e Cachorro</p>
           <p class="pf-item-cat">Pet</p>
@@ -1580,7 +1567,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Suporte Elevado Personalizado para Tigela de Animais de Estimação" onclick="openLb(90)">
         <img class="pf-img" src="foto_91.jpg" alt="Suporte Elevado Personalizado para Tigela de Animais de Estimação" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_91.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_91.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Suporte Elevado Personalizado para Tigela de Animais de Estimação</p>
           <p class="pf-item-cat">Pet</p>
@@ -1589,7 +1576,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Comedouro Elevado Olive Arc para Animais de Estimação" onclick="openLb(91)">
         <img class="pf-img" src="foto_92.jpg" alt="Comedouro Elevado Olive Arc para Animais de Estimação" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_92.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_92.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Comedouro Elevado Olive Arc para Animais de Estimação</p>
           <p class="pf-item-cat">Pet</p>
@@ -1598,7 +1585,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Plaqueta de Identificação para Cães" onclick="openLb(92)">
         <img class="pf-img" src="foto_93.jpg" alt="Plaqueta de Identificação para Cães" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_93.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_93.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Plaqueta de Identificação para Cães</p>
           <p class="pf-item-cat">Pet</p>
@@ -1607,7 +1594,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Tag NFC para Pet" onclick="openLb(93)">
         <img class="pf-img" src="foto_94.jpg" alt="Tag NFC para Pet" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_94.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_94.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Tag NFC para Pet</p>
           <p class="pf-item-cat">Pet</p>
@@ -1616,7 +1603,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Brinquedos para Gatos" onclick="openLb(94)">
         <img class="pf-img" src="foto_95.jpg" alt="Brinquedos para Gatos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_95.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_95.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Brinquedos para Gatos</p>
           <p class="pf-item-cat">Pet</p>
@@ -1625,7 +1612,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="pet" data-name="Brinquedo para Gato - Bola Chocalho" onclick="openLb(95)">
         <img class="pf-img" src="foto_96.jpg" alt="Brinquedo para Gato - Bola Chocalho" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">🐾</span><span>foto_96.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_96.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Brinquedo para Gato - Bola Chocalho</p>
           <p class="pf-item-cat">Pet</p>
@@ -1634,7 +1621,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Abajur bancada" onclick="openLb(96)">
         <img class="pf-img" src="foto_97.jpg" alt="Abajur bancada" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_97.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_97.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Abajur bancada</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1643,7 +1630,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Luminária Espiral" onclick="openLb(97)">
         <img class="pf-img" src="foto_98.jpg" alt="Luminária Espiral" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_98.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_98.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária Espiral</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1652,7 +1639,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Abajur moderno" onclick="openLb(98)">
         <img class="pf-img" src="foto_99.jpg" alt="Abajur moderno" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_99.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_99.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Abajur moderno</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1661,7 +1648,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Pendente de iluminação Triplo – 200mm" onclick="openLb(99)">
         <img class="pf-img" src="foto_100.jpg" alt="Pendente de iluminação Triplo – 200mm" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_100.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_100.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Pendente de iluminação Triplo – 200mm</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1670,7 +1657,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Abajur Kumiko" onclick="openLb(100)">
         <img class="pf-img" src="foto_101.jpg" alt="Abajur Kumiko" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_101.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_101.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Abajur Kumiko</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1679,7 +1666,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Luminária Shoji Moderna" onclick="openLb(101)">
         <img class="pf-img" src="foto_102.jpg" alt="Luminária Shoji Moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_102.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_102.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária Shoji Moderna</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1688,7 +1675,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Luminária de Ondas Orgânicas" onclick="openLb(102)">
         <img class="pf-img" src="foto_103.jpg" alt="Luminária de Ondas Orgânicas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_103.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_103.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária de Ondas Orgânicas</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1697,7 +1684,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Abajur Orgânico" onclick="openLb(103)">
         <img class="pf-img" src="foto_104.jpg" alt="Abajur Orgânico" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_104.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_104.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Abajur Orgânico</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1706,7 +1693,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Luminária de Mesa Colmeia" onclick="openLb(104)">
         <img class="pf-img" src="foto_105.jpg" alt="Luminária de Mesa Colmeia" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_105.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_105.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária de Mesa Colmeia</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1715,7 +1702,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Luminária LED Bola de Pokémon (Pokébola)" onclick="openLb(105)">
         <img class="pf-img" src="foto_106.jpg" alt="Luminária LED Bola de Pokémon (Pokébola)" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_106.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_106.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária LED Bola de Pokémon (Pokébola)</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1724,7 +1711,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Luminária Tealight Globo Borboleta & Base Floral" onclick="openLb(106)">
         <img class="pf-img" src="foto_107.jpg" alt="Luminária Tealight Globo Borboleta & Base Floral" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_107.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_107.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Luminária Tealight Globo Borboleta & Base Floral</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1733,7 +1720,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
       <div class="pf-item" data-cat="luminaria" data-name="Torre Inclinada de Pisa - Luminária LED" onclick="openLb(107)">
         <img class="pf-img" src="foto_108.jpg" alt="Torre Inclinada de Pisa - Luminária LED" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-ph-icon">💡</span><span>foto_108.jpg</span><span class="pf-ph-hint">Substitua pela sua foto</span></div>
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_108.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">Torre Inclinada de Pisa - Luminária LED</p>
           <p class="pf-item-cat">Luminária</p>
@@ -1742,7 +1729,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
     </div>
 
-    <div class="pf-cta reveal">
+    <div class="portfolio-cta reveal">
       <p>Quer um produto como este ou algo totalmente novo?</p>
       <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vi%20o%20portf%C3%B3lio%20e%20quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">💬 Pedir orçamento</a>
     </div>
@@ -1757,22 +1744,21 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
 
 
-
 <div class="divider"></div>
 
-<!-- ══ DIFERENCIAIS ══ -->
+<!-- DIFERENCIAIS -->
 <section id="diferenciais">
   <div class="container">
-    <div class="s-inner">
+    <div class="section-inner">
       <div class="reveal">
-        <p class="s-label">Por que escolher a Forge3D</p>
-        <h2 class="s-title">Precisão em cada camada</h2>
+        <p class="section-label">Por que escolher a Forge3D</p>
+        <h2 class="section-title">Precisão em cada camada</h2>
       </div>
       <div class="diff-grid">
         <div class="diff-item reveal">
           <p class="diff-num">01</p>
           <p class="diff-title">Precisão em cada camada</p>
-          <p class="diff-text">Tecnologia de última geração para resultados consistentes e alta qualidade.</p>
+          <p class="diff-text">Tecnologia de última geração para resultados consistentes e alta qualidade em cada impressão.</p>
         </div>
         <div class="diff-item reveal">
           <p class="diff-num">02</p>
@@ -1796,19 +1782,17 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 
 <div class="divider"></div>
 
-<!-- ══ CONTATO ══ -->
+<!-- CONTATO -->
 <section id="contato">
   <div class="container">
-    <div class="s-inner">
+    <div class="section-inner">
       <div class="reveal">
-        <p class="s-label">Contato</p>
-        <h2 class="s-title">Vamos construir seu projeto?</h2>
-        <p class="s-desc" style="margin:0 auto;">Entre em contato para solicitar um orçamento ou desenvolver uma ideia.</p>
+        <p class="section-label">Contato</p>
+        <h2 class="section-title">Vamos construir seu projeto?</h2>
+        <p class="section-desc" style="margin:0 auto;">Entre em contato para solicitar um orçamento ou desenvolver uma ideia.</p>
       </div>
       <div class="contact-cards reveal">
-        <a class="contact-card"
-           href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20produtos%20da%20Forge3D."
-           target="_blank" rel="noopener">
+        <a class="contact-card" href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20produtos%20da%20Forge3D." target="_blank" rel="noopener">
           <span class="contact-icon">💬</span>
           <div>
             <p class="contact-label">WhatsApp</p>
@@ -1822,8 +1806,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
             <p class="contact-value">contato@forge3dtech.com.br</p>
           </div>
         </a>
-        <a class="contact-card"
-           href="https://instagram.com/forge3dtech" target="_blank" rel="noopener">
+        <a class="contact-card" href="https://instagram.com/forge3dtech" target="_blank" rel="noopener">
           <span class="contact-icon">📸</span>
           <div>
             <p class="contact-label">Instagram</p>
@@ -1836,20 +1819,38 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="logo-simbolo.png" alt="Forge3D"
-           style="width:30px;height:30px;object-fit:contain;"
-           onerror="this.style.display='none'">
-      <div class="footer-name">FORGE<em>3D</em></div>
+      <img src="logo-simbolo.png" alt="Forge3D" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'">
+      <div class="footer-brand-text">FORGE<span>3D</span></div>
     </div>
     <p class="footer-copy">© 2026 Forge3D · Precisão em cada camada · Transformando ideias em realidade</p>
   </div>
 </footer>
 
-<!-- ══ LIGHTBOX ══ -->
+
+<!-- ══ CART MODAL ══ -->
+<div class="cart-modal" id="cartModal">
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h2>🛒 Meu Carrinho</h2>
+      <button class="cart-close-btn" onclick="closeCart()">✕</button>
+    </div>
+    <div id="cartBody"></div>
+    <div class="cart-footer">
+      <button class="cart-wpp-btn" onclick="sendCartToWhatsApp()">
+        💬 Solicitar Orçamento via WhatsApp
+      </button>
+      <button class="cart-clear-btn" onclick="cart=[];saveCart();updateCartBadge();renderCartModal();">
+        Limpar carrinho
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLbOutside(event)">
   <div class="lb-inner">
     <button class="lb-close" onclick="closeLb()">✕</button>
@@ -1865,6 +1866,7 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
           <button class="lb-nav-btn" onclick="navigateLb(1)">›</button>
         </div>
         <a class="lb-wpp" id="lbWpp" href="#" target="_blank" rel="noopener">💬 Pedir este</a>
+        <button id="lbAddCart" style="padding:8px 14px;background:var(--dark-4);border:1px solid rgba(232,126,4,.3);color:var(--orange);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;border-radius:2px;cursor:pointer;transition:background .2s;">🛒 Adicionar</button>
       </div>
     </div>
   </div>
@@ -1873,29 +1875,35 @@ footer{background:var(--dark);border-top:1px solid rgba(232,126,4,.12);}
 <script>
 /* ══ CURSOR ══ */
 const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
-document.querySelectorAll('a,button,.pf-item,.pf-btn').forEach(el=>{
-  el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
-  el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
-});
+if(dot && ring){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+  document.querySelectorAll('a,button,.pf-item,.pf-btn').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+  });
+}
 
 /* ══ NAV SCROLL ══ */
-const navOuter=document.getElementById('navOuter');
-window.addEventListener('scroll',()=>navOuter.classList.toggle('scrolled',scrollY>60),{passive:true});
+const navEl = document.getElementById('navbarOuter') || document.getElementById('navOuter');
+if(navEl) window.addEventListener('scroll',()=>navEl.classList.toggle('scrolled',scrollY>60),{passive:true});
 
 /* ══ NAV TOGGLE ══ */
-document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navMenu').classList.toggle('open'));
-document.querySelectorAll('#navMenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navMenu').classList.remove('open')));
+const navToggle = document.getElementById('navToggle');
+const navMenu   = document.getElementById('navMenu');
+if(navToggle) navToggle.addEventListener('click',()=>navMenu.classList.toggle('open'));
+document.querySelectorAll('#navMenu a').forEach(a=>a.addEventListener('click',()=>navMenu.classList.remove('open')));
 
 /* ══ PARALLAX ══ */
 const hBg=document.getElementById('heroBg');
-window.addEventListener('scroll',()=>{hBg.style.transform=`translateY(${scrollY*.28}px)`;},{passive:true});
+if(hBg) window.addEventListener('scroll',()=>{hBg.style.transform=`translateY(${scrollY*.28}px)`;},{passive:true});
 
 /* ══ PARTICLES ══ */
 (()=>{
-  const cv=document.getElementById('canvas'),ctx=cv.getContext('2d');
+  const cv=document.getElementById('particleCanvas')||document.getElementById('canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
   let W,H,pts=[];
   const C=['rgba(232,126,4,','rgba(192,200,208,'];
   function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
@@ -1912,35 +1920,179 @@ window.addEventListener('scroll',()=>{hBg.style.transform=`translateY(${scrollY*
   })();
 })();
 
-/* ══ REVEAL ══ */
-const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:.1});
+/* ══ REVEAL (sections only, NOT portfolio grid) ══ */
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*60);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 /* ══ PORTFOLIO FILTER ══ */
-function filterPortfolio(cat){document.querySelectorAll('.pf-item').forEach(item=>item.classList.toggle('hidden',cat!=='todos'&&item.dataset.cat!==cat));}
-document.querySelectorAll('.pf-btn').forEach(btn=>btn.addEventListener('click',function(){document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');filterPortfolio(this.dataset.filter);}));
+function filterPortfolio(cat){
+  document.querySelectorAll('.pf-item').forEach(item=>{
+    item.classList.toggle('hidden', cat!=='todos' && item.dataset.cat!==cat);
+  });
+}
+document.querySelectorAll('.pf-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    filterPortfolio(this.dataset.filter);
+  });
+});
+
+/* ══ CART ══ */
+let cart = JSON.parse(localStorage.getItem('forge3d_cart') || '[]');
+
+function saveCart(){ localStorage.setItem('forge3d_cart', JSON.stringify(cart)); }
+
+function updateCartBadge(){
+  const total = cart.reduce((s,i)=>s+i.qty, 0);
+  document.querySelectorAll('.cart-badge').forEach(b=>{
+    b.textContent = total;
+    b.style.display = total > 0 ? 'flex' : 'none';
+  });
+}
+
+function addToCart(name, cat){
+  const existing = cart.find(i=>i.name===name);
+  if(existing){ existing.qty++; } else { cart.push({name, cat, qty:1}); }
+  saveCart(); updateCartBadge();
+  showCartToast(name);
+}
+
+function removeFromCart(idx){
+  cart.splice(idx,1);
+  saveCart(); updateCartBadge(); renderCartModal();
+}
+
+function changeQty(idx, delta){
+  cart[idx].qty += delta;
+  if(cart[idx].qty <= 0) cart.splice(idx,1);
+  saveCart(); updateCartBadge(); renderCartModal();
+}
+
+function showCartToast(name){
+  let t = document.getElementById('cartToast');
+  if(!t){ t=document.createElement('div'); t.id='cartToast'; document.body.appendChild(t);
+    t.style.cssText='position:fixed;bottom:5rem;right:1.5rem;z-index:700;background:#E87E04;color:#000;font-family:"Rajdhani",sans-serif;font-weight:700;font-size:14px;padding:10px 18px;border-radius:4px;box-shadow:0 4px 20px rgba(232,126,4,.5);transition:opacity .3s;';
+  }
+  t.textContent = '✓ Adicionado ao carrinho';
+  t.style.opacity='1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>{ t.style.opacity='0'; }, 2500);
+}
+
+function renderCartModal(){
+  const body = document.getElementById('cartBody');
+  if(!body) return;
+  if(cart.length === 0){
+    body.innerHTML='<p style="text-align:center;color:var(--silver);padding:2rem;font-size:14px;">Seu carrinho está vazio.</p>';
+    return;
+  }
+  body.innerHTML = cart.map((item,i)=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(232,126,4,.1);">
+      <div style="flex:1;min-width:0;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--silver-hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</p>
+        <p style="font-size:11px;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;">${item.cat}</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <button onclick="changeQty(${i},-1)" style="width:26px;height:26px;background:var(--dark-4);border:1px solid rgba(232,126,4,.2);color:var(--silver-hi);border-radius:2px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">−</button>
+        <span style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;color:var(--silver-hi);min-width:20px;text-align:center;">${item.qty}</span>
+        <button onclick="changeQty(${i},1)" style="width:26px;height:26px;background:var(--dark-4);border:1px solid rgba(232,126,4,.2);color:var(--silver-hi);border-radius:2px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">+</button>
+        <button onclick="removeFromCart(${i})" style="width:26px;height:26px;background:transparent;border:1px solid rgba(255,80,80,.25);color:#ff6b6b;border-radius:2px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openCart(){
+  renderCartModal();
+  const m = document.getElementById('cartModal');
+  if(m){ m.classList.add('open'); document.body.style.overflow='hidden'; }
+}
+
+function closeCart(){
+  const m = document.getElementById('cartModal');
+  if(m){ m.classList.remove('open'); document.body.style.overflow=''; }
+}
+
+function sendCartToWhatsApp(){
+  if(cart.length===0){ alert('Adicione itens ao carrinho primeiro.'); return; }
+  const lines = cart.map(i=>`• ${i.name} (x${i.qty})`).join('\n');
+  const msg = encodeURIComponent(`Olá! Vim pelo site Forge3D e gostaria de um orçamento para:\n\n${lines}\n\nPor favor, me informe os valores e prazo.`);
+  window.open(`https://wa.me/5584999019339?text=${msg}`, '_blank');
+}
+
+// Bind cart icon click
+document.querySelectorAll('.cart-icon-btn').forEach(btn=>{
+  btn.addEventListener('click', openCart);
+});
+
+updateCartBadge();
 
 /* ══ LIGHTBOX ══ */
 const items=Array.from(document.querySelectorAll('.pf-item'));
 let curIdx=0;
 function getVis(){return items.filter(i=>!i.classList.contains('hidden'));}
-function openLb(idx){curIdx=idx;renderLb(idx);document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+
+function openLb(idx){
+  curIdx=idx; renderLb(idx);
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
 function renderLb(idx){
-  const item=items[idx];if(!item)return;
-  const name=item.dataset.name||'Produto Forge3D',cat=item.dataset.cat||'';
+  const item=items[idx]; if(!item)return;
+  const name=item.dataset.name||'Produto Forge3D', cat=item.dataset.cat||'';
   const imgEl=item.querySelector('.pf-img');
-  const ok=imgEl&&imgEl.style.display!=='none'&&imgEl.complete&&imgEl.naturalWidth>0;
+  const ok=imgEl && imgEl.style.display!=='none' && imgEl.complete && imgEl.naturalWidth>0;
   const media=document.getElementById('lbMedia');
-  if(ok){media.innerHTML=`<img class="lb-img" src="${imgEl.src}" alt="${name}">`;}
-  else{const ic=item.querySelector('.pf-ph-icon');media.innerHTML=`<div class="lb-placeholder"><span class="lb-placeholder-icon">${ic?ic.textContent:'📷'}</span><span style="font-size:11px;color:var(--silver);letter-spacing:.1em;text-transform:uppercase;">Foto em breve</span></div>`;}
+  if(ok){
+    media.innerHTML=`<img class="lb-img" src="${imgEl.src}" alt="${name}">`;
+  } else {
+    const ic=item.querySelector('.pf-placeholder-icon,.pf-ph-icon');
+    media.innerHTML=`<div class="lb-placeholder"><span style="font-size:44px;opacity:.25;">${ic?ic.textContent:'📷'}</span><span style="font-size:11px;color:var(--silver);letter-spacing:.1em;text-transform:uppercase;margin-top:8px;">Foto em breve</span></div>`;
+  }
   document.getElementById('lbName').textContent=name;
   document.getElementById('lbCat').textContent=cat.charAt(0).toUpperCase()+cat.slice(1);
   document.getElementById('lbWpp').href=`https://wa.me/5584999019339?text=${encodeURIComponent('Olá! Vi o portfólio e quero saber mais sobre: '+name+'.')}`;
+
+  // Add to cart button in lightbox
+  const addBtn = document.getElementById('lbAddCart');
+  if(addBtn){ addBtn.onclick = ()=>{ addToCart(name, cat); closeLb(); }; }
 }
-function navigateLb(dir){const vis=getVis();const vi=vis.indexOf(items[curIdx]);const nx=vis[(vi+dir+vis.length)%vis.length];curIdx=items.indexOf(nx);renderLb(curIdx);}
-function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
-function closeLbOutside(e){if(e.target===document.getElementById('lightbox'))closeLb();}
-document.addEventListener('keydown',e=>{const lb=document.getElementById('lightbox');if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')navigateLb(1);if(e.key==='ArrowLeft')navigateLb(-1);});
+
+function navigateLb(dir){
+  const vis=getVis();
+  const vi=vis.indexOf(items[curIdx]);
+  const nx=vis[(vi+dir+vis.length)%vis.length];
+  curIdx=items.indexOf(nx); renderLb(curIdx);
+}
+function closeLb(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeLbOutside(e){ if(e.target===document.getElementById('lightbox')) closeLb(); }
+document.addEventListener('keydown',e=>{
+  const lb=document.getElementById('lightbox');
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowRight')navigateLb(1);
+  if(e.key==='ArrowLeft')navigateLb(-1);
+});
+
+/* ══ CART MODAL CLOSE ON OUTSIDE CLICK ══ */
+const cartModal = document.getElementById('cartModal');
+if(cartModal){
+  cartModal.addEventListener('click', e=>{
+    if(e.target===cartModal) closeCart();
+  });
+}
 </script>
 </body>
 </html>
