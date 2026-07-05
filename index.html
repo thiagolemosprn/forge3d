@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forge3D — Precisão em cada camada</title>
 <meta name="description" content="Impressão 3D de alta qualidade. Produtos personalizados, brindes, peças funcionais e soluções sob medida. Forge3D — Precisão em cada camada.">
+<link rel="icon" type="image/png" href="logo-simbolo.png">
 <link rel="icon" type="image/png" sizes="32x32"   href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64"   href="favicon-64.png">
 <link rel="apple-touch-icon" sizes="180x180"       href="favicon-180.png">
@@ -173,16 +174,17 @@ body {
 
 .hero-title {
   font-family:'Rajdhani',sans-serif;
-  font-size: clamp(52px, 8.5vw, 108px);
-  font-weight:700; line-height:0.9;
+  font-size: clamp(38px, 5.5vw, 72px);
+  font-weight:700; line-height:1.0;
   color:var(--silver-light); text-transform:uppercase;
   margin-bottom:1.5rem; opacity:0;
+  overflow:visible;
   animation: fadeUp 0.8s 0.5s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-.hero-title .line1 { display:block; clip-path:inset(0 100% 0 0); animation: revealLine 0.9s 0.6s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-title .line2 { display:block; clip-path:inset(0 100% 0 0); animation: revealLine 0.9s 0.85s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-title .line3 { display:block; clip-path:inset(0 100% 0 0); animation: revealLine 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards; }
+.hero-title .line1 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.6s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
+.hero-title .line2 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.85s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
+.hero-title .line3 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
 .hero-title .accent { color:var(--orange); }
 
 .hero-sub {
@@ -333,7 +335,7 @@ section { position:relative; z-index:1; }
    PORTFÓLIO
 ══════════════════════════════════════ */
 #portfolio { background:var(--dark-3); }
-#portfolio .section-inner { padding:4.5rem 0; }
+#portfolio .section-inner { padding:4.5rem 2.5rem; }
 
 .portfolio-filters {
   display:flex; flex-wrap:wrap; gap:8px;
@@ -1679,7 +1681,6 @@ footer {
 
 <div class="divider"></div>
 
-
 <!-- DIFERENCIAIS -->
 <section id="diferenciais">
   <div class="container">
@@ -1763,6 +1764,27 @@ footer {
     <p class="footer-copy">© 2026 Forge3D · Precisão em cada camada · Transformando ideias em realidade</p>
   </div>
 </footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLbOutside(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLb()">✕</button>
+    <div id="lbMedia"></div>
+    <div class="lb-info">
+      <div>
+        <p class="lb-name" id="lbName"></p>
+        <p class="lb-cat"  id="lbCat"></p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div class="lb-nav">
+          <button class="lb-nav-btn" onclick="navigateLb(-1)">‹</button>
+          <button class="lb-nav-btn" onclick="navigateLb(1)">›</button>
+        </div>
+        <a class="lb-wpp" id="lbWpp" href="#" target="_blank" rel="noopener">💬 Pedir este</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ══ CURSOR ══ */
