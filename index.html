@@ -125,126 +125,291 @@ body {
 /* ══════════════════════════════════════
    CANVAS PARTICLES
 ══════════════════════════════════════ */
-#particleCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.4; }
+#particleCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.35; }
 
 /* ══════════════════════════════════════
-   HERO
+   HERO — layout dois-colunas pixel-perfect
 ══════════════════════════════════════ */
 .hero {
-  position:relative; min-height:100svh; overflow:hidden;
-  display:flex; align-items:center;
+  position: relative;
+  height: 100svh;
+  min-height: 680px;
+  max-height: 980px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--dark);
 }
 
+/* Imagem de fundo ocupa a metade direita, sem escurecer */
 .hero-bg {
-  position:absolute; inset:0; z-index:0;
-  background: url('hero-bg.png') center right / contain no-repeat;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    url('hero-bg.png') right center / 58% auto no-repeat;
   background-color: var(--dark);
   will-change: transform;
 }
 
-/* Gradient: strong left (text area), fades to transparent right (image shows) */
+/* Gradiente preto suave só à esquerda — não escurece a imagem */
 .hero-bg::before {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(100deg,
-    rgba(8,8,8,1)    0%,
-    rgba(8,8,8,0.95) 35%,
-    rgba(8,8,8,0.6)  55%,
-    rgba(8,8,8,0.05) 100%);
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(95deg,
+    #080808 0%,
+    #080808 30%,
+    rgba(8,8,8,0.90) 45%,
+    rgba(8,8,8,0.50) 60%,
+    rgba(8,8,8,0.08) 80%,
+    transparent 100%);
 }
+
+/* Brilho laranja sutil vindo do ponto de impressão */
 .hero-bg::after {
-  content:''; position:absolute; inset:0;
-  background: radial-gradient(ellipse 50% 65% at 80% 55%, rgba(232,126,4,0.1) 0%, transparent 70%);
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 38% 50% at 76% 60%,
+    rgba(232,126,4,0.14) 0%, transparent 70%);
 }
 
-.hero-inner {
-  position:relative; z-index:2;
-  max-width: var(--site-max); margin: 0 auto;
-  width:100%;
-  padding: calc(var(--nav-h) + 3rem) 2.5rem 4rem;
+/* Corpo principal — grid 48/52 */
+.hero-body {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 48% 52%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: calc(var(--nav-h) + 2.5rem) 80px 0;
+  align-items: center;
 }
 
-.hero-content { max-width: 52%; }
+/* Coluna esquerda */
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 2rem;
+}
 
+/* Eyebrow */
 .hero-eyebrow {
-  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
-  letter-spacing:0.42em; color:var(--orange); text-transform:uppercase;
-  margin-bottom:1rem; opacity:0;
-  animation: fadeUp 0.8s 0.3s cubic-bezier(.16,1,.3,1) forwards;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.38em;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s cubic-bezier(.16,1,.3,1) forwards;
 }
 
+/* Título principal — GRANDE, sem clip-path que corta acentos */
 .hero-title {
-  font-family:'Rajdhani',sans-serif;
-  font-size: clamp(38px, 5.5vw, 72px);
-  font-weight:700; line-height:1.0;
-  color:var(--silver-light); text-transform:uppercase;
-  margin-bottom:1.5rem; opacity:0;
-  overflow:visible;
-  animation: fadeUp 0.8s 0.5s cubic-bezier(.16,1,.3,1) forwards;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(44px, 6vw, 82px);
+  font-weight: 700;
+  line-height: 1.02;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.35s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-title .t-white  { display: block; color: var(--silver-light); }
+.hero-title .t-orange { display: block; color: var(--orange); }
+
+/* Linha divisória laranja */
+.hero-divider {
+  width: 48px;
+  height: 3px;
+  background: var(--orange);
+  border-radius: 2px;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.55s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-.hero-title .line1 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.6s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
-.hero-title .line2 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.85s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
-.hero-title .line3 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
-.hero-title .accent { color:var(--orange); }
-
-.hero-sub {
-  font-size:clamp(14px,1.6vw,17px); color:var(--silver); font-weight:300;
-  max-width:440px; line-height:1.75; margin-bottom:2.5rem; opacity:0;
-  animation: fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards;
+/* Descrição */
+.hero-desc {
+  font-size: clamp(13px, 1.35vw, 15px);
+  color: rgba(192,200,208,0.85);
+  font-weight: 400;
+  line-height: 1.72;
+  max-width: 520px;
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.65s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-/* Pillars */
+/* Cards de diferenciais */
 .hero-pillars {
-  display:flex; flex-wrap:wrap; gap:0;
-  margin-bottom:2.5rem; opacity:0;
-  animation: fadeUp 0.8s 1.3s cubic-bezier(.16,1,.3,1) forwards;
-  border-top:1px solid rgba(232,126,4,0.18);
-  border-bottom:1px solid rgba(232,126,4,0.18);
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.78s cubic-bezier(.16,1,.3,1) forwards;
+  border-top: 1px solid rgba(232,126,4,0.18);
+  border-bottom: 1px solid rgba(232,126,4,0.18);
 }
 .pillar {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 16px;
-  border-right:1px solid rgba(232,126,4,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 10px 18px 10px 0;
+  margin-right: 18px;
+  border-right: 1px solid rgba(232,126,4,0.14);
+  flex-shrink: 0;
 }
-.pillar:first-child { padding-left:0; }
-.pillar:last-child { border-right:none; }
-.pillar-icon { width:32px; height:32px; object-fit:contain; flex-shrink:0; }
-.pillar-text strong { display:block; font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-light); }
-.pillar-text small { font-size:10px; color:var(--silver); }
+.pillar:last-child { border-right: none; margin-right: 0; padding-right: 0; }
 
-.hero-ctas { display:flex; flex-wrap:wrap; gap:12px; opacity:0; animation: fadeUp 0.8s 1.5s cubic-bezier(.16,1,.3,1) forwards; }
-
-/* Scroll hint */
-.scroll-hint {
-  position:absolute; bottom:2rem; left:2.5rem; z-index:2;
-  display:flex; flex-direction:column; align-items:flex-start; gap:6px;
-  opacity:0; animation: fadeUp 1s 2s cubic-bezier(.16,1,.3,1) forwards;
+.pillar-icon { width: 34px; height: 34px; object-fit: contain; }
+.pillar-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--silver-light); line-height: 1;
 }
-.scroll-hint span { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--silver); }
-.scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, var(--orange), transparent); animation: scrollPulse 2s 2.5s infinite; }
+.pillar-sub { font-size: 11px; color: var(--silver); }
 
-/* ══════════════════════════════════════
-   BENEFITS BAR
-══════════════════════════════════════ */
+/* Botões CTA */
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.9s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.btn-fill {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--orange); color: #000;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 800;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; padding: 14px 28px; border-radius: 4px;
+  position: relative; overflow: hidden;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-fill::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform: translateX(-100%); transition: transform 0.5s;
+}
+.btn-fill:hover { background: var(--orange-bright); transform: translateY(-2px); box-shadow: 0 10px 36px rgba(232,126,4,0.55); }
+.btn-fill:hover::before { transform: translateX(100%); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; color: var(--silver-light);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 800;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; padding: 13px 28px;
+  border: 2px solid rgba(220,220,220,0.32); border-radius: 4px;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-outline:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-2px); }
+
+/* Coluna direita — vazia (imagem no bg) */
+.hero-image-col { /* placeholder, mantém grid funcionando */ }
+
+/* ── BENEFITS STRIP ── */
 .benefits-bar {
-  position:relative; z-index:2;
-  background:var(--dark-3);
-  border-top:1px solid rgba(232,126,4,0.12);
-  border-bottom:1px solid rgba(232,126,4,0.12);
+  position: relative;
+  z-index: 2;
+  background: rgba(10,10,10,0.97);
+  border-top: 1px solid rgba(232,126,4,0.14);
+  flex-shrink: 0;
 }
 .benefits-inner {
-  max-width: var(--site-max); margin:0 auto;
-  display:grid; grid-template-columns:repeat(4,1fr);
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0 80px;
 }
 .benefit-item {
-  display:flex; align-items:center; gap:12px; padding:16px 20px;
-  border-right:1px solid rgba(232,126,4,0.08); transition:background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px 18px 0;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.3s;
 }
-.benefit-item:hover { background:rgba(232,126,4,0.04); }
-.benefit-item:last-child { border-right:none; }
-.benefit-icon-img { width:40px; height:40px; object-fit:contain; flex-shrink:0; }
-.benefit-text strong { display:block; font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-light); }
-.benefit-text small { font-size:10px; color:var(--silver); }
+.benefit-item:first-child { padding-left: 0; }
+.benefit-item:last-child { border-right: none; }
+.benefit-item:hover { background: rgba(232,126,4,0.04); }
+
+.benefit-icon-img { width: 42px; height: 42px; object-fit: contain; flex-shrink: 0; }
+
+.benefit-text {}
+.benefit-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--silver); line-height: 1.3;
+}
+.benefit-value {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px; font-weight: 800; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--orange); line-height: 1.2;
+}
+.benefit-sub {
+  font-size: 10px; color: rgba(176,186,196,0.55); margin-top: 1px;
+}
+
+/* ══════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════ */
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+@keyframes scrollPulse { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+
+/* ══════════════════════════════════════
+   HERO RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .hero-body { padding-left: 60px; padding-right: 60px; }
+  .benefits-inner { padding: 0 60px; }
+  .hero-bg { background-size: 60% auto; }
+}
+@media (max-width: 1024px) {
+  .hero-body { grid-template-columns: 55% 45%; padding: calc(var(--nav-h) + 2rem) 40px 0; }
+  .benefits-inner { padding: 0 40px; }
+  .hero-bg { background-size: 55% auto; background-position: right -2% center; }
+  .hero-title { font-size: clamp(40px, 5.5vw, 70px); }
+}
+@media (max-width: 900px) {
+  .hero { height: auto; min-height: 100svh; max-height: none; }
+  .hero-body {
+    grid-template-columns: 1fr;
+    padding: calc(var(--nav-h) + 2rem) 2rem 1.5rem;
+  }
+  .hero-bg {
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.35;
+  }
+  .hero-bg::before { background: rgba(8,8,8,0.75); }
+  .hero-text { padding-right: 0; }
+  .hero-desc { max-width: 100%; }
+  .benefits-inner { grid-template-columns: repeat(2,1fr); padding: 0 2rem; }
+  .benefit-item:nth-child(2) { border-right: none; }
+}
+@media (max-width: 600px) {
+  .hero-title { font-size: clamp(36px, 10vw, 56px); }
+  .hero-pillars { flex-wrap: wrap; gap: 8px; }
+  .pillar { border-right: none; margin-right: 0; padding-right: 0; padding-bottom: 0; }
+  .benefits-inner { grid-template-columns: 1fr; padding: 0 1.5rem; }
+  .benefit-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 14px 0; }
+  .benefit-item:last-child { border-bottom: none; }
+  .hero-body { padding: calc(var(--nav-h) + 1.5rem) 1.5rem 1rem; }
+}
 
 /* ══════════════════════════════════════
    SHARED SECTION
@@ -623,69 +788,111 @@ footer {
   </nav>
 </div>
 
+
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-bg" id="heroBg"></div>
-  <div class="hero-inner">
-    <div class="hero-content">
-      <p class="hero-eyebrow">Engenharia de</p>
+
+  <div class="hero-body">
+    <!-- Coluna esquerda: todo o texto -->
+    <div class="hero-text">
+
+      <p class="hero-eyebrow">Engenharia de Precisão</p>
+
       <h1 class="hero-title">
-        <span class="line1">Precisão</span>
-        <span class="line2">em <span class="accent">manufatura</span></span>
-        <span class="line3">digital</span>
+        <span class="t-white">Desenvolvimento</span>
+        <span class="t-white">e</span>
+        <span class="t-orange">Manufatura</span>
+        <span class="t-orange">Digital</span>
       </h1>
-      <p class="hero-sub">Transformamos ideias em soluções reais através de design e impressão 3D de alta qualidade.</p>
+
+      <div class="hero-divider"></div>
+
+      <p class="hero-desc">
+        Projetamos, desenvolvemos e fabricamos produtos personalizados utilizando
+        engenharia, design e manufatura digital de alta precisão.<br>
+        Soluções sob medida para pessoas, empresas e projetos especiais.
+      </p>
+
+      <!-- Cards de diferenciais -->
       <div class="hero-pillars">
         <div class="pillar">
           <img class="pillar-icon" src="icon-alvo.png" alt="Precisão">
-          <div class="pillar-text"><strong>Precisão</strong><small>em cada detalhe</small></div>
+          <div class="pillar-title">Precisão</div>
+          <div class="pillar-sub">dimensional</div>
         </div>
         <div class="pillar">
           <img class="pillar-icon" src="icon-engrenagem1.png" alt="Tecnologia">
-          <div class="pillar-text"><strong>Tecnologia</strong><small>e inovação</small></div>
+          <div class="pillar-title">Tecnologia</div>
+          <div class="pillar-sub">profissional</div>
         </div>
         <div class="pillar">
           <img class="pillar-icon" src="icon-escudo1.png" alt="Qualidade">
-          <div class="pillar-text"><strong>Qualidade</strong><small>garantida</small></div>
+          <div class="pillar-title">Qualidade</div>
+          <div class="pillar-sub">garantida</div>
         </div>
         <div class="pillar">
           <img class="pillar-icon" src="icon-cubo.png" alt="Soluções">
-          <div class="pillar-text"><strong>Soluções</strong><small>personalizadas</small></div>
+          <div class="pillar-title">Soluções</div>
+          <div class="pillar-sub">personalizadas</div>
         </div>
       </div>
+
+      <!-- CTAs -->
       <div class="hero-ctas">
-        <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento →</a>
-        <a href="#portfolio" class="btn-secondary">Ver Projetos →</a>
+        <a class="btn-fill"
+           href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D."
+           target="_blank" rel="noopener">
+          Solicitar Orçamento →
+        </a>
+        <a class="btn-outline" href="#portfolio">Explorar Portfólio →</a>
+      </div>
+
+    </div>
+
+    <!-- Coluna direita: vazia — imagem está no background -->
+    <div class="hero-image-col" aria-hidden="true"></div>
+  </div>
+
+  <!-- Benefits strip fixada no rodapé do hero -->
+  <div class="benefits-bar">
+    <div class="benefits-inner">
+      <div class="benefit-item">
+        <img class="benefit-icon-img" src="icon-caminhao.png" alt="Entrega">
+        <div class="benefit-text">
+          <div class="benefit-label">Entregamos para</div>
+          <div class="benefit-value">Todo o Brasil</div>
+          <div class="benefit-sub">com segurança</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <img class="benefit-icon-img" src="icon-escudo2.png" alt="Qualidade">
+        <div class="benefit-text">
+          <div class="benefit-label">Compromisso com</div>
+          <div class="benefit-value">a Qualidade</div>
+          <div class="benefit-sub">em cada detalhe</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <img class="benefit-icon-img" src="icon-cadeado.png" alt="Segurança">
+        <div class="benefit-text">
+          <div class="benefit-label">Compra Segura</div>
+          <div class="benefit-value">e Protegida</div>
+          <div class="benefit-sub">seus dados protegidos</div>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <img class="benefit-icon-img" src="icon-atendimento.png" alt="Atendimento">
+        <div class="benefit-text">
+          <div class="benefit-label">Atendimento</div>
+          <div class="benefit-value">Personalizado</div>
+          <div class="benefit-sub">focado em você</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="scroll-hint">
-    <span>Rolar</span>
-    <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- BENEFITS BAR -->
-<div class="benefits-bar">
-  <div class="benefits-inner">
-    <div class="benefit-item">
-      <img class="benefit-icon-img" src="icon-caminhao.png" alt="Entrega">
-      <div class="benefit-text"><strong>Entregamos para todo o Brasil</strong><small>Via Correios ou transportadora</small></div>
-    </div>
-    <div class="benefit-item">
-      <img class="benefit-icon-img" src="icon-escudo2.png" alt="Qualidade">
-      <div class="benefit-text"><strong>Compromisso com qualidade</strong><small>Alto padrão de acabamento</small></div>
-    </div>
-    <div class="benefit-item">
-      <img class="benefit-icon-img" src="icon-cadeado.png" alt="Segurança">
-      <div class="benefit-text"><strong>Compra segura e protegida</strong><small>PIX, cartão ou transferência</small></div>
-    </div>
-    <div class="benefit-item">
-      <img class="benefit-icon-img" src="icon-atendimento.png" alt="Atendimento">
-      <div class="benefit-text"><strong>Atendimento personalizado</strong><small>Respondemos rápido no WhatsApp</small></div>
-    </div>
-  </div>
-</div>
 
 <div class="divider"></div>
 
