@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="64x64"   href="favicon-64.png">
 <link rel="apple-touch-icon" sizes="180x180"       href="favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════
    RESET & TOKENS
@@ -88,9 +88,26 @@ body {
 
 .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
 .nav-logo  { height: 54px; width: auto; }
-.nav-brand-text { font-family:'Rajdhani',sans-serif; font-size:30px; font-weight:700; color:var(--silver-light); line-height:1; }
-.nav-brand-text span { color:var(--orange); }
-.nav-tagline { font-size:11px; color:var(--silver); letter-spacing:0.12em; margin-top:3px; }
+.nav-brand-text {
+  font-family:'Montserrat',sans-serif;
+  font-size:30px; font-weight:900; line-height:1;
+  letter-spacing:-0.5px;
+}
+.nav-brand-forge {
+  background: linear-gradient(180deg,#F2F1EF 0%,#D9D7D4 18%,#CAC8C5 50%,#B4B2B0 75%,#8A8888 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-brand-3d {
+  background: linear-gradient(180deg,#FFC75A 0%,#F08A00 35%,#DB7400 70%,#A84D00 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-tagline {
+  font-family:'Montserrat',sans-serif;
+  font-size:11px; font-weight:400;
+  color:#CFCFCF; letter-spacing:0.3px; margin-top:3px;
+}
 
 .nav-menu { display:flex; align-items:center; gap:2rem; margin-left:auto; list-style:none; }
 .nav-menu a {
@@ -169,38 +186,46 @@ body {
 .hero-content { max-width: 52%; }
 
 .hero-eyebrow {
-  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600;
-  letter-spacing:0.42em; color:var(--orange); text-transform:uppercase;
+  font-family:'Montserrat',sans-serif;
+  font-size:13px; font-weight:600;
+  letter-spacing:8px; color:#F08A00; text-transform:uppercase;
   margin-bottom:1rem; opacity:0;
   animation: fadeUp 0.8s 0.3s cubic-bezier(.16,1,.3,1) forwards;
 }
 
 .hero-title {
-  font-family:'Rajdhani',sans-serif;
-  font-size: clamp(38px, 5.5vw, 72px);
-  font-weight:700; line-height:1.0;
-  color:var(--silver-light); text-transform:uppercase;
-  margin-bottom:1.5rem; opacity:0;
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(52px,7.5vw,108px);
+  font-weight:900; line-height:96px;
+  letter-spacing:-2px; text-transform:uppercase;
+  margin-bottom:1.4rem; opacity:0;
   overflow:visible;
   animation: fadeUp 0.8s 0.5s cubic-bezier(.16,1,.3,1) forwards;
 }
+.hero-title .t-white  { display:block; color:#F3F3F3; }
+.hero-title .t-orange { display:block; color:#F08A00; }
 
-.hero-title .line1 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.6s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
-.hero-title .line2 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 0.85s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
-.hero-title .line3 { display:block; padding-top:0.1em; clip-path:inset(5% 100% 0 0); animation: revealLine 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards; overflow:visible; }
-.hero-title .accent { color:var(--orange); }
+/* Barra divisória laranja — 58×4px raio 3px */
+.hero-divider {
+  width:58px; height:4px;
+  background:#F08A00; border-radius:3px;
+  margin-bottom:1.4rem; opacity:0;
+  animation: fadeUp 0.8s 0.7s cubic-bezier(.16,1,.3,1) forwards;
+}
 
 .hero-sub {
-  font-size:clamp(14px,1.6vw,17px); color:var(--silver); font-weight:300;
-  max-width:440px; line-height:1.75; margin-bottom:2.5rem; opacity:0;
-  animation: fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards;
+  font-family:'Montserrat',sans-serif;
+  font-size:18px; font-weight:400;
+  color:#D2D2D2; line-height:34px;
+  max-width:620px; margin-bottom:2.5rem; opacity:0;
+  animation: fadeUp 0.8s 0.85s cubic-bezier(.16,1,.3,1) forwards;
 }
 
 /* Pillars */
 .hero-pillars {
   display:flex; flex-wrap:wrap; gap:0;
   margin-bottom:2.5rem; opacity:0;
-  animation: fadeUp 0.8s 1.3s cubic-bezier(.16,1,.3,1) forwards;
+  animation: fadeUp 0.8s 1.0s cubic-bezier(.16,1,.3,1) forwards;
   border-top:1px solid rgba(232,126,4,0.18);
   border-bottom:1px solid rgba(232,126,4,0.18);
 }
@@ -215,7 +240,7 @@ body {
 .pillar-text strong { display:block; font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-light); }
 .pillar-text small { font-size:10px; color:var(--silver); }
 
-.hero-ctas { display:flex; flex-wrap:wrap; gap:12px; opacity:0; animation: fadeUp 0.8s 1.5s cubic-bezier(.16,1,.3,1) forwards; }
+.hero-ctas { display:flex; flex-wrap:wrap; gap:12px; opacity:0; animation: fadeUp 0.8s 1.15s cubic-bezier(.16,1,.3,1) forwards; }
 
 /* Scroll hint */
 .scroll-hint {
@@ -536,7 +561,9 @@ footer {
     <a class="nav-brand" href="#">
       <img class="nav-logo" src="logo-simbolo.png" alt="Forge3D" onerror="this.style.display='none'">
       <div>
-        <div class="nav-brand-text">FORGE<span>3D</span></div>
+        <div class="nav-brand-text">
+          <span class="nav-brand-forge">FORGE</span><span class="nav-brand-3d">3D</span>
+        </div>
         <div class="nav-tagline">Precisão em cada camada.</div>
       </div>
     </a>
@@ -566,21 +593,28 @@ footer {
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-inner">
     <div class="hero-content">
-      <p class="hero-eyebrow">Engenharia de</p>
+
+      <p class="hero-eyebrow">Engenharia de Precisão</p>
+
       <h1 class="hero-title">
-        <span class="line1">Precisão</span>
-        <span class="line2">em <span class="accent">manufatura</span></span>
-        <span class="line3">digital</span>
+        <span class="t-white">Desenvolvimento</span>
+        <span class="t-white">e</span>
+        <span class="t-orange">Manufatura</span>
+        <span class="t-orange">Digital</span>
       </h1>
-      <p class="hero-sub">Transformamos ideias em soluções reais através de design e impressão 3D de alta qualidade.</p>
+
+      <div class="hero-divider"></div>
+
+      <p class="hero-sub">Projetamos, desenvolvemos e fabricamos produtos personalizados utilizando engenharia, design e manufatura digital de alta precisão. Soluções sob medida para pessoas, empresas e projetos especiais.</p>
+
       <div class="hero-pillars">
         <div class="pillar">
           <img class="pillar-icon" src="icon-alvo.png" alt="Precisão">
-          <div class="pillar-text"><strong>Precisão</strong><small>em cada detalhe</small></div>
+          <div class="pillar-text"><strong>Precisão</strong><small>dimensional</small></div>
         </div>
         <div class="pillar">
           <img class="pillar-icon" src="icon-engrenagem1.png" alt="Tecnologia">
-          <div class="pillar-text"><strong>Tecnologia</strong><small>e inovação</small></div>
+          <div class="pillar-text"><strong>Tecnologia</strong><small>profissional</small></div>
         </div>
         <div class="pillar">
           <img class="pillar-icon" src="icon-escudo1.png" alt="Qualidade">
@@ -591,10 +625,12 @@ footer {
           <div class="pillar-text"><strong>Soluções</strong><small>personalizadas</small></div>
         </div>
       </div>
+
       <div class="hero-ctas">
         <a href="https://wa.me/5584999019339?text=Ol%C3%A1!%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Forge3D." class="btn-primary" target="_blank" rel="noopener">Solicitar Orçamento →</a>
-        <a href="#portfolio" class="btn-secondary">Ver Projetos →</a>
+        <a href="#portfolio" class="btn-secondary">Explorar Portfólio →</a>
       </div>
+
     </div>
   </div>
   <div class="scroll-hint">
