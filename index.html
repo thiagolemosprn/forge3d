@@ -195,15 +195,27 @@ body {
 
 .hero-title {
   font-family:'Montserrat',sans-serif;
-  font-size:80px;
-  font-weight:900; line-height:88px;
-  letter-spacing:-2px; text-transform:uppercase;
+  font-size:clamp(32px, 5.5vw, 70px);
+  font-weight:900; line-height:1.05;
+  letter-spacing:-1.5px; text-transform:uppercase;
   margin-bottom:1.4rem; opacity:0;
   overflow:visible;
   animation: fadeUp 0.8s 0.5s cubic-bezier(.16,1,.3,1) forwards;
 }
-.hero-title .t-white  { display:block; color:#F3F3F3; white-space:nowrap; }
-.hero-title .t-orange { display:block; color:#F08A00; white-space:nowrap; }
+/* Linha 1: DESENVOLVIMENTO — branco, nunca quebra */
+.hero-title .t-white {
+  display:block; color:#F3F3F3;
+  white-space:nowrap;
+}
+/* Linha 2: E MANUFATURA DIGITAL —
+   "E" em branco (mesmo tom que linha 1), resto em laranja.
+   Quebra automática somente se a tela for estreita demais */
+.hero-title .t-line2 {
+  display:block;
+  white-space:nowrap;
+}
+.hero-title .t-line2 .t-e      { color:#F3F3F3; }
+.hero-title .t-line2 .t-orange { color:#F08A00; }
 
 /* Barra divisória laranja — 58×4px raio 3px */
 .hero-divider {
@@ -522,6 +534,7 @@ footer {
   .hero-content { max-width:70%; }
   .hero-bg { background-position: right 10% center; }
   .prod-grid { grid-template-columns:repeat(2,1fr); }
+  .hero-title { font-size:clamp(28px, 5.8vw, 56px); letter-spacing:-1px; }
 }
 @media (max-width: 640px) {
   .hero-content { max-width:100%; }
@@ -537,6 +550,10 @@ footer {
   .diff-grid { grid-template-columns:1fr; }
   .prod-grid { grid-template-columns:1fr; }
   .hero-pillars { display:none; }
+  /* Mobile: fonte fluida, permite quebra automática só se necessário */
+  .hero-title { font-size:clamp(24px, 9.5vw, 44px); letter-spacing:-0.5px; }
+  .hero-title .t-white  { white-space:normal; }
+  .hero-title .t-line2  { white-space:normal; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
@@ -598,7 +615,7 @@ footer {
 
       <h1 class="hero-title">
         <span class="t-white">Desenvolvimento</span>
-        <span class="t-orange">E Manufatura Digital</span>
+        <span class="t-line2"><span class="t-e">E </span><span class="t-orange">Manufatura Digital</span></span>
       </h1>
 
       <div class="hero-divider"></div>
