@@ -195,7 +195,7 @@ body {
 
 .hero-title {
   font-family:'Montserrat',sans-serif;
-  font-size:clamp(32px, 5.5vw, 50px);
+  font-size:50px;
   font-weight:900; line-height:1.05;
   letter-spacing:-1.5px; text-transform:uppercase;
   margin-bottom:1.4rem; opacity:0;
@@ -540,7 +540,7 @@ footer {
   .hero-content { max-width:70%; }
   .hero-bg { background-position: right 10% center; }
   .prod-grid { grid-template-columns:repeat(2,1fr); }
-  .hero-title { font-size:clamp(28px, 5.8vw, 56px); letter-spacing:-1px; }
+  .hero-title { font-size:50px; letter-spacing:-1px; }
 }
 @media (max-width: 640px) {
   .hero-content { max-width:100%; }
@@ -557,8 +557,8 @@ footer {
   .prod-grid { grid-template-columns:1fr; }
   .hero-pillars { display:none; }
   .hero-inner { padding-left:1.5rem; padding-right:1.5rem; }
-  /* Mobile: fonte fluida, permite quebra automática só se necessário */
-  .hero-title { font-size:clamp(24px, 9.5vw, 44px); letter-spacing:-0.5px; }
+  /* Mobile: tamanho fixo, com quebra automática se necessário */
+  .hero-title { font-size:30px; letter-spacing:-0.5px; }
   .hero-title .t-white,
   .hero-title .t-line2 {
     white-space:normal;
