@@ -572,6 +572,18 @@ footer {
     word-break:break-word;
   }
 }
+/* ══════════════════════════════════════
+   DESKTOP — textos de apoio maiores (legibilidade)
+══════════════════════════════════════ */
+@media (min-width: 901px) {
+  .pillar-text small { font-size:12px; }
+  .benefit-text small { font-size:12px; }
+  .section-desc { font-size:16px; line-height:1.8; }
+  .prod-desc { font-size:15px; line-height:1.7; }
+  .custom-banner p { font-size:15px; }
+  .portfolio-cta p { font-size:15px; }
+  .diff-text { font-size:14px; line-height:1.7; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
 }
