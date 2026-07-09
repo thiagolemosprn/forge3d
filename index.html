@@ -510,15 +510,15 @@ footer {
 /* ══════════════════════════════════════
    ORÇAMENTO (CARRINHO)
 ══════════════════════════════════════ */
-.quote-btn {
-  position:fixed; bottom:5.75rem; right:1.75rem; z-index:400;
-  background:var(--dark-3); color:var(--orange); width:52px; height:52px;
-  border:1px solid rgba(232,126,4,0.35); border-radius:50%;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  box-shadow:0 4px 20px rgba(0,0,0,0.45); transition:transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+.nav-quote-btn {
+  position:relative; background:none; border:none; color:var(--silver); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; width:34px; height:34px; padding:0;
+  transition:color 0.2s;
 }
-.quote-btn:hover { transform:scale(1.1); border-color:var(--orange); box-shadow:0 8px 32px rgba(232,126,4,0.35); }
-.quote-btn svg { width:22px; height:22px; }
+.nav-quote-btn:hover { color:var(--orange); }
+.nav-quote-btn svg { width:22px; height:22px; }
+@keyframes quoteBounce { 0%,100%{transform:scale(1);} 30%{transform:scale(1.22);} }
+.nav-quote-btn.bounce svg { animation:quoteBounce 0.4s ease; }
 .quote-badge {
   position:absolute; top:-4px; right:-4px; min-width:20px; height:20px; padding:0 5px;
   background:var(--orange); color:#000; border-radius:10px;
@@ -527,8 +527,6 @@ footer {
   transform:scale(0); transition:transform 0.25s cubic-bezier(.34,1.56,.64,1);
 }
 .quote-badge.show { transform:scale(1); }
-@keyframes quoteBounce { 0%,100%{transform:scale(1);} 30%{transform:scale(1.18);} }
-.quote-btn.bounce { animation:quoteBounce 0.4s ease; }
 
 .quote-overlay {
   display:none; position:fixed; inset:0; z-index:700;
@@ -686,7 +684,6 @@ footer {
   .footer-inner { flex-direction:column; text-align:center; }
   .custom-banner { flex-direction:column; }
   .lb-info { flex-direction:column; align-items:flex-start; }
-  .quote-btn { bottom:5rem; right:1.25rem; width:46px; height:46px; }
   .fab { right:1.25rem; }
   .quote-drawer { width:100%; }
   .diff-grid { grid-template-columns:1fr; }
@@ -731,12 +728,6 @@ footer {
 <!-- FAB WhatsApp -->
 <a class="fab" href="https://wa.me/5584999019339" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
-<!-- FAB Orçamento -->
-<button class="quote-btn" id="quoteBtn" onclick="openQuoteDrawer()" aria-label="Meu Orçamento">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
-  <span class="quote-badge" id="quoteBadge">0</span>
-</button>
-
 <!-- NAVBAR -->
 <div class="navbar-outer" id="navbarOuter">
   <nav class="navbar">
@@ -762,6 +753,10 @@ footer {
     </ul>
 
     <div class="nav-actions">
+      <button class="nav-quote-btn" id="quoteBtn" onclick="openQuoteDrawer()" aria-label="Meu Orçamento">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+        <span class="quote-badge" id="quoteBadge">0</span>
+      </button>
       <a class="nav-icon" href="https://instagram.com/forge3dtech" target="_blank" rel="noopener" aria-label="Instagram @forge3dtech">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
       </a>
