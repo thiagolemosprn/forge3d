@@ -1162,8 +1162,14 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       - Preco: em branco = "Sob Consulta" (ex: peças personalizadas); com valor = preço fixo (ex: 49,90)
       - Foto: nome do arquivo já enviado ao GitHub (ex: foto_01.jpg)
    Enquanto o link não for configurado, o site usa a lista local (FALLBACK_PRODUCTS) abaixo. */
+/* Para ativar o registro automático de orçamentos numa aba do Sheets:
+   1. Crie uma aba chamada "Pedidos" na mesma planilha (ou em outra).
+   2. No Google Sheets: Extensões > Apps Script, cole o código do arquivo
+      forge3d_apps_script.gs (fornecido junto com este site) e faça o Deploy como Web App.
+   3. Cole a URL do Web App gerada abaixo, em salvar_pedidos. */
 const FORGE3D_CONFIG = {
-  planilha_produtos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnb7b9EAoNVWIqTsWJijg6MWacTxBH2A0JNSs5plRXtClBuGAIPTuT-nV0Byp6PYWKV88er8S6a4pZ/pub?gid=226811329&single=true&output=csv"
+  planilha_produtos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnb7b9EAoNVWIqTsWJijg6MWacTxBH2A0JNSs5plRXtClBuGAIPTuT-nV0Byp6PYWKV88er8S6a4pZ/pub?gid=226811329&single=true&output=csv",
+  salvar_pedidos: "https://script.google.com/macros/s/AKfycbxV3qOktBSmTnlXL6FxtHcnd9uGAvcVNHi0c5MtQ6aWPr3PrBR-eBmpHxgVlwz9TnfO/exec"
 };
 
 const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária"};
@@ -1548,6 +1554,18 @@ function closeQuoteCheckout(){
   document.body.style.overflow = '';
 }
 
+function salvarOrcamento(dados){
+  if (!FORGE3D_CONFIG.salvar_pedidos) return;
+  try {
+    fetch(FORGE3D_CONFIG.salvar_pedidos, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    });
+  } catch(err) { /* não bloqueia o envio do WhatsApp se a planilha falhar */ }
+}
+
 function sendQuoteWhatsApp(){
   const nameEl = document.getElementById('quoteName');
   const phoneEl = document.getElementById('quotePhone');
@@ -1566,9 +1584,12 @@ function sendQuoteWhatsApp(){
   }
 
   let msg = 'Olá! Gostaria de solicitar um orçamento para os itens abaixo:\n━━━━━━━━━━━━━━━\n';
+  let itensTexto = '';
   orcamento.forEach(i => {
     const hasPrice = i.preco !== null && i.preco !== undefined;
-    msg += hasPrice ? `${i.qty}x ${i.nome} — ${formatBRL(i.preco*i.qty)}\n` : `${i.qty}x ${i.nome} (sob consulta)\n`;
+    const linha = hasPrice ? `${i.qty}x ${i.nome} — ${formatBRL(i.preco*i.qty)}\n` : `${i.qty}x ${i.nome} (sob consulta)\n`;
+    msg += linha;
+    itensTexto += linha;
   });
   const subtotal = calcSubtotal();
   msg += '━━━━━━━━━━━━━━━\n';
@@ -1576,6 +1597,16 @@ function sendQuoteWhatsApp(){
   msg += 'Frete: a combinar\n';
   msg += `Nome: ${name}\nContato: ${phone}\n`;
   if (obs) msg += `Obs: ${obs}\n`;
+
+  salvarOrcamento({
+    dataHora: new Date().toLocaleString('pt-BR'),
+    nome: name,
+    telefone: phone,
+    itens: itensTexto.trim(),
+    subtotal: subtotal > 0 ? formatBRL(subtotal) : '',
+    frete: 'A combinar',
+    observacoes: obs
+  });
 
   const waUrl = 'https://wa.me/5584999019339?text=' + encodeURIComponent(msg);
   window.open(waUrl, '_blank');
