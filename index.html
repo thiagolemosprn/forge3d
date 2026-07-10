@@ -444,6 +444,8 @@ section { position:relative; z-index:1; }
 .lb-info { padding:1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
 .lb-name { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); }
 .lb-cat  { font-size:11px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; }
+.lb-price { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--silver-light); margin-top:8px; }
+.lb-price.sob-consulta { font-family:'Barlow',sans-serif; font-size:13px; font-weight:500; font-style:italic; color:var(--silver); }
 .lb-close { position:absolute; top:10px; right:10px; width:30px; height:30px; background:rgba(0,0,0,0.7); border:none; border-radius:50%; color:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .lb-nav { display:flex; gap:6px; }
 .lb-nav-btn { width:32px; height:32px; background:var(--dark-4); border:1px solid rgba(192,200,208,0.12); color:var(--silver); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:1px; transition:border-color 0.2s, color 0.2s; }
@@ -567,6 +569,13 @@ footer {
 .quote-item-remove:hover { color:var(--orange); }
 .quote-footer { padding:1.25rem 1.5rem 1.5rem; border-top:1px solid rgba(192,200,208,0.1); }
 .quote-footer-note { font-size:12px; color:var(--silver); margin-bottom:1rem; line-height:1.55; }
+.quote-shipping { display:flex; align-items:center; justify-content:space-between; padding:8px 0; font-size:12px; color:var(--silver); border-top:1px solid rgba(192,200,208,0.08); }
+.quote-shipping strong { color:var(--silver-light); font-family:'Rajdhani',sans-serif; font-weight:600; letter-spacing:0.04em; }
+.quote-subtotal { display:flex; align-items:baseline; justify-content:space-between; padding:10px 0; margin-bottom:0.75rem; border-top:1px solid rgba(192,200,208,0.1); }
+.quote-subtotal-label { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--silver-light); }
+.quote-subtotal-value { font-family:'Rajdhani',sans-serif; font-size:19px; font-weight:700; color:var(--orange); }
+.quote-item-price { font-size:12px; color:var(--silver); margin-top:2px; }
+.quote-item-price.sob-consulta { font-style:italic; color:rgba(192,200,208,0.6); }
 .btn-quote-checkout {
   width:100%; display:flex; align-items:center; justify-content:center; gap:8px;
   background:var(--orange); color:#000; border:none; cursor:pointer;
@@ -905,979 +914,6 @@ footer {
     </div>
 
     <div class="portfolio-grid reveal" id="portfolioGrid">
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Nike Air Force One (pé esquerdo)" onclick="openLb(0)">
-        <img class="pf-img" src="foto_01.jpg" alt="Chaveiro Nike Air Force One (pé esquerdo)" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_01.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Nike Air Force One (pé esquerdo)</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Bolsa LV de Luxo - Minimalista & Elegante" onclick="openLb(1)">
-        <img class="pf-img" src="foto_02.jpg" alt="Chaveiro Bolsa LV de Luxo - Minimalista & Elegante" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_02.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Bolsa LV de Luxo - Minimalista & Elegante</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro de Keycaps Mecânicas Fidget Personalizadas" onclick="openLb(2)">
-        <img class="pf-img" src="foto_03.jpg" alt="Chaveiro de Keycaps Mecânicas Fidget Personalizadas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_03.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro de Keycaps Mecânicas Fidget Personalizadas</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Nossa Senhora" onclick="openLb(3)">
-        <img class="pf-img" src="foto_04.jpg" alt="Chaveiro Nossa Senhora" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_04.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Nossa Senhora</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro - Nossa Senhora Aparecida" onclick="openLb(4)">
-        <img class="pf-img" src="foto_05.jpg" alt="Chaveiro - Nossa Senhora Aparecida" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_05.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro - Nossa Senhora Aparecida</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Mini Pato Raivoso Amarelo" onclick="openLb(5)">
-        <img class="pf-img" src="foto_06.jpg" alt="Chaveiro Mini Pato Raivoso Amarelo" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_06.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Mini Pato Raivoso Amarelo</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Fidget Estrelado" onclick="openLb(6)">
-        <img class="pf-img" src="foto_07.jpg" alt="Chaveiro Fidget Estrelado" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_07.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Fidget Estrelado</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Articulado Charmander" onclick="openLb(7)">
-        <img class="pf-img" src="foto_08.jpg" alt="Chaveiro Articulado Charmander" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_08.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Articulado Charmander</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro com a carinha da Hello Kitty" onclick="openLb(8)">
-        <img class="pf-img" src="foto_09.jpg" alt="Chaveiro com a carinha da Hello Kitty" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_09.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro com a carinha da Hello Kitty</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro de Peso" onclick="openLb(9)">
-        <img class="pf-img" src="foto_10.jpg" alt="Chaveiro de Peso" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_10.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro de Peso</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiro Nome Mãe" onclick="openLb(10)">
-        <img class="pf-img" src="foto_11.jpg" alt="Chaveiro Nome Mãe" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_11.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiro Nome Mãe</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="chaveiro" data-name="Chaveiros de Cachorro e Gato" onclick="openLb(11)">
-        <img class="pf-img" src="foto_12.jpg" alt="Chaveiros de Cachorro e Gato" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🔗</span><span>foto_12.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Chaveiros de Cachorro e Gato</p>
-          <p class="pf-item-cat">Chaveiro</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="organizador" data-name="Organizadores de Chá Moderno" onclick="openLb(12)">
-        <img class="pf-img" src="foto_13.jpg" alt="Organizadores de Chá Moderno" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_13.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizadores de Chá Moderno</p>
-          <p class="pf-item-cat">Organizador</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="organizador" data-name="Suporte de celular" onclick="openLb(13)">
-        <img class="pf-img" src="foto_14.jpg" alt="Suporte de celular" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_14.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte de celular</p>
-          <p class="pf-item-cat">Organizador</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="organizador" data-name="Porta-canetas Enfermeira" onclick="openLb(14)">
-        <img class="pf-img" src="foto_15.jpg" alt="Porta-canetas Enfermeira" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_15.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Porta-canetas Enfermeira</p>
-          <p class="pf-item-cat">Organizador</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="organizador" data-name="Organizador Moderno – Tigela" onclick="openLb(15)">
-        <img class="pf-img" src="foto_16.jpg" alt="Organizador Moderno – Tigela" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_16.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador Moderno – Tigela</p>
-          <p class="pf-item-cat">Organizador</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="organizador" data-name="Organizador empilhável" onclick="openLb(16)">
-        <img class="pf-img" src="foto_17.jpg" alt="Organizador empilhável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_17.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador empilhável</p>
-          <p class="pf-item-cat">Organizador</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="organizador" data-name="Caixa de armazenamento moderna" onclick="openLb(17)">
-        <img class="pf-img" src="foto_18.jpg" alt="Caixa de armazenamento moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🗂️</span><span>foto_18.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Caixa de armazenamento moderna</p>
-          <p class="pf-item-cat">Organizador</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="sazonal" data-name="Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais" onclick="openLb(18)">
-        <img class="pf-img" src="foto_19.jpg" alt="Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_19.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais</p>
-          <p class="pf-item-cat">Sazonal</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="sazonal" data-name="Dia dos Pais pai e filha - pai e filho" onclick="openLb(19)">
-        <img class="pf-img" src="foto_20.jpg" alt="Dia dos Pais pai e filha - pai e filho" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_20.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Dia dos Pais pai e filha - pai e filho</p>
-          <p class="pf-item-cat">Sazonal</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="sazonal" data-name="Ornamento da Sagrada Família em Oração" onclick="openLb(20)">
-        <img class="pf-img" src="foto_21.jpg" alt="Ornamento da Sagrada Família em Oração" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_21.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Ornamento da Sagrada Família em Oração</p>
-          <p class="pf-item-cat">Sazonal</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="sazonal" data-name="Virgem Maria" onclick="openLb(21)">
-        <img class="pf-img" src="foto_22.jpg" alt="Virgem Maria" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_22.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Virgem Maria</p>
-          <p class="pf-item-cat">Sazonal</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="sazonal" data-name="Gruta de Nossa Senhora de Lourdes" onclick="openLb(22)">
-        <img class="pf-img" src="foto_23.jpg" alt="Gruta de Nossa Senhora de Lourdes" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_23.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Gruta de Nossa Senhora de Lourdes</p>
-          <p class="pf-item-cat">Sazonal</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="sazonal" data-name="Porta terço Nossa Senhora rezando" onclick="openLb(23)">
-        <img class="pf-img" src="foto_24.jpg" alt="Porta terço Nossa Senhora rezando" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🎄</span><span>foto_24.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Porta terço Nossa Senhora rezando</p>
-          <p class="pf-item-cat">Sazonal</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Dinossauro - T-Rex Esqueleto Flexível" onclick="openLb(24)">
-        <img class="pf-img" src="foto_25.jpg" alt="Dinossauro - T-Rex Esqueleto Flexível" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_25.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Dinossauro - T-Rex Esqueleto Flexível</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Dinossauro - Triceratops Esqueleto Flexível" onclick="openLb(25)">
-        <img class="pf-img" src="foto_26.jpg" alt="Dinossauro - Triceratops Esqueleto Flexível" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_26.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Dinossauro - Triceratops Esqueleto Flexível</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Pokopia Ditto Pokemon Coloring Friends Craft Set 2" onclick="openLb(26)">
-        <img class="pf-img" src="foto_27.jpg" alt="Pokopia Ditto Pokemon Coloring Friends Craft Set 2" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_27.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Pokopia Ditto Pokemon Coloring Friends Craft Set 2</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Pangolim Flexível" onclick="openLb(27)">
-        <img class="pf-img" src="foto_28.jpg" alt="Pangolim Flexível" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_28.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Pangolim Flexível</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Modelo Montessori de Desenho para Crianças – Estênceis" onclick="openLb(28)">
-        <img class="pf-img" src="foto_29.jpg" alt="Modelo Montessori de Desenho para Crianças – Estênceis" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_29.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Modelo Montessori de Desenho para Crianças – Estênceis</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Números Montessori com caixa" onclick="openLb(29)">
-        <img class="pf-img" src="foto_30.jpg" alt="Números Montessori com caixa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_30.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Números Montessori com caixa</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Brinquedo de Fidget Cubo Infinito" onclick="openLb(30)">
-        <img class="pf-img" src="foto_31.jpg" alt="Brinquedo de Fidget Cubo Infinito" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_31.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Brinquedo de Fidget Cubo Infinito</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Jogo de equilíbrio - tudo em uma caixa" onclick="openLb(31)">
-        <img class="pf-img" src="foto_32.jpg" alt="Jogo de equilíbrio - tudo em uma caixa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_32.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Jogo de equilíbrio - tudo em uma caixa</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Jogo de equilíbrio Stickman com caixa" onclick="openLb(32)">
-        <img class="pf-img" src="foto_33.jpg" alt="Jogo de equilíbrio Stickman com caixa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_33.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Jogo de equilíbrio Stickman com caixa</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Pinball da Copa do Mundo - Jogo de Futebol Mecânico" onclick="openLb(33)">
-        <img class="pf-img" src="foto_34.jpg" alt="Pinball da Copa do Mundo - Jogo de Futebol Mecânico" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_34.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Pinball da Copa do Mundo - Jogo de Futebol Mecânico</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras" onclick="openLb(34)">
-        <img class="pf-img" src="foto_35.jpg" alt="Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_35.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="brinquedo" data-name="Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli" onclick="openLb(35)">
-        <img class="pf-img" src="foto_36.jpg" alt="Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🧸</span><span>foto_36.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli</p>
-          <p class="pf-item-cat">Brinquedo</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Estátua - Ninguém Leitor" onclick="openLb(36)">
-        <img class="pf-img" src="foto_37.jpg" alt="Estátua - Ninguém Leitor" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_37.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Estátua - Ninguém Leitor</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Estátua - Mãe e filhas – Prateleira" onclick="openLb(37)">
-        <img class="pf-img" src="foto_38.jpg" alt="Estátua - Mãe e filhas – Prateleira" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_38.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Estátua - Mãe e filhas – Prateleira</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Duo Eterno - Escultura do Amor" onclick="openLb(38)">
-        <img class="pf-img" src="foto_39.jpg" alt="Duo Eterno - Escultura do Amor" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_39.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Duo Eterno - Escultura do Amor</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Estátua Abstrata de Amor e União Familiar" onclick="openLb(39)">
-        <img class="pf-img" src="foto_40.jpg" alt="Estátua Abstrata de Amor e União Familiar" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_40.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Estátua Abstrata de Amor e União Familiar</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Figura Abstrata Sentada – Arte Escultórica Moderna" onclick="openLb(40)">
-        <img class="pf-img" src="foto_41.jpg" alt="Figura Abstrata Sentada – Arte Escultórica Moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_41.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Figura Abstrata Sentada – Arte Escultórica Moderna</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Amo meu cachorro Escultura minimalista moderna" onclick="openLb(41)">
-        <img class="pf-img" src="foto_42.jpg" alt="Amo meu cachorro Escultura minimalista moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_42.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Amo meu cachorro Escultura minimalista moderna</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Escultura Low Poly de Dogue Alemão em Guarda" onclick="openLb(42)">
-        <img class="pf-img" src="foto_43.jpg" alt="Escultura Low Poly de Dogue Alemão em Guarda" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_43.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Escultura Low Poly de Dogue Alemão em Guarda</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Rena Natalina Voronoi" onclick="openLb(43)">
-        <img class="pf-img" src="foto_44.jpg" alt="Rena Natalina Voronoi" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_44.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Rena Natalina Voronoi</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Vaso Orgânico" onclick="openLb(44)">
-        <img class="pf-img" src="foto_45.jpg" alt="Vaso Orgânico" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_45.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Vaso Orgânico</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Vaso de planta - Abertura 10cm/12cm/15cm" onclick="openLb(45)">
-        <img class="pf-img" src="foto_46.jpg" alt="Vaso de planta - Abertura 10cm/12cm/15cm" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_46.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Vaso de planta - Abertura 10cm/12cm/15cm</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Cachepot de parede moderno com bandeja coletora escondida" onclick="openLb(46)">
-        <img class="pf-img" src="foto_47.jpg" alt="Cachepot de parede moderno com bandeja coletora escondida" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_47.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Cachepot de parede moderno com bandeja coletora escondida</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="decoracao" data-name="Suportes de Vela e Placa Base" onclick="openLb(47)">
-        <img class="pf-img" src="foto_48.jpg" alt="Suportes de Vela e Placa Base" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🏺</span><span>foto_48.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suportes de Vela e Placa Base</p>
-          <p class="pf-item-cat">Decoração</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Suporte de vassoura" onclick="openLb(48)">
-        <img class="pf-img" src="foto_49.jpg" alt="Suporte de vassoura" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_49.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte de vassoura</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Suporte para Carregamento de Celular" onclick="openLb(49)">
-        <img class="pf-img" src="foto_50.jpg" alt="Suporte para Carregamento de Celular" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_50.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte para Carregamento de Celular</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Suporte Elevador para iPad/Tablet" onclick="openLb(50)">
-        <img class="pf-img" src="foto_51.jpg" alt="Suporte Elevador para iPad/Tablet" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_51.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte Elevador para iPad/Tablet</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte" onclick="openLb(51)">
-        <img class="pf-img" src="foto_52.jpg" alt="Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_52.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Organizador de Chaves e Entrada WaveShelf" onclick="openLb(52)">
-        <img class="pf-img" src="foto_53.jpg" alt="Organizador de Chaves e Entrada WaveShelf" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_53.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador de Chaves e Entrada WaveShelf</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Suporte de Parede para Chapinha – Robusto" onclick="openLb(53)">
-        <img class="pf-img" src="foto_54.jpg" alt="Suporte de Parede para Chapinha – Robusto" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_54.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte de Parede para Chapinha – Robusto</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Organizador de Cabos - Gerenciamento de Cabos" onclick="openLb(54)">
-        <img class="pf-img" src="foto_55.jpg" alt="Organizador de Cabos - Gerenciamento de Cabos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_55.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador de Cabos - Gerenciamento de Cabos</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Coletor de Pó para Furadeira com guia de perfuração" onclick="openLb(55)">
-        <img class="pf-img" src="foto_56.jpg" alt="Coletor de Pó para Furadeira com guia de perfuração" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_56.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Coletor de Pó para Furadeira com guia de perfuração</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Funil Pequeno Definitivo" onclick="openLb(56)">
-        <img class="pf-img" src="foto_57.jpg" alt="Funil Pequeno Definitivo" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_57.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Funil Pequeno Definitivo</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Bico de Aspirador – Ponta Redonda ou Chata - Personalizável" onclick="openLb(57)">
-        <img class="pf-img" src="foto_58.jpg" alt="Bico de Aspirador – Ponta Redonda ou Chata - Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_58.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Bico de Aspirador – Ponta Redonda ou Chata - Personalizável</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Carregador Moderno de Sacolas de Supermercado" onclick="openLb(58)">
-        <img class="pf-img" src="foto_59.jpg" alt="Carregador Moderno de Sacolas de Supermercado" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_59.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Carregador Moderno de Sacolas de Supermercado</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="utilitario" data-name="Suportes para Ramos em Formato de Folha" onclick="openLb(59)">
-        <img class="pf-img" src="foto_60.jpg" alt="Suportes para Ramos em Formato de Folha" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🛠️</span><span>foto_60.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suportes para Ramos em Formato de Folha</p>
-          <p class="pf-item-cat">Utilitário</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Presilha para Saco de Café de 1 kg" onclick="openLb(60)">
-        <img class="pf-img" src="foto_61.jpg" alt="Presilha para Saco de Café de 1 kg" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_61.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Presilha para Saco de Café de 1 kg</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Separador de claras" onclick="openLb(61)">
-        <img class="pf-img" src="foto_62.jpg" alt="Separador de claras" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_62.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Separador de claras</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Lavador Inteligente de Frutas e Legumes" onclick="openLb(62)">
-        <img class="pf-img" src="foto_63.jpg" alt="Lavador Inteligente de Frutas e Legumes" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_63.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Lavador Inteligente de Frutas e Legumes</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Suporte de papel toalha com pés de cadeira" onclick="openLb(63)">
-        <img class="pf-img" src="foto_64.jpg" alt="Suporte de papel toalha com pés de cadeira" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_64.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte de papel toalha com pés de cadeira</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Prensa para Hambúrgueres" onclick="openLb(64)">
-        <img class="pf-img" src="foto_65.jpg" alt="Prensa para Hambúrgueres" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_65.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Prensa para Hambúrgueres</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Suporte para Utensílios de Cozinha" onclick="openLb(65)">
-        <img class="pf-img" src="foto_66.jpg" alt="Suporte para Utensílios de Cozinha" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_66.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte para Utensílios de Cozinha</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Xícara medidora – Colher" onclick="openLb(66)">
-        <img class="pf-img" src="foto_67.jpg" alt="Xícara medidora – Colher" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_67.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Xícara medidora – Colher</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Suporte para Tampas de Panelas e Caçarolas" onclick="openLb(67)">
-        <img class="pf-img" src="foto_68.jpg" alt="Suporte para Tampas de Panelas e Caçarolas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_68.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte para Tampas de Panelas e Caçarolas</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Organizador de Talheres com Dreno" onclick="openLb(68)">
-        <img class="pf-img" src="foto_69.jpg" alt="Organizador de Talheres com Dreno" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_69.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador de Talheres com Dreno</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Organizador de Portas de Armário - armazenamento tampa panela" onclick="openLb(69)">
-        <img class="pf-img" src="foto_70.jpg" alt="Organizador de Portas de Armário - armazenamento tampa panela" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_70.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador de Portas de Armário - armazenamento tampa panela</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Sistema de Gaveta Organizadora Luxuosa Personalizável" onclick="openLb(70)">
-        <img class="pf-img" src="foto_71.jpg" alt="Sistema de Gaveta Organizadora Luxuosa Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_71.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Sistema de Gaveta Organizadora Luxuosa Personalizável</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="cozinha" data-name="Organizador de Tampa" onclick="openLb(71)">
-        <img class="pf-img" src="foto_72.jpg" alt="Organizador de Tampa" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🍳</span><span>foto_72.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador de Tampa</p>
-          <p class="pf-item-cat">Cozinha Prática</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Letreiro - Nome Personalizado – Dinossauros" onclick="openLb(72)">
-        <img class="pf-img" src="foto_73.jpg" alt="Letreiro - Nome Personalizado – Dinossauros" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_73.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Letreiro - Nome Personalizado – Dinossauros</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Capivara-mente Acordada" onclick="openLb(73)">
-        <img class="pf-img" src="foto_74.jpg" alt="Capivara-mente Acordada" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_74.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Capivara-mente Acordada</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Qualidade de Coala Matinal Não Garantida" onclick="openLb(74)">
-        <img class="pf-img" src="foto_75.jpg" alt="Qualidade de Coala Matinal Não Garantida" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_75.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Qualidade de Coala Matinal Não Garantida</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Daffy Duck" onclick="openLb(75)">
-        <img class="pf-img" src="foto_76.jpg" alt="Daffy Duck" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_76.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Daffy Duck</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Nome inserível de lápis paramétrico personalizável" onclick="openLb(76)">
-        <img class="pf-img" src="foto_77.jpg" alt="Nome inserível de lápis paramétrico personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_77.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Nome inserível de lápis paramétrico personalizável</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Placa Personalizada de Anúncio de Nascimento de Recém-Nascido" onclick="openLb(77)">
-        <img class="pf-img" src="foto_78.jpg" alt="Placa Personalizada de Anúncio de Nascimento de Recém-Nascido" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_78.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Placa Personalizada de Anúncio de Nascimento de Recém-Nascido</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Clicker Fidget com Nome Personalizável" onclick="openLb(78)">
-        <img class="pf-img" src="foto_79.jpg" alt="Clicker Fidget com Nome Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_79.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Clicker Fidget com Nome Personalizável</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Etiqueta de Unhas Personalizada para Salões e Designers de Unhas" onclick="openLb(79)">
-        <img class="pf-img" src="foto_80.jpg" alt="Etiqueta de Unhas Personalizada para Salões e Designers de Unhas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_80.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Etiqueta de Unhas Personalizada para Salões e Designers de Unhas</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Organizador Multiuso com Capuz de Nome Personalizado" onclick="openLb(80)">
-        <img class="pf-img" src="foto_81.jpg" alt="Organizador Multiuso com Capuz de Nome Personalizado" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_81.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Organizador Multiuso com Capuz de Nome Personalizado</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Clicker de Keycaps – Brinquedo Anti-estresse" onclick="openLb(81)">
-        <img class="pf-img" src="foto_82.jpg" alt="Clicker de Keycaps – Brinquedo Anti-estresse" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_82.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Clicker de Keycaps – Brinquedo Anti-estresse</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Placa de Nome com QR Code Personalizável" onclick="openLb(82)">
-        <img class="pf-img" src="foto_83.jpg" alt="Placa de Nome com QR Code Personalizável" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_83.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Placa de Nome com QR Code Personalizável</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="personalizado" data-name="Mensagem - Feliz Aniversário - para bolos" onclick="openLb(83)">
-        <img class="pf-img" src="foto_84.jpg" alt="Mensagem - Feliz Aniversário - para bolos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">✨</span><span>foto_84.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Mensagem - Feliz Aniversário - para bolos</p>
-          <p class="pf-item-cat">Personalizado</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Escova de embelezamento para animais de estimação" onclick="openLb(84)">
-        <img class="pf-img" src="foto_85.jpg" alt="Escova de embelezamento para animais de estimação" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_85.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Escova de embelezamento para animais de estimação</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Escovação Purrfecta" onclick="openLb(85)">
-        <img class="pf-img" src="foto_86.jpg" alt="Escovação Purrfecta" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_86.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Escovação Purrfecta</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Escova de Auto-Higiene para Gatos" onclick="openLb(86)">
-        <img class="pf-img" src="foto_87.jpg" alt="Escova de Auto-Higiene para Gatos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_87.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Escova de Auto-Higiene para Gatos</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Pá de Ração para Animais de Estimação - Vários Tamanhos" onclick="openLb(87)">
-        <img class="pf-img" src="foto_88.jpg" alt="Pá de Ração para Animais de Estimação - Vários Tamanhos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_88.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Pá de Ração para Animais de Estimação - Vários Tamanhos</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Pá de Comida para Animais Personalizada de Pata e Osso" onclick="openLb(88)">
-        <img class="pf-img" src="foto_89.jpg" alt="Pá de Comida para Animais Personalizada de Pata e Osso" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_89.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Pá de Comida para Animais Personalizada de Pata e Osso</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Dispenser de Sachê para Comida de Gato e Cachorro" onclick="openLb(89)">
-        <img class="pf-img" src="foto_90.jpg" alt="Dispenser de Sachê para Comida de Gato e Cachorro" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_90.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Dispenser de Sachê para Comida de Gato e Cachorro</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Suporte Elevado Personalizado para Tigela de Animais de Estimação" onclick="openLb(90)">
-        <img class="pf-img" src="foto_91.jpg" alt="Suporte Elevado Personalizado para Tigela de Animais de Estimação" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_91.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Suporte Elevado Personalizado para Tigela de Animais de Estimação</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Comedouro Elevado Olive Arc para Animais de Estimação" onclick="openLb(91)">
-        <img class="pf-img" src="foto_92.jpg" alt="Comedouro Elevado Olive Arc para Animais de Estimação" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_92.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Comedouro Elevado Olive Arc para Animais de Estimação</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Plaqueta de Identificação para Cães" onclick="openLb(92)">
-        <img class="pf-img" src="foto_93.jpg" alt="Plaqueta de Identificação para Cães" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_93.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Plaqueta de Identificação para Cães</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Tag NFC para Pet" onclick="openLb(93)">
-        <img class="pf-img" src="foto_94.jpg" alt="Tag NFC para Pet" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_94.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Tag NFC para Pet</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Brinquedos para Gatos" onclick="openLb(94)">
-        <img class="pf-img" src="foto_95.jpg" alt="Brinquedos para Gatos" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_95.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Brinquedos para Gatos</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="pet" data-name="Brinquedo para Gato - Bola Chocalho" onclick="openLb(95)">
-        <img class="pf-img" src="foto_96.jpg" alt="Brinquedo para Gato - Bola Chocalho" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">🐾</span><span>foto_96.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Brinquedo para Gato - Bola Chocalho</p>
-          <p class="pf-item-cat">Pet</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Abajur bancada" onclick="openLb(96)">
-        <img class="pf-img" src="foto_97.jpg" alt="Abajur bancada" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_97.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Abajur bancada</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Luminária Espiral" onclick="openLb(97)">
-        <img class="pf-img" src="foto_98.jpg" alt="Luminária Espiral" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_98.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Luminária Espiral</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Abajur moderno" onclick="openLb(98)">
-        <img class="pf-img" src="foto_99.jpg" alt="Abajur moderno" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_99.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Abajur moderno</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Pendente de iluminação Triplo – 200mm" onclick="openLb(99)">
-        <img class="pf-img" src="foto_100.jpg" alt="Pendente de iluminação Triplo – 200mm" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_100.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Pendente de iluminação Triplo – 200mm</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Abajur Kumiko" onclick="openLb(100)">
-        <img class="pf-img" src="foto_101.jpg" alt="Abajur Kumiko" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_101.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Abajur Kumiko</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Luminária Shoji Moderna" onclick="openLb(101)">
-        <img class="pf-img" src="foto_102.jpg" alt="Luminária Shoji Moderna" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_102.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Luminária Shoji Moderna</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Luminária de Ondas Orgânicas" onclick="openLb(102)">
-        <img class="pf-img" src="foto_103.jpg" alt="Luminária de Ondas Orgânicas" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_103.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Luminária de Ondas Orgânicas</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Abajur Orgânico" onclick="openLb(103)">
-        <img class="pf-img" src="foto_104.jpg" alt="Abajur Orgânico" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_104.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Abajur Orgânico</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Luminária de Mesa Colmeia" onclick="openLb(104)">
-        <img class="pf-img" src="foto_105.jpg" alt="Luminária de Mesa Colmeia" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_105.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Luminária de Mesa Colmeia</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Luminária LED Bola de Pokémon (Pokébola)" onclick="openLb(105)">
-        <img class="pf-img" src="foto_106.jpg" alt="Luminária LED Bola de Pokémon (Pokébola)" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_106.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Luminária LED Bola de Pokémon (Pokébola)</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Luminária Tealight Globo Borboleta & Base Floral" onclick="openLb(106)">
-        <img class="pf-img" src="foto_107.jpg" alt="Luminária Tealight Globo Borboleta & Base Floral" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_107.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Luminária Tealight Globo Borboleta & Base Floral</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
-      <div class="pf-item" data-cat="luminaria" data-name="Torre Inclinada de Pisa - Luminária LED" onclick="openLb(107)">
-        <img class="pf-img" src="foto_108.jpg" alt="Torre Inclinada de Pisa - Luminária LED" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">💡</span><span>foto_108.jpg</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
-        <div class="pf-overlay">
-          <p class="pf-item-name">Torre Inclinada de Pisa - Luminária LED</p>
-          <p class="pf-item-cat">Luminária</p>
-        </div>
-      </div>
-
     </div>
 
     <div class="portfolio-cta reveal">
@@ -1991,6 +1027,7 @@ footer {
       <div>
         <p class="lb-name" id="lbName"></p>
         <p class="lb-cat"  id="lbCat"></p>
+        <p class="lb-price" id="lbPrice"></p>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div class="lb-nav">
@@ -2017,6 +1054,11 @@ footer {
   </div>
   <div class="quote-items" id="quoteItems"></div>
   <div class="quote-footer" id="quoteFooter" style="display:none;">
+    <div class="quote-subtotal" id="quoteSubtotal" style="display:none;">
+      <span class="quote-subtotal-label">Subtotal</span>
+      <span class="quote-subtotal-value" id="quoteSubtotalValue">R$ 0,00</span>
+    </div>
+    <div class="quote-shipping"><span>Frete</span><strong>A combinar</strong></div>
     <p class="quote-footer-note">Nenhum valor é cobrado aqui — você envia a lista pelo WhatsApp e recebe seu orçamento personalizado.</p>
     <button class="btn-quote-checkout" onclick="openQuoteCheckout()">Solicitar Orçamento</button>
   </div>
@@ -2067,10 +1109,8 @@ const ring = document.getElementById('cursorRing');
 let mx=0, my=0, rx=0, ry=0;
 document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
 (function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
-document.querySelectorAll('a,button,.pf-item,.pf-btn').forEach(el=>{
-  el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
-  el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
-});
+document.addEventListener('mouseover', e => { if(e.target.closest('a,button,.pf-item,.pf-btn')) ring.classList.add('hover'); });
+document.addEventListener('mouseout', e => { if(e.target.closest('a,button,.pf-item,.pf-btn')) ring.classList.remove('hover'); });
 
 /* ══ NAVBAR SCROLL ══ */
 const navbarOuter = document.getElementById('navbarOuter');
@@ -2109,26 +1149,249 @@ window.addEventListener('scroll',()=>{ heroBg.style.transform=`translateY(${wind
 const obs = new IntersectionObserver((entries)=>{ entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target); } }); },{threshold:0, rootMargin:'0px 0px -5% 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
+/* ══════════════════════════════════════
+   CATÁLOGO DE PRODUTOS (Planilha ou Fallback)
+══════════════════════════════════════ */
+/* Para ativar a atualização via Google Sheets:
+   1. Publique sua planilha (Arquivo > Compartilhar > Publicar na Web) escolhendo a aba "Produtos" no formato CSV.
+   2. Cole o link gerado abaixo, em planilha_produtos.
+   3. Colunas esperadas na aba: Ativo | Categoria | CategoriaLabel | Nome | Preco | Foto | Ordem
+      - Ativo: Sim / Não
+      - Categoria: chaveiro, organizador, sazonal, brinquedo, decoracao, utilitario, cozinha, personalizado, pet, luminaria
+      - Preco: em branco = "Sob Consulta" (ex: peças personalizadas); com valor = preço fixo (ex: 49,90)
+      - Foto: nome do arquivo já enviado ao GitHub (ex: foto_01.jpg)
+   Enquanto o link não for configurado, o site usa a lista local (FALLBACK_PRODUCTS) abaixo. */
+const FORGE3D_CONFIG = {
+  planilha_produtos: ""
+};
+
+const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária"};
+const CATEGORY_ICONS = {"chaveiro": "🔗", "organizador": "🗂️", "sazonal": "🎄", "brinquedo": "🧸", "decoracao": "🏺", "utilitario": "🛠️", "cozinha": "🍳", "personalizado": "✨", "pet": "🐾", "luminaria": "💡"};
+
+const FALLBACK_PRODUCTS = [
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Nike Air Force One (pé esquerdo)", "foto": "foto_01.jpg", "preco": null, "ordem": 1},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Bolsa LV de Luxo - Minimalista & Elegante", "foto": "foto_02.jpg", "preco": null, "ordem": 2},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro de Keycaps Mecânicas Fidget Personalizadas", "foto": "foto_03.jpg", "preco": null, "ordem": 3},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Nossa Senhora", "foto": "foto_04.jpg", "preco": null, "ordem": 4},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro - Nossa Senhora Aparecida", "foto": "foto_05.jpg", "preco": null, "ordem": 5},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Mini Pato Raivoso Amarelo", "foto": "foto_06.jpg", "preco": null, "ordem": 6},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Fidget Estrelado", "foto": "foto_07.jpg", "preco": null, "ordem": 7},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Articulado Charmander", "foto": "foto_08.jpg", "preco": null, "ordem": 8},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro com a carinha da Hello Kitty", "foto": "foto_09.jpg", "preco": null, "ordem": 9},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro de Peso", "foto": "foto_10.jpg", "preco": null, "ordem": 10},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Nome Mãe", "foto": "foto_11.jpg", "preco": null, "ordem": 11},
+  {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiros de Cachorro e Gato", "foto": "foto_12.jpg", "preco": null, "ordem": 12},
+  {"ativo": true, "categoria": "organizador", "catLabel": "Organizador", "nome": "Organizadores de Chá Moderno", "foto": "foto_13.jpg", "preco": null, "ordem": 13},
+  {"ativo": true, "categoria": "organizador", "catLabel": "Organizador", "nome": "Suporte de celular", "foto": "foto_14.jpg", "preco": null, "ordem": 14},
+  {"ativo": true, "categoria": "organizador", "catLabel": "Organizador", "nome": "Porta-canetas Enfermeira", "foto": "foto_15.jpg", "preco": null, "ordem": 15},
+  {"ativo": true, "categoria": "organizador", "catLabel": "Organizador", "nome": "Organizador Moderno – Tigela", "foto": "foto_16.jpg", "preco": null, "ordem": 16},
+  {"ativo": true, "categoria": "organizador", "catLabel": "Organizador", "nome": "Organizador empilhável", "foto": "foto_17.jpg", "preco": null, "ordem": 17},
+  {"ativo": true, "categoria": "organizador", "catLabel": "Organizador", "nome": "Caixa de armazenamento moderna", "foto": "foto_18.jpg", "preco": null, "ordem": 18},
+  {"ativo": true, "categoria": "sazonal", "catLabel": "Sazonal", "nome": "Nosso Super-Herói Cotidiano - Estátua de Dia dos Pais", "foto": "foto_19.jpg", "preco": null, "ordem": 19},
+  {"ativo": true, "categoria": "sazonal", "catLabel": "Sazonal", "nome": "Dia dos Pais pai e filha - pai e filho", "foto": "foto_20.jpg", "preco": null, "ordem": 20},
+  {"ativo": true, "categoria": "sazonal", "catLabel": "Sazonal", "nome": "Ornamento da Sagrada Família em Oração", "foto": "foto_21.jpg", "preco": null, "ordem": 21},
+  {"ativo": true, "categoria": "sazonal", "catLabel": "Sazonal", "nome": "Virgem Maria", "foto": "foto_22.jpg", "preco": null, "ordem": 22},
+  {"ativo": true, "categoria": "sazonal", "catLabel": "Sazonal", "nome": "Gruta de Nossa Senhora de Lourdes", "foto": "foto_23.jpg", "preco": null, "ordem": 23},
+  {"ativo": true, "categoria": "sazonal", "catLabel": "Sazonal", "nome": "Porta terço Nossa Senhora rezando", "foto": "foto_24.jpg", "preco": null, "ordem": 24},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Dinossauro - T-Rex Esqueleto Flexível", "foto": "foto_25.jpg", "preco": null, "ordem": 25},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Dinossauro - Triceratops Esqueleto Flexível", "foto": "foto_26.jpg", "preco": null, "ordem": 26},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Pokopia Ditto Pokemon Coloring Friends Craft Set 2", "foto": "foto_27.jpg", "preco": null, "ordem": 27},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Pangolim Flexível", "foto": "foto_28.jpg", "preco": null, "ordem": 28},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Modelo Montessori de Desenho para Crianças – Estênceis", "foto": "foto_29.jpg", "preco": null, "ordem": 29},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Números Montessori com caixa", "foto": "foto_30.jpg", "preco": null, "ordem": 30},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Brinquedo de Fidget Cubo Infinito", "foto": "foto_31.jpg", "preco": null, "ordem": 31},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Jogo de equilíbrio - tudo em uma caixa", "foto": "foto_32.jpg", "preco": null, "ordem": 32},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Jogo de equilíbrio Stickman com caixa", "foto": "foto_33.jpg", "preco": null, "ordem": 33},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Pinball da Copa do Mundo - Jogo de Futebol Mecânico", "foto": "foto_34.jpg", "preco": null, "ordem": 34},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Quebra-cabeça do Alfabeto - Quebra-cabeça de Letras", "foto": "foto_35.jpg", "preco": null, "ordem": 35},
+  {"ativo": true, "categoria": "brinquedo", "catLabel": "Brinquedo", "nome": "Brinquedo de Bola Flutuante - Jogo de Física de Bernoulli", "foto": "foto_36.jpg", "preco": null, "ordem": 36},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Estátua - Ninguém Leitor", "foto": "foto_37.jpg", "preco": null, "ordem": 37},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Estátua - Mãe e filhas – Prateleira", "foto": "foto_38.jpg", "preco": null, "ordem": 38},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Duo Eterno - Escultura do Amor", "foto": "foto_39.jpg", "preco": null, "ordem": 39},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Estátua Abstrata de Amor e União Familiar", "foto": "foto_40.jpg", "preco": null, "ordem": 40},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Figura Abstrata Sentada – Arte Escultórica Moderna", "foto": "foto_41.jpg", "preco": null, "ordem": 41},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Amo meu cachorro Escultura minimalista moderna", "foto": "foto_42.jpg", "preco": null, "ordem": 42},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Escultura Low Poly de Dogue Alemão em Guarda", "foto": "foto_43.jpg", "preco": null, "ordem": 43},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Rena Natalina Voronoi", "foto": "foto_44.jpg", "preco": null, "ordem": 44},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Vaso Orgânico", "foto": "foto_45.jpg", "preco": null, "ordem": 45},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Vaso de planta - Abertura 10cm/12cm/15cm", "foto": "foto_46.jpg", "preco": null, "ordem": 46},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Cachepot de parede moderno com bandeja coletora escondida", "foto": "foto_47.jpg", "preco": null, "ordem": 47},
+  {"ativo": true, "categoria": "decoracao", "catLabel": "Decoração", "nome": "Suportes de Vela e Placa Base", "foto": "foto_48.jpg", "preco": null, "ordem": 48},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Suporte de vassoura", "foto": "foto_49.jpg", "preco": null, "ordem": 49},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Suporte para Carregamento de Celular", "foto": "foto_50.jpg", "preco": null, "ordem": 50},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Suporte Elevador para iPad/Tablet", "foto": "foto_51.jpg", "preco": null, "ordem": 51},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Suporte para Notebook Elegante e Acolchoado - Armazenamento da Fonte", "foto": "foto_52.jpg", "preco": null, "ordem": 52},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Organizador de Chaves e Entrada WaveShelf", "foto": "foto_53.jpg", "preco": null, "ordem": 53},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Suporte de Parede para Chapinha – Robusto", "foto": "foto_54.jpg", "preco": null, "ordem": 54},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Organizador de Cabos - Gerenciamento de Cabos", "foto": "foto_55.jpg", "preco": null, "ordem": 55},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Coletor de Pó para Furadeira com guia de perfuração", "foto": "foto_56.jpg", "preco": null, "ordem": 56},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Funil Pequeno Definitivo", "foto": "foto_57.jpg", "preco": null, "ordem": 57},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Bico de Aspirador – Ponta Redonda ou Chata - Personalizável", "foto": "foto_58.jpg", "preco": null, "ordem": 58},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Carregador Moderno de Sacolas de Supermercado", "foto": "foto_59.jpg", "preco": null, "ordem": 59},
+  {"ativo": true, "categoria": "utilitario", "catLabel": "Utilitário", "nome": "Suportes para Ramos em Formato de Folha", "foto": "foto_60.jpg", "preco": null, "ordem": 60},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Presilha para Saco de Café de 1 kg", "foto": "foto_61.jpg", "preco": null, "ordem": 61},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Separador de claras", "foto": "foto_62.jpg", "preco": null, "ordem": 62},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Lavador Inteligente de Frutas e Legumes", "foto": "foto_63.jpg", "preco": null, "ordem": 63},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Suporte de papel toalha com pés de cadeira", "foto": "foto_64.jpg", "preco": null, "ordem": 64},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Prensa para Hambúrgueres", "foto": "foto_65.jpg", "preco": null, "ordem": 65},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Suporte para Utensílios de Cozinha", "foto": "foto_66.jpg", "preco": null, "ordem": 66},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Xícara medidora – Colher", "foto": "foto_67.jpg", "preco": null, "ordem": 67},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Suporte para Tampas de Panelas e Caçarolas", "foto": "foto_68.jpg", "preco": null, "ordem": 68},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Organizador de Talheres com Dreno", "foto": "foto_69.jpg", "preco": null, "ordem": 69},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Organizador de Portas de Armário - armazenamento tampa panela", "foto": "foto_70.jpg", "preco": null, "ordem": 70},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Sistema de Gaveta Organizadora Luxuosa Personalizável", "foto": "foto_71.jpg", "preco": null, "ordem": 71},
+  {"ativo": true, "categoria": "cozinha", "catLabel": "Cozinha Prática", "nome": "Organizador de Tampa", "foto": "foto_72.jpg", "preco": null, "ordem": 72},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Letreiro - Nome Personalizado – Dinossauros", "foto": "foto_73.jpg", "preco": null, "ordem": 73},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Capivara-mente Acordada", "foto": "foto_74.jpg", "preco": null, "ordem": 74},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Qualidade de Coala Matinal Não Garantida", "foto": "foto_75.jpg", "preco": null, "ordem": 75},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Daffy Duck", "foto": "foto_76.jpg", "preco": null, "ordem": 76},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Nome inserível de lápis paramétrico personalizável", "foto": "foto_77.jpg", "preco": null, "ordem": 77},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Placa Personalizada de Anúncio de Nascimento de Recém-Nascido", "foto": "foto_78.jpg", "preco": null, "ordem": 78},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Clicker Fidget com Nome Personalizável", "foto": "foto_79.jpg", "preco": null, "ordem": 79},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Etiqueta de Unhas Personalizada para Salões e Designers de Unhas", "foto": "foto_80.jpg", "preco": null, "ordem": 80},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Organizador Multiuso com Capuz de Nome Personalizado", "foto": "foto_81.jpg", "preco": null, "ordem": 81},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Clicker de Keycaps – Brinquedo Anti-estresse", "foto": "foto_82.jpg", "preco": null, "ordem": 82},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Placa de Nome com QR Code Personalizável", "foto": "foto_83.jpg", "preco": null, "ordem": 83},
+  {"ativo": true, "categoria": "personalizado", "catLabel": "Personalizado", "nome": "Mensagem - Feliz Aniversário - para bolos", "foto": "foto_84.jpg", "preco": null, "ordem": 84},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Escova de embelezamento para animais de estimação", "foto": "foto_85.jpg", "preco": null, "ordem": 85},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Escovação Purrfecta", "foto": "foto_86.jpg", "preco": null, "ordem": 86},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Escova de Auto-Higiene para Gatos", "foto": "foto_87.jpg", "preco": null, "ordem": 87},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Pá de Ração para Animais de Estimação - Vários Tamanhos", "foto": "foto_88.jpg", "preco": null, "ordem": 88},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Pá de Comida para Animais Personalizada de Pata e Osso", "foto": "foto_89.jpg", "preco": null, "ordem": 89},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Dispenser de Sachê para Comida de Gato e Cachorro", "foto": "foto_90.jpg", "preco": null, "ordem": 90},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Suporte Elevado Personalizado para Tigela de Animais de Estimação", "foto": "foto_91.jpg", "preco": null, "ordem": 91},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Comedouro Elevado Olive Arc para Animais de Estimação", "foto": "foto_92.jpg", "preco": null, "ordem": 92},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Plaqueta de Identificação para Cães", "foto": "foto_93.jpg", "preco": null, "ordem": 93},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Tag NFC para Pet", "foto": "foto_94.jpg", "preco": null, "ordem": 94},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Brinquedos para Gatos", "foto": "foto_95.jpg", "preco": null, "ordem": 95},
+  {"ativo": true, "categoria": "pet", "catLabel": "Pet", "nome": "Brinquedo para Gato - Bola Chocalho", "foto": "foto_96.jpg", "preco": null, "ordem": 96},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Abajur bancada", "foto": "foto_97.jpg", "preco": null, "ordem": 97},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Luminária Espiral", "foto": "foto_98.jpg", "preco": null, "ordem": 98},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Abajur moderno", "foto": "foto_99.jpg", "preco": null, "ordem": 99},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Pendente de iluminação Triplo – 200mm", "foto": "foto_100.jpg", "preco": null, "ordem": 100},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Abajur Kumiko", "foto": "foto_101.jpg", "preco": null, "ordem": 101},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Luminária Shoji Moderna", "foto": "foto_102.jpg", "preco": null, "ordem": 102},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Luminária de Ondas Orgânicas", "foto": "foto_103.jpg", "preco": null, "ordem": 103},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Abajur Orgânico", "foto": "foto_104.jpg", "preco": null, "ordem": 104},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Luminária de Mesa Colmeia", "foto": "foto_105.jpg", "preco": null, "ordem": 105},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Luminária LED Bola de Pokémon (Pokébola)", "foto": "foto_106.jpg", "preco": null, "ordem": 106},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Luminária Tealight Globo Borboleta & Base Floral", "foto": "foto_107.jpg", "preco": null, "ordem": 107},
+  {"ativo": true, "categoria": "luminaria", "catLabel": "Luminária", "nome": "Torre Inclinada de Pisa - Luminária LED", "foto": "foto_108.jpg", "preco": null, "ordem": 108}];
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function parsePreco(raw){
+  if (raw === null || raw === undefined) return null;
+  let s = String(raw).trim().replace(/^R\$\s*/i, '');
+  if (!s) return null;
+  if (s.includes(',') && s.includes('.')) s = s.replace(/\./g, '').replace(',', '.');
+  else if (s.includes(',')) s = s.replace(',', '.');
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+function formatBRL(value){
+  return value.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+}
+function parseCSV(text){
+  const lines = text.replace(/\r/g,'').split('\n').filter(l => l.trim().length);
+  if (!lines.length) return [];
+  function splitLine(line){
+    const out = []; let cur = ''; let inQuotes = false;
+    for (let i=0; i<line.length; i++){
+      const c = line[i];
+      if (c === '"') { if (inQuotes && line[i+1] === '"') { cur += '"'; i++; } else inQuotes = !inQuotes; }
+      else if (c === ',' && !inQuotes) { out.push(cur); cur = ''; }
+      else cur += c;
+    }
+    out.push(cur);
+    return out.map(v => v.trim());
+  }
+  const headers = splitLine(lines[0]).map(h => h.trim().toLowerCase());
+  return lines.slice(1).map(line => {
+    const cells = splitLine(line);
+    const row = {};
+    headers.forEach((h,i) => row[h] = cells[i] !== undefined ? cells[i] : '');
+    return row;
+  });
+}
+function normalizeSheetRows(rows){
+  return rows.map((row, i) => {
+    const categoria = (row['categoria']||'').trim().toLowerCase();
+    const ativoRaw = (row['ativo']||'sim').trim().toLowerCase();
+    return {
+      ativo: !(ativoRaw === 'não' || ativoRaw === 'nao' || ativoRaw === 'false' || ativoRaw === '0'),
+      categoria,
+      catLabel: (row['categorialabel']||'').trim() || CATEGORY_LABELS[categoria] || categoria,
+      nome: (row['nome']||'').trim(),
+      foto: (row['foto']||'').trim(),
+      preco: parsePreco(row['preco']),
+      ordem: parseInt(row['ordem'],10) || (i+1)
+    };
+  }).filter(p => p.nome && p.foto);
+}
+
+let items = [];
+let currentProducts = FALLBACK_PRODUCTS;
+
+function renderPortfolio(products){
+  const active = products.filter(p => p.ativo).sort((a,b) => a.ordem - b.ordem);
+  currentProducts = active;
+  const grid = document.getElementById('portfolioGrid');
+  grid.innerHTML = active.map((p, idx) => {
+    const icon = CATEGORY_ICONS[p.categoria] || '📦';
+    const precoAttr = (p.preco !== null && p.preco !== undefined) ? p.preco : '';
+    return `<div class="pf-item" data-cat="${p.categoria}" data-catlabel="${escapeHtml(p.catLabel)}" data-name="${escapeHtml(p.nome)}" data-preco="${precoAttr}" onclick="openLb(${idx})">
+        <img class="pf-img" src="${p.foto}" alt="${escapeHtml(p.nome)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">${icon}</span><span>${p.foto}</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
+        <div class="pf-overlay">
+          <p class="pf-item-name">${escapeHtml(p.nome)}</p>
+          <p class="pf-item-cat">${escapeHtml(p.catLabel)}</p>
+        </div>
+      </div>`;
+  }).join('');
+  items = Array.from(document.querySelectorAll('.pf-item'));
+  const activeFilterBtn = document.querySelector('.pf-btn.active');
+  filterPortfolio(activeFilterBtn ? activeFilterBtn.dataset.filter : 'todos');
+}
+
+async function loadProducts(){
+  renderPortfolio(FALLBACK_PRODUCTS);
+  if (!FORGE3D_CONFIG.planilha_produtos) return;
+  try {
+    const res = await fetch(FORGE3D_CONFIG.planilha_produtos + (FORGE3D_CONFIG.planilha_produtos.includes('?') ? '&' : '?') + '_t=' + Date.now(), { cache:'no-store' });
+    if (!res.ok) return;
+    const text = await res.text();
+    const rows = normalizeSheetRows(parseCSV(text));
+    if (rows.length) renderPortfolio(rows);
+  } catch(err) { /* mantém FALLBACK_PRODUCTS em caso de falha de rede */ }
+}
+loadProducts();
+
 /* ══ PORTFOLIO FILTER ══ */
 function filterPortfolio(cat){ document.querySelectorAll('.pf-item').forEach(item=>{ item.classList.toggle('hidden', cat!=='todos'&&item.dataset.cat!==cat); }); }
 document.querySelectorAll('.pf-btn').forEach(btn=>{ btn.addEventListener('click',function(){ document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); filterPortfolio(this.dataset.filter); }); });
 
 /* ══ LIGHTBOX ══ */
-const items = Array.from(document.querySelectorAll('.pf-item'));
 let currentIdx = 0;
 let lbQty = 1;
 function getVisibleItems(){ return items.filter(i=>!i.classList.contains('hidden')); }
 function openLb(idx){ currentIdx=idx; lbQty=1; renderLb(idx); document.getElementById('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
 function renderLb(idx){
   const item=items[idx]; if(!item)return;
-  const name=item.dataset.name||'Produto Forge3D'; const cat=item.dataset.cat||'';
+  const name=item.dataset.name||'Produto Forge3D';
+  const catLabel=item.dataset.catlabel || (item.dataset.cat||'').charAt(0).toUpperCase()+(item.dataset.cat||'').slice(1);
+  const precoRaw=item.dataset.preco;
   const imgEl=item.querySelector('.pf-img');
   const imgLoaded=imgEl&&imgEl.style.display!=='none'&&imgEl.complete&&imgEl.naturalWidth>0;
   const media=document.getElementById('lbMedia');
   if(imgLoaded){ media.innerHTML=`<img class="lb-img" src="${imgEl.src}" alt="${name}">`; }
   else{ const icon=item.querySelector('.pf-placeholder-icon'); media.innerHTML=`<div class="lb-placeholder"><span class="lb-placeholder-icon">${icon?icon.textContent:'📷'}</span><span style="font-size:11px;color:var(--silver);letter-spacing:0.1em;text-transform:uppercase;">Foto em breve</span></div>`; }
   document.getElementById('lbName').textContent=name;
-  document.getElementById('lbCat').textContent=cat.charAt(0).toUpperCase()+cat.slice(1);
+  document.getElementById('lbCat').textContent=catLabel;
+  const priceEl=document.getElementById('lbPrice');
+  if(precoRaw){ priceEl.textContent=formatBRL(parseFloat(precoRaw)); priceEl.classList.remove('sob-consulta'); }
+  else { priceEl.textContent='Sob Consulta'; priceEl.classList.add('sob-consulta'); }
   document.getElementById('lbQty').textContent=lbQty;
   const addBtn=document.getElementById('lbAddQuote');
   addBtn.classList.remove('added'); addBtn.textContent='+ Adicionar ao Orçamento';
@@ -2138,6 +1401,7 @@ function navigateLb(dir){ const visible=getVisibleItems(); const visIdx=visible.
 function closeLb(){ document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; }
 function closeLbOutside(e){ if(e.target===document.getElementById('lightbox')) closeLb(); }
 document.addEventListener('keydown',e=>{ const lb=document.getElementById('lightbox'); if(!lb.classList.contains('open'))return; if(e.key==='Escape')closeLb(); if(e.key==='ArrowRight')navigateLb(1); if(e.key==='ArrowLeft')navigateLb(-1); });
+
 
 /* ══════════════════════════════════════
    ORÇAMENTO (CARRINHO)
@@ -2157,10 +1421,12 @@ function saveOrcamento(){
 function addToQuote(){
   const item = items[currentIdx]; if(!item) return;
   const name = item.dataset.name || 'Produto Forge3D';
-  const cat = item.dataset.cat || '';
+  const catLabel = item.dataset.catlabel || item.dataset.cat || '';
+  const precoRaw = item.dataset.preco;
+  const preco = precoRaw ? parseFloat(precoRaw) : null;
   const existing = orcamento.find(o => o.nome === name);
   if (existing) existing.qty += lbQty;
-  else orcamento.push({ nome: name, categoria: cat, qty: lbQty });
+  else orcamento.push({ nome: name, categoria: catLabel, preco, qty: lbQty });
   saveOrcamento();
   renderQuote();
 
@@ -2180,6 +1446,13 @@ function updateQuoteQty(i,d){
   saveOrcamento(); renderQuote();
 }
 
+function calcSubtotal(){
+  return orcamento.reduce((s,i) => s + (i.preco !== null && i.preco !== undefined ? i.preco*i.qty : 0), 0);
+}
+function countSobConsulta(){
+  return orcamento.filter(i => i.preco === null || i.preco === undefined).length;
+}
+
 function renderQuote(){
   const badge = document.getElementById('quoteBadge');
   const totalItens = orcamento.reduce((s,i)=>s+i.qty,0);
@@ -2194,11 +1467,15 @@ function renderQuote(){
     return;
   }
   footer.style.display = 'block';
-  el.innerHTML = orcamento.map((i,idx) => `
+  el.innerHTML = orcamento.map((i,idx) => {
+    const hasPrice = i.preco !== null && i.preco !== undefined;
+    const priceLine = hasPrice ? `${formatBRL(i.preco)} cada` : 'Sob consulta';
+    return `
     <div class="quote-item">
       <div class="quote-item-info">
         <div class="quote-item-name">${i.nome}</div>
         <div class="quote-item-cat">${i.categoria}</div>
+        <div class="quote-item-price${hasPrice?'':' sob-consulta'}">${priceLine}</div>
         <div class="quote-item-bottom">
           <div class="quote-item-qty">
             <button onclick="updateQuoteQty(${idx},-1)">−</button>
@@ -2208,7 +1485,26 @@ function renderQuote(){
           <button class="quote-item-remove" onclick="removeFromQuote(${idx})">Remover</button>
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
+  const subtotal = calcSubtotal();
+  const semPreco = countSobConsulta();
+  const subtotalBox = document.getElementById('quoteSubtotal');
+  if (subtotal > 0) {
+    subtotalBox.style.display = 'flex';
+    document.getElementById('quoteSubtotalValue').textContent = formatBRL(subtotal) + (semPreco ? ' *' : '');
+  } else {
+    subtotalBox.style.display = 'none';
+  }
+  const note = document.querySelector('.quote-footer-note');
+  if (semPreco > 0) {
+    note.textContent = subtotal > 0
+      ? `* Subtotal considera apenas os itens com preço definido. ${semPreco} ${semPreco===1?'item será orçado':'itens serão orçados'} individualmente.`
+      : 'Todos os itens desta lista são sob consulta — você recebe o valor pelo WhatsApp.';
+  } else {
+    note.textContent = 'Valor estimado. A confirmação final do orçamento é feita pelo WhatsApp.';
+  }
 }
 
 function openQuoteDrawer(){
@@ -2224,7 +1520,18 @@ function closeQuoteDrawer(){
 
 function buildQuoteSummary(){
   let html = '<h3>Itens do Orçamento</h3>';
-  orcamento.forEach(i => { html += `<div class="qc-summary-item"><span>${i.qty}x ${i.nome}</span></div>`; });
+  orcamento.forEach(i => {
+    const hasPrice = i.preco !== null && i.preco !== undefined;
+    const priceStr = hasPrice ? formatBRL(i.preco*i.qty) : 'sob consulta';
+    html += `<div class="qc-summary-item"><span>${i.qty}x ${i.nome}</span><span>${priceStr}</span></div>`;
+  });
+  const subtotal = calcSubtotal();
+  const semPreco = countSobConsulta();
+  if (subtotal > 0) {
+    html += `<div class="qc-summary-item" style="border-top:1px solid rgba(192,200,208,0.12);margin-top:8px;padding-top:10px;font-weight:700;color:var(--silver-light);"><span>Subtotal</span><span>${formatBRL(subtotal)}</span></div>`;
+    if (semPreco) html += `<div class="qc-summary-item" style="font-size:11px;font-style:italic;"><span>+ ${semPreco} ${semPreco===1?'item sob consulta':'itens sob consulta'}</span><span></span></div>`;
+  }
+  html += `<div class="qc-summary-item" style="margin-top:6px;"><span>Frete</span><span>A combinar</span></div>`;
   document.getElementById('quoteSummary').innerHTML = html;
 }
 
@@ -2258,8 +1565,14 @@ function sendQuoteWhatsApp(){
   }
 
   let msg = 'Olá! Gostaria de solicitar um orçamento para os itens abaixo:\n━━━━━━━━━━━━━━━\n';
-  orcamento.forEach(i => { msg += `${i.qty}x ${i.nome}\n`; });
+  orcamento.forEach(i => {
+    const hasPrice = i.preco !== null && i.preco !== undefined;
+    msg += hasPrice ? `${i.qty}x ${i.nome} — ${formatBRL(i.preco*i.qty)}\n` : `${i.qty}x ${i.nome} (sob consulta)\n`;
+  });
+  const subtotal = calcSubtotal();
   msg += '━━━━━━━━━━━━━━━\n';
+  if (subtotal > 0) msg += `Subtotal (itens com preço definido): ${formatBRL(subtotal)}\n`;
+  msg += 'Frete: a combinar\n';
   msg += `Nome: ${name}\nContato: ${phone}\n`;
   if (obs) msg += `Obs: ${obs}\n`;
 
