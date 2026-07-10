@@ -86,8 +86,8 @@ body {
   padding: 0 2.5rem; gap: 2rem;
 }
 
-.nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
-.nav-logo  { height: 54px; width: auto; }
+.nav-brand { display:flex; align-items:center; gap:6px; text-decoration:none; flex-shrink:0; }
+.nav-logo  { height: 66px; width: auto; }
 .nav-brand-text {
   font-family:'Montserrat',sans-serif;
   font-size:30px; font-weight:900; line-height:1;
@@ -665,7 +665,8 @@ footer {
   .nav-menu.open { display:flex; flex-direction:column; position:absolute; top:var(--nav-h); left:0; right:0; background:rgba(8,8,8,0.97); padding:1.5rem 2rem; gap:1.5rem; border-bottom:1px solid rgba(232,126,4,0.12); z-index:490; }
   .nav-toggle { display:flex; }
   .navbar { padding:0 1rem; gap:0.6rem; }
-  .nav-logo { height:34px; }
+  .nav-brand { gap:5px; }
+  .nav-logo { height:42px; }
   .nav-brand-text { font-size:20px; }
   .nav-tagline { font-size:9px; letter-spacing:0.15px; margin-top:1px; }
   .nav-icon { display:none; }
@@ -1162,7 +1163,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       - Foto: nome do arquivo já enviado ao GitHub (ex: foto_01.jpg)
    Enquanto o link não for configurado, o site usa a lista local (FALLBACK_PRODUCTS) abaixo. */
 const FORGE3D_CONFIG = {
-  planilha_produtos: ""
+  planilha_produtos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnb7b9EAoNVWIqTsWJijg6MWacTxBH2A0JNSs5plRXtClBuGAIPTuT-nV0Byp6PYWKV88er8S6a4pZ/pub?gid=226811329&single=true&output=csv"
 };
 
 const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária"};
