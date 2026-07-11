@@ -1490,9 +1490,11 @@ function countSobConsulta(){
 /* ══ Dados internos de produção (peso/tempo/custos extras) — nunca exibidos no site,
    usados só para registrar o consumo de material na aba "Pedidos" da planilha. ══ */
 function calcPesoTotal(){
+  /* Peso escala com a quantidade — cada peça extra consome mais material. */
   return orcamento.reduce((s,i) => s + (i.peso ? i.peso*i.qty : 0), 0);
 }
 function calcTempoTotal(){
+  /* Tempo é por peça (confirmado no fatiador da impressora), então escala com a quantidade. */
   return orcamento.reduce((s,i) => s + (i.tempo ? i.tempo*i.qty : 0), 0);
 }
 function resumoCustoExtra(campo){
