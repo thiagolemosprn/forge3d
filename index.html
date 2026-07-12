@@ -607,6 +607,16 @@ footer {
 .qc-form-group input:focus, .qc-form-group textarea:focus { outline:none; border-color:var(--orange); }
 .qc-form-group textarea { resize:vertical; min-height:70px; }
 .qc-form-group input.field-error, .qc-form-group textarea.field-error { border-color:#e55; }
+.qc-payment-options { display:flex; gap:10px; }
+.qc-payment-btn {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+  background:var(--dark-4); border:1px solid rgba(192,200,208,0.15); color:var(--silver);
+  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+  padding:12px; border-radius:1px; cursor:pointer; transition:all 0.2s;
+}
+.qc-payment-btn:hover { border-color:rgba(232,126,4,0.5); color:var(--silver-light); }
+.qc-payment-btn.selected { background:var(--orange); color:#000; border-color:var(--orange); }
+.qc-payment-options.field-error .qc-payment-btn { border-color:#e55; }
 .qc-summary { background:var(--dark-4); padding:1rem; margin-bottom:1.25rem; border:1px solid rgba(192,200,208,0.08); }
 .qc-summary h3 { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; color:var(--silver-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem; }
 .qc-summary-item { display:flex; justify-content:space-between; gap:1rem; font-size:13px; color:var(--silver); padding:3px 0; }
@@ -1081,6 +1091,13 @@ footer {
       <div class="qc-form-group">
         <label for="quotePhone">WhatsApp / Telefone</label>
         <input type="tel" id="quotePhone" placeholder="(84) 90000-0000">
+      </div>
+      <div class="qc-form-group">
+        <label>Forma de pagamento</label>
+        <div class="qc-payment-options" id="quotePaymentOptions">
+          <button type="button" class="qc-payment-btn" data-payment="Pix" onclick="selectPayment('Pix', this)">💠 Pix</button>
+          <button type="button" class="qc-payment-btn" data-payment="Cartão de Crédito" onclick="selectPayment('Cartão de Crédito', this)">💳 Cartão de Crédito</button>
+        </div>
       </div>
       <div class="qc-form-group">
         <label for="quoteObs">Observações (opcional)</label>
@@ -1590,6 +1607,14 @@ function buildQuoteSummary(){
   document.getElementById('quoteSummary').innerHTML = html;
 }
 
+let selectedPayment = '';
+function selectPayment(value, el){
+  selectedPayment = value;
+  document.querySelectorAll('.qc-payment-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('quotePaymentOptions').classList.remove('field-error');
+}
+
 function openQuoteCheckout(){
   if (!orcamento.length) return;
   closeQuoteDrawer();
@@ -1618,16 +1643,18 @@ function sendQuoteWhatsApp(){
   const nameEl = document.getElementById('quoteName');
   const phoneEl = document.getElementById('quotePhone');
   const obsEl = document.getElementById('quoteObs');
+  const paymentEl = document.getElementById('quotePaymentOptions');
   const name = nameEl.value.trim();
   const phone = phoneEl.value.trim();
   const obs = obsEl.value.trim();
 
-  nameEl.classList.remove('field-error'); phoneEl.classList.remove('field-error');
+  nameEl.classList.remove('field-error'); phoneEl.classList.remove('field-error'); paymentEl.classList.remove('field-error');
   let hasError = false;
   if (!name) { nameEl.classList.add('field-error'); hasError = true; }
   if (!phone) { phoneEl.classList.add('field-error'); hasError = true; }
+  if (!selectedPayment) { paymentEl.classList.add('field-error'); hasError = true; }
   if (hasError) {
-    (name ? phoneEl : nameEl).scrollIntoView({ behavior:'smooth', block:'center' });
+    (!name ? nameEl : (!phone ? phoneEl : paymentEl)).scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
@@ -1643,6 +1670,7 @@ function sendQuoteWhatsApp(){
   msg += '━━━━━━━━━━━━━━━\n';
   if (subtotal > 0) msg += `Subtotal (itens com preço definido): ${formatBRL(subtotal)}\n`;
   msg += 'Frete: a combinar\n';
+  msg += `Forma de pagamento: ${selectedPayment}\n`;
   msg += `Nome: ${name}\nContato: ${phone}\n`;
   if (obs) msg += `Obs: ${obs}\n`;
 
@@ -1653,6 +1681,7 @@ function sendQuoteWhatsApp(){
     itens: itensTexto.trim(),
     subtotal: subtotal > 0 ? formatBRL(subtotal) : '',
     frete: 'A combinar',
+    formaPagamento: selectedPayment,
     observacoes: obs,
     peso: calcPesoTotal() ? calcPesoTotal().toFixed(1) + 'g' : '',
     tempo: calcTempoTotal() ? calcTempoTotal().toFixed(1) + 'h' : '',
@@ -1668,6 +1697,8 @@ function sendQuoteWhatsApp(){
   saveOrcamento();
   renderQuote();
   nameEl.value = ''; phoneEl.value = ''; obsEl.value = '';
+  selectedPayment = '';
+  document.querySelectorAll('.qc-payment-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('quoteConfirmed').classList.add('open');
 }
 function closeQuoteConfirmed(){
