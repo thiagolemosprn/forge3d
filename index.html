@@ -2,8 +2,8 @@
 <!--
   ══════════════════════════════════════════════════════════════
   FORGE3D — index.html
-  VERSÃO: v2 — 30/07/2026
-  ÚLTIMA MUDANÇA: Seletor de cor para produtos personalizáveis (portfólio, carrinho, checkout e WhatsApp)
+  VERSÃO: v4 — 30/07/2026
+  ÚLTIMA MUDANÇA: Suporte a múltiplos grupos de cor por produto (ex: Cor da Base + Cor das Letras)
 
   ⚠️ ANTES DE EDITAR MANUALMENTE (trocar telefone, texto, etc.):
   Confirme que esta é a versão mais recente enviada na conversa com a Claude.
@@ -450,7 +450,7 @@ section { position:relative; z-index:1; }
   backdrop-filter:blur(8px);
 }
 .lightbox.open { display:flex; }
-.lb-inner { position:relative; max-width:520px; width:100%; background:var(--dark-3); border:1px solid rgba(232,126,4,0.2); }
+.lb-inner { position:relative; max-width:520px; width:100%; max-height:95vh; overflow-y:auto; background:var(--dark-3); border:1px solid rgba(232,126,4,0.2); }
 .lb-img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
 .lb-placeholder { width:100%; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--dark-4); color:var(--silver); font-size:13px; }
 .lb-placeholder-icon { font-size:44px; opacity:0.25; }
@@ -665,6 +665,8 @@ footer {
 .lb-addquote:hover { background:#FF9A1F; }
 .lb-addquote.added { background:#25D366; color:#fff; }
 .lb-color-section { width:100%; margin-top:4px; }
+.lb-color-group { margin-bottom:12px; }
+.lb-color-group:last-child { margin-bottom:0; }
 .lb-color-label { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver); margin-bottom:8px; }
 .lb-color-options { display:flex; flex-wrap:wrap; gap:8px; }
 .lb-color-btn {
@@ -1063,8 +1065,7 @@ footer {
         <p class="lb-cat"  id="lbCat"></p>
         <p class="lb-price" id="lbPrice"></p>
         <div class="lb-color-section" id="lbColorSection" style="display:none;">
-          <p class="lb-color-label">Escolha a cor</p>
-          <div class="lb-color-options" id="lbColorOptions"></div>
+          <div id="lbColorOptions"></div>
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
@@ -1338,6 +1339,34 @@ const FALLBACK_PRODUCTS = [
 function escapeHtml(str){
   return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function corLabelCliente(cor){
+  /* Remove o prefixo de material (PLA, PETG, ABS, TPU...) — o cliente só precisa ver a cor.
+     O valor completo (com material) continua guardado internamente para o controle de estoque. */
+  return String(cor||'').replace(/^(PLA|PETG|ABS|TPU|PVA|PC)\s+/i, '').trim() || cor;
+}
+function formatCoresCliente(cores){
+  if (!cores || !cores.length) return '';
+  // 1 grupo sem nome específico -> só a cor. Vários grupos -> "Base: Amarelo, Letras: Rosa"
+  if (cores.length === 1 && cores[0].label === 'Escolha a cor') return corLabelCliente(cores[0].valor);
+  return cores.map(c => `${c.label}: ${corLabelCliente(c.valor)}`).join(', ');
+}
+function parseCoresDisponiveis(raw){
+  /* Formato aceito:
+     - "PLA Preto, PLA Vermelho" -> 1 grupo sem nome ("Escolha a cor")
+     - "Cor da Base: PLA Amarelo, PLA Branco | Cor das Letras: PLA Rosa, PLA Vermelho" -> vários grupos nomeados
+     Retorna até 3 grupos: [{ label, opcoes: [...] }] */
+  const s = String(raw||'').trim();
+  if (!s) return [];
+  const grupos = s.includes('|') ? s.split('|') : [s];
+  return grupos.map(grupo => {
+    const idx = grupo.indexOf(':');
+    if (idx === -1) return { label: 'Escolha a cor', opcoes: grupo.split(',').map(v=>v.trim()).filter(Boolean) };
+    return {
+      label: grupo.slice(0, idx).trim() || 'Escolha a cor',
+      opcoes: grupo.slice(idx+1).split(',').map(v=>v.trim()).filter(Boolean)
+    };
+  }).filter(g => g.opcoes.length).slice(0, 3);
+}
 function parsePreco(raw){
   if (raw === null || raw === undefined) return null;
   let s = String(raw).trim().replace(/^R\$\s*/i, '');
@@ -1400,7 +1429,7 @@ function normalizeSheetRows(rows){
       custoExtra1: (row['custos extras 1']||'').trim(),
       custoExtra2: (row['custos extras 2']||'').trim(),
       /* Cores que o cliente pode escolher (produto personalizável). Vazio = sem seletor de cor. */
-      coresDisponiveis: (row['cores disponíveis']||row['cores disponiveis']||'').split(',').map(s=>s.trim()).filter(Boolean)
+      coresDisponiveis: parseCoresDisponiveis(row['cores disponíveis']||row['cores disponiveis']||'')
     };
   }).filter(p => p.nome && p.foto);
 }
@@ -1418,7 +1447,7 @@ function renderPortfolio(products){
     const precoAttr = (p.preco !== null && p.preco !== undefined) ? p.preco : '';
     const pesoAttr = (p.peso !== null && p.peso !== undefined) ? p.peso : '';
     const tempoAttr = (p.tempo !== null && p.tempo !== undefined) ? p.tempo : '';
-    const coresAttr = (p.coresDisponiveis||[]).join(',');
+    const coresAttr = JSON.stringify(p.coresDisponiveis||[]);
     return `<div class="pf-item" data-codigo="${escapeHtml(p.codigo)}" data-cat="${p.categoria}" data-catlabel="${escapeHtml(p.catLabel)}" data-name="${escapeHtml(p.nome)}" data-preco="${precoAttr}" data-peso="${pesoAttr}" data-tempo="${tempoAttr}" data-extra1="${escapeHtml(p.custoExtra1||'')}" data-extra2="${escapeHtml(p.custoExtra2||'')}" data-cores="${escapeHtml(coresAttr)}" onclick="openLb(${idx})">
         <img class="pf-img" src="${p.foto}" alt="${escapeHtml(p.nome)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">${icon}</span><span>${p.foto}</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
@@ -1454,8 +1483,9 @@ document.querySelectorAll('.pf-btn').forEach(btn=>{ btn.addEventListener('click'
 let currentIdx = 0;
 let lbQty = 1;
 function getVisibleItems(){ return items.filter(i=>!i.classList.contains('hidden')); }
-let lbCorEscolhida = '';
-function openLb(idx){ currentIdx=idx; lbQty=1; lbCorEscolhida=''; renderLb(idx); document.getElementById('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
+let lbCoresEscolhidas = {}; // { slotIndex: valorEscolhido }
+let lbCoresSlots = []; // grupos do produto atual
+function openLb(idx){ currentIdx=idx; lbQty=1; lbCoresEscolhidas={}; renderLb(idx); document.getElementById('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
 function renderLb(idx){
   const item=items[idx]; if(!item)return;
   const name=item.dataset.name||'Produto Forge3D';
@@ -1475,25 +1505,33 @@ function renderLb(idx){
   const addBtn=document.getElementById('lbAddQuote');
   addBtn.classList.remove('added'); addBtn.textContent='+ Adicionar ao Orçamento';
 
-  // Seletor de cor (só aparece se o produto tiver cores cadastradas)
-  lbCorEscolhida = '';
-  const cores = (item.dataset.cores||'').split(',').map(s=>s.trim()).filter(Boolean);
+  // Seletor(es) de cor — até 3 grupos nomeados (ex: Cor da Base, Cor das Letras)
+  lbCoresEscolhidas = {};
+  let slots = [];
+  try { slots = JSON.parse(item.dataset.cores||'[]'); } catch(err) { slots = []; }
+  lbCoresSlots = slots;
   const section = document.getElementById('lbColorSection');
   const options = document.getElementById('lbColorOptions');
-  if (cores.length){
+  if (slots.length){
     section.style.display = 'block';
-    options.classList.remove('field-error');
-    options.innerHTML = cores.map(cor => `<button type="button" class="lb-color-btn" onclick="selectLbColor('${cor.replace(/'/g,"\\'")}',this)">${escapeHtml(cor)}</button>`).join('');
+    options.innerHTML = slots.map((grupo, gi) => `
+      <div class="lb-color-group" data-slot="${gi}">
+        <p class="lb-color-label">${escapeHtml(grupo.label)}</p>
+        <div class="lb-color-options${slots.length>1?'':''}" data-slot-options="${gi}">
+          ${grupo.opcoes.map(cor => `<button type="button" class="lb-color-btn" onclick="selectLbColor(${gi},'${cor.replace(/'/g,"\\'")}',this)">${escapeHtml(corLabelCliente(cor))}</button>`).join('')}
+        </div>
+      </div>`).join('');
   } else {
     section.style.display = 'none';
     options.innerHTML = '';
   }
 }
-function selectLbColor(cor, el){
-  lbCorEscolhida = cor;
-  document.querySelectorAll('.lb-color-btn').forEach(b => b.classList.remove('selected'));
+function selectLbColor(slotIndex, cor, el){
+  lbCoresEscolhidas[slotIndex] = cor;
+  const container = el.closest('[data-slot-options]');
+  container.classList.remove('field-error');
+  container.querySelectorAll('.lb-color-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById('lbColorOptions').classList.remove('field-error');
 }
 function changeLbQty(d){ lbQty=Math.max(1,Math.min(99,lbQty+d)); document.getElementById('lbQty').textContent=lbQty; }
 function navigateLb(dir){ const visible=getVisibleItems(); const visIdx=visible.indexOf(items[currentIdx]); const next=visible[(visIdx+dir+visible.length)%visible.length]; currentIdx=items.indexOf(next); lbQty=1; renderLb(currentIdx); }
@@ -1519,13 +1557,16 @@ function saveOrcamento(){
 
 function addToQuote(){
   const item = items[currentIdx]; if(!item) return;
-  const cores = (item.dataset.cores||'').split(',').map(s=>s.trim()).filter(Boolean);
-  if (cores.length && !lbCorEscolhida){
-    const optionsEl = document.getElementById('lbColorOptions');
-    optionsEl.classList.add('field-error');
-    optionsEl.scrollIntoView({ behavior:'smooth', block:'center' });
-    return;
+
+  // Confere se todos os grupos de cor foram escolhidos
+  for (let gi = 0; gi < lbCoresSlots.length; gi++){
+    if (!lbCoresEscolhidas[gi]){
+      const container = document.querySelector(`[data-slot-options="${gi}"]`);
+      if (container){ container.classList.add('field-error'); container.scrollIntoView({ behavior:'smooth', block:'center' }); }
+      return;
+    }
   }
+
   const codigo = item.dataset.codigo || '';
   const name = item.dataset.name || 'Produto Forge3D';
   const catLabel = item.dataset.catlabel || item.dataset.cat || '';
@@ -1535,11 +1576,12 @@ function addToQuote(){
   const tempo = item.dataset.tempo ? parseFloat(item.dataset.tempo) : null;
   const custoExtra1 = item.dataset.extra1 || '';
   const custoExtra2 = item.dataset.extra2 || '';
-  const cor = lbCorEscolhida || '';
+  const cores = lbCoresSlots.map((grupo, gi) => ({ label: grupo.label, valor: lbCoresEscolhidas[gi] })).filter(c => c.valor);
+  const coresKey = JSON.stringify(cores);
   // Itens com cores diferentes do mesmo produto contam como linhas separadas no carrinho
-  const existing = orcamento.find(o => o.nome === name && (o.cor||'') === cor);
+  const existing = orcamento.find(o => o.nome === name && JSON.stringify(o.cores||[]) === coresKey);
   if (existing) existing.qty += lbQty;
-  else orcamento.push({ codigo, nome: name, categoria: catLabel, preco, peso, tempo, custoExtra1, custoExtra2, cor, qty: lbQty });
+  else orcamento.push({ codigo, nome: name, categoria: catLabel, preco, peso, tempo, custoExtra1, custoExtra2, cores, qty: lbQty });
   saveOrcamento();
   renderQuote();
 
@@ -1608,7 +1650,7 @@ function renderQuote(){
     <div class="quote-item">
       <div class="quote-item-info">
         <div class="quote-item-name">${i.nome}</div>
-        <div class="quote-item-cat">${i.categoria}${i.cor ? ' · Cor: ' + escapeHtml(i.cor) : ''}</div>
+        <div class="quote-item-cat">${i.categoria}${i.cores&&i.cores.length ? ' · ' + escapeHtml(formatCoresCliente(i.cores)) : ''}</div>
         <div class="quote-item-price${hasPrice?'':' sob-consulta'}">${priceLine}</div>
         <div class="quote-item-bottom">
           <div class="quote-item-qty">
@@ -1657,7 +1699,7 @@ function buildQuoteSummary(){
   orcamento.forEach(i => {
     const hasPrice = i.preco !== null && i.preco !== undefined;
     const priceStr = hasPrice ? formatBRL(i.preco*i.qty) : 'sob consulta';
-    const corTxt = i.cor ? ` (${i.cor})` : '';
+    const corTxt = i.cores&&i.cores.length ? ` (${formatCoresCliente(i.cores)})` : '';
     html += `<div class="qc-summary-item"><span>${i.qty}x ${i.nome}${corTxt}</span><span>${priceStr}</span></div>`;
   });
   const subtotal = calcSubtotal();
@@ -1725,7 +1767,7 @@ function sendQuoteWhatsApp(){
   let itensTexto = '';
   orcamento.forEach(i => {
     const hasPrice = i.preco !== null && i.preco !== undefined;
-    const corTxt = i.cor ? ` (Cor: ${i.cor})` : '';
+    const corTxt = i.cores&&i.cores.length ? ` (${formatCoresCliente(i.cores)})` : '';
     const linha = hasPrice ? `${i.qty}x ${i.nome}${corTxt} — ${formatBRL(i.preco*i.qty)}\n` : `${i.qty}x ${i.nome}${corTxt} (sob consulta)\n`;
     msg += linha;
     itensTexto += linha;
@@ -1739,7 +1781,7 @@ function sendQuoteWhatsApp(){
   if (obs) msg += `Obs: ${obs}\n`;
 
   const agora = new Date();
-  const itensDetalhados = orcamento.map(i => ({ codigo: i.codigo || '', nome: i.nome, qty: i.qty, cor: i.cor || '' }));
+  const itensDetalhados = orcamento.map(i => ({ codigo: i.codigo || '', nome: i.nome, qty: i.qty, cores: i.cores || [] }));
 
   salvarOrcamento({
     dataHora: agora.toLocaleString('pt-BR'),
