@@ -2,8 +2,8 @@
 <!--
   ══════════════════════════════════════════════════════════════
   FORGE3D — index.html
-  VERSÃO: v4 — 30/07/2026
-  ÚLTIMA MUDANÇA: Suporte a múltiplos grupos de cor por produto (ex: Cor da Base + Cor das Letras)
+  VERSÃO: v5 — 30/07/2026
+  ÚLTIMA MUDANÇA: Modo "loja fechada/manutenção" conectado à aba Configuração da planilha
 
   ⚠️ ANTES DE EDITAR MANUALMENTE (trocar telefone, texto, etc.):
   Confirme que esta é a versão mais recente enviada na conversa com a Claude.
@@ -1219,7 +1219,11 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
    3. Cole a URL do Web App gerada abaixo, em salvar_pedidos. */
 const FORGE3D_CONFIG = {
   planilha_produtos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJalMlnKA5_vRLupE69UGbrimx-CnDi1-oJxUHSXYctJtGBZFP_N-0ccZmFpqkfGvZbRshaSCwcBmX/pub?gid=2101677843&single=true&output=csv",
-  salvar_pedidos: "https://script.google.com/macros/s/AKfycbwPdpv2snAFNVhvynJ7uxSWaDw84nAcJFxVVcmIOSSLaNllnNHgcrPuf7qOrMrGwWP2/exec"
+  salvar_pedidos: "https://script.google.com/macros/s/AKfycbwPdpv2snAFNVhvynJ7uxSWaDw84nAcJFxVVcmIOSSLaNllnNHgcrPuf7qOrMrGwWP2/exec",
+  /* Link CSV publicado da aba "Configuração" (Arquivo > Compartilhar > Publicar na Web > aba
+     Configuração > formato CSV). Controla o modo "loja fechada/manutenção". Deixe em branco
+     pra desativar essa checagem (site funciona normal, sem depender dessa planilha). */
+  planilha_configuracoes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJalMlnKA5_vRLupE69UGbrimx-CnDi1-oJxUHSXYctJtGBZFP_N-0ccZmFpqkfGvZbRshaSCwcBmX/pub?gid=1341321030&single=true&output=csv"
 };
 
 const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária"};
@@ -1388,23 +1392,23 @@ function parseNumero(raw){
 function formatBRL(value){
   return value.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
 }
+function splitCSVLine(line){
+  const out = []; let cur = ''; let inQuotes = false;
+  for (let i=0; i<line.length; i++){
+    const c = line[i];
+    if (c === '"') { if (inQuotes && line[i+1] === '"') { cur += '"'; i++; } else inQuotes = !inQuotes; }
+    else if (c === ',' && !inQuotes) { out.push(cur); cur = ''; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out.map(v => v.trim());
+}
 function parseCSV(text){
   const lines = text.replace(/\r/g,'').split('\n').filter(l => l.trim().length);
   if (!lines.length) return [];
-  function splitLine(line){
-    const out = []; let cur = ''; let inQuotes = false;
-    for (let i=0; i<line.length; i++){
-      const c = line[i];
-      if (c === '"') { if (inQuotes && line[i+1] === '"') { cur += '"'; i++; } else inQuotes = !inQuotes; }
-      else if (c === ',' && !inQuotes) { out.push(cur); cur = ''; }
-      else cur += c;
-    }
-    out.push(cur);
-    return out.map(v => v.trim());
-  }
-  const headers = splitLine(lines[0]).map(h => h.trim().toLowerCase());
+  const headers = splitCSVLine(lines[0]).map(h => h.trim().toLowerCase());
   return lines.slice(1).map(line => {
-    const cells = splitLine(line);
+    const cells = splitCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h] = cells[i] !== undefined ? cells[i] : '');
     return row;
@@ -1474,6 +1478,45 @@ async function loadProducts(){
   } catch(err) { /* mantém FALLBACK_PRODUCTS em caso de falha de rede */ }
 }
 loadProducts();
+
+/* ══════════════════════════════════════
+   MODO MANUTENÇÃO (aba "Configuração" da planilha)
+══════════════════════════════════════ */
+function buscarValorConfiguracao(linhas, rotulo){
+  const alvo = rotulo.trim().toLowerCase();
+  for (const linha of linhas){
+    const celulas = splitCSVLine(linha);
+    if (celulas[0] && celulas[0].trim().toLowerCase().includes(alvo)) return (celulas[1]||'').trim();
+  }
+  return '';
+}
+function mostrarLojaFechada(mensagem){
+  document.documentElement.innerHTML = '';
+  const div = document.createElement('div');
+  div.style.cssText = 'min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:#080808;color:#fff;font-family:Barlow,Arial,sans-serif;';
+  div.innerHTML = `
+    <img src="logo-simbolo.png" alt="Forge3D" style="height:56px;margin-bottom:1.5rem;" onerror="this.style.display='none'">
+    <h1 style="font-family:'Rajdhani',sans-serif;font-size:20px;letter-spacing:0.08em;text-transform:uppercase;color:#E87E04;margin-bottom:1rem;">Forge3D</h1>
+    <p style="max-width:460px;font-size:16px;line-height:1.6;color:#C0C8D0;">${escapeHtml(mensagem || 'Estamos em manutenção. Voltamos em breve!')}</p>
+    <a href="https://wa.me/5584999522820" style="margin-top:2rem;color:#25D366;text-decoration:underline;font-size:14px;">Falar no WhatsApp</a>`;
+  document.body.innerHTML = '';
+  document.body.appendChild(div);
+  document.body.style.margin = '0';
+}
+async function checkModoManutencao(){
+  if (!FORGE3D_CONFIG.planilha_configuracoes) return;
+  try {
+    const url = FORGE3D_CONFIG.planilha_configuracoes + (FORGE3D_CONFIG.planilha_configuracoes.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const res = await fetch(url, { cache:'no-store' });
+    if (!res.ok) return;
+    const text = await res.text();
+    const linhas = text.replace(/\r/g,'').split('\n').filter(l => l.trim().length);
+    const ativo = buscarValorConfiguracao(linhas, 'Ativação da Loja Online').toLowerCase();
+    const mensagem = buscarValorConfiguracao(linhas, 'Mensagem de Manutenção');
+    if (ativo === 'não' || ativo === 'nao') mostrarLojaFechada(mensagem);
+  } catch(err) { /* falha de rede: site continua funcionando normalmente */ }
+}
+checkModoManutencao();
 
 /* ══ PORTFOLIO FILTER ══ */
 function filterPortfolio(cat){ document.querySelectorAll('.pf-item').forEach(item=>{ item.classList.toggle('hidden', cat!=='todos'&&item.dataset.cat!==cat); }); }
