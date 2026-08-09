@@ -2,8 +2,8 @@
 <!--
   ══════════════════════════════════════════════════════════════
   FORGE3D — index.html
-  VERSÃO: v5 — 30/07/2026
-  ÚLTIMA MUDANÇA: Modo "loja fechada/manutenção" conectado à aba Configuração da planilha
+  VERSÃO: v6 — 09/08/2026
+  ÚLTIMA MUDANÇA: Seção de Depoimentos (formulário no site, aprovação manual via planilha)
 
   ⚠️ ANTES DE EDITAR MANUALMENTE (trocar telefone, texto, etc.):
   Confirme que esta é a versão mais recente enviada na conversa com a Claude.
@@ -630,6 +630,39 @@ footer {
 .qc-payment-btn:hover { border-color:rgba(232,126,4,0.5); color:var(--silver-light); }
 .qc-payment-btn.selected { background:var(--orange); color:#000; border-color:var(--orange); }
 .qc-payment-options.field-error .qc-payment-btn { border-color:#e55; }
+
+/* ══════════════════════════════════════
+   DEPOIMENTOS
+══════════════════════════════════════ */
+.depo-rating-summary { font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:600; color:var(--silver-light); margin-top:0.5rem; }
+.depo-rating-summary .stars { color:var(--orange); letter-spacing:1px; }
+.depo-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; margin-top:2rem; }
+.depo-card { background:var(--dark-3); border:1px solid rgba(192,200,208,0.1); padding:1.5rem; display:flex; flex-direction:column; gap:0.75rem; }
+.depo-card-stars { color:var(--orange); font-size:14px; letter-spacing:2px; }
+.depo-card-text { font-size:14px; color:var(--silver-light); line-height:1.6; flex:1; }
+.depo-card-footer { display:flex; align-items:baseline; justify-content:space-between; gap:0.5rem; margin-top:0.25rem; }
+.depo-card-name { font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700; color:var(--silver-light); }
+.depo-card-product { font-size:11px; color:var(--orange); letter-spacing:0.06em; text-transform:uppercase; }
+.depo-empty { font-size:14px; color:var(--silver); }
+
+.depo-overlay {
+  display:none; position:fixed; inset:0; z-index:800;
+  background:rgba(0,0,0,0.8); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:1rem;
+}
+.depo-overlay.open { display:flex; }
+.depo-modal {
+  width:100%; max-width:460px; max-height:90vh; overflow-y:auto;
+  background:var(--dark-3); border:1px solid rgba(232,126,4,0.2);
+}
+.depo-modal-header { display:flex; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem; border-bottom:1px solid rgba(192,200,208,0.1); }
+.depo-modal-header h2 { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); }
+.depo-modal-body { padding:1.5rem; }
+.depo-star-picker { display:flex; gap:6px; font-size:28px; }
+.depo-star-picker span { cursor:pointer; color:rgba(192,200,208,0.25); transition:color 0.15s; }
+.depo-star-picker span.active { color:var(--orange); }
+.depo-star-picker.field-error { filter:drop-shadow(0 0 0 #e55); }
+.depo-star-picker.field-error span { border-bottom:2px solid #e55; }
 .qc-summary { background:var(--dark-4); padding:1rem; margin-bottom:1.25rem; border:1px solid rgba(192,200,208,0.08); }
 .qc-summary h3 { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; color:var(--silver-light); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.75rem; }
 .qc-summary-item { display:flex; justify-content:space-between; gap:1rem; font-size:13px; color:var(--silver); padding:3px 0; }
@@ -1006,6 +1039,25 @@ footer {
 
 <div class="divider"></div>
 
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="container">
+    <div class="section-inner">
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <p class="section-label">Depoimentos</p>
+          <h2 class="section-title">O que nossos clientes dizem</h2>
+          <p class="depo-rating-summary" id="depoRatingSummary"></p>
+        </div>
+        <button class="btn-secondary" type="button" onclick="openDepoimentoModal()">+ Deixar um Depoimento</button>
+      </div>
+      <div class="depo-grid reveal" id="depoGrid"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- CONTATO -->
 <section id="contato">
   <div class="container">
@@ -1148,6 +1200,51 @@ footer {
   </div>
 </div>
 
+<!-- MODAL DE DEPOIMENTO -->
+<div class="depo-overlay" id="depoOverlay">
+  <div class="depo-modal">
+    <div class="depo-modal-header">
+      <h2>Deixar um Depoimento</h2>
+      <button class="quote-close" onclick="closeDepoimentoModal()">✕</button>
+    </div>
+    <div class="depo-modal-body">
+      <div class="qc-form-group">
+        <label for="depoNome">Seu nome</label>
+        <input type="text" id="depoNome" placeholder="Nome completo">
+      </div>
+      <div class="qc-form-group">
+        <label>Sua nota</label>
+        <div class="depo-star-picker" id="depoStarPicker">
+          <span onclick="selecionarNota(1)" data-n="1">★</span>
+          <span onclick="selecionarNota(2)" data-n="2">★</span>
+          <span onclick="selecionarNota(3)" data-n="3">★</span>
+          <span onclick="selecionarNota(4)" data-n="4">★</span>
+          <span onclick="selecionarNota(5)" data-n="5">★</span>
+        </div>
+      </div>
+      <div class="qc-form-group">
+        <label for="depoProduto">Produto (opcional)</label>
+        <input type="text" id="depoProduto" placeholder="Ex: Chaveiro personalizado">
+      </div>
+      <div class="qc-form-group">
+        <label for="depoComentario">Seu comentário</label>
+        <textarea id="depoComentario" placeholder="Conte como foi sua experiência..."></textarea>
+      </div>
+      <button class="btn-quote-send" type="button" onclick="enviarDepoimento()">Enviar Depoimento</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRMAÇÃO DE DEPOIMENTO -->
+<div class="quote-confirmed-overlay" id="depoConfirmed">
+  <div class="quote-confirmed-box">
+    <div class="quote-confirmed-icon">✅</div>
+    <p class="quote-confirmed-title">Depoimento enviado!</p>
+    <p class="quote-confirmed-text">Obrigado por compartilhar sua experiência — ele aparecerá no site assim que for revisado.</p>
+    <button class="btn-secondary" onclick="closeDepoimentoConfirmed()">Fechar</button>
+  </div>
+</div>
+
 <script>
 /* ══ CURSOR ══ */
 const dot  = document.getElementById('cursorDot');
@@ -1223,7 +1320,10 @@ const FORGE3D_CONFIG = {
   /* Link CSV publicado da aba "Configuração" (Arquivo > Compartilhar > Publicar na Web > aba
      Configuração > formato CSV). Controla o modo "loja fechada/manutenção". Deixe em branco
      pra desativar essa checagem (site funciona normal, sem depender dessa planilha). */
-  planilha_configuracoes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJalMlnKA5_vRLupE69UGbrimx-CnDi1-oJxUHSXYctJtGBZFP_N-0ccZmFpqkfGvZbRshaSCwcBmX/pub?gid=1341321030&single=true&output=csv"
+  planilha_configuracoes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJalMlnKA5_vRLupE69UGbrimx-CnDi1-oJxUHSXYctJtGBZFP_N-0ccZmFpqkfGvZbRshaSCwcBmX/pub?gid=1341321030&single=true&output=csv",
+  /* Link CSV publicado da aba "Depoimentos" (mesmo processo das outras: Publicar na Web > aba
+     Depoimentos > formato CSV). Só depoimentos com Aprovado=Sim aparecem no site. */
+  planilha_depoimentos: ""
 };
 
 const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária"};
@@ -1518,6 +1618,123 @@ async function checkModoManutencao(){
 }
 checkModoManutencao();
 
+/* ══════════════════════════════════════
+   DEPOIMENTOS
+══════════════════════════════════════ */
+function formatNomeCliente(nome){
+  const partes = String(nome||'').trim().split(/\s+/);
+  if (!partes.length || !partes[0]) return 'Cliente Forge3D';
+  if (partes.length === 1) return partes[0];
+  return `${partes[0]} ${partes[1].charAt(0).toUpperCase()}.`;
+}
+function starsHtml(nota){
+  const n = Math.max(0, Math.min(5, Math.round(nota)));
+  return '★'.repeat(n) + '☆'.repeat(5-n);
+}
+
+async function loadDepoimentos(){
+  if (!FORGE3D_CONFIG.planilha_depoimentos) return;
+  try {
+    const url = FORGE3D_CONFIG.planilha_depoimentos + (FORGE3D_CONFIG.planilha_depoimentos.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const res = await fetch(url, { cache:'no-store' });
+    if (!res.ok) return;
+    const text = await res.text();
+    const linhas = parseCSV(text);
+    let aprovados = linhas.filter(l => (l['aprovado']||'').trim().toLowerCase() === 'sim');
+    aprovados = aprovados.map(l => ({
+      nome: (l['nome']||'').trim(),
+      nota: parseFloat(l['nota']) || 0,
+      produto: (l['produto']||'').trim(),
+      comentario: (l['comentário']||l['comentario']||'').trim(),
+      destaque: (l['destaque']||'').trim().toLowerCase() === 'sim',
+      dataHora: (l['data/hora']||'').trim()
+    })).filter(d => d.nome && d.comentario);
+
+    // Destaques primeiro, depois mais recentes
+    aprovados.sort((a,b) => (b.destaque - a.destaque) || (b.dataHora.localeCompare(a.dataHora)));
+    const exibidos = aprovados.slice(0, 9);
+    renderDepoimentos(exibidos, aprovados.length);
+  } catch(err) { /* seção de depoimentos simplesmente não aparece se a planilha falhar */ }
+}
+
+function renderDepoimentos(lista, total){
+  const grid = document.getElementById('depoGrid');
+  const summary = document.getElementById('depoRatingSummary');
+  if (!grid) return;
+  if (!lista.length){ grid.innerHTML = ''; summary.innerHTML = ''; return; }
+
+  const media = lista.reduce((s,d)=>s+d.nota,0) / lista.length;
+  summary.innerHTML = `<span class="stars">${starsHtml(media)}</span> ${media.toFixed(1)} · ${total} avaliaç${total===1?'ão':'ões'}`;
+
+  grid.innerHTML = lista.map(d => `
+    <div class="depo-card">
+      <div class="depo-card-stars">${starsHtml(d.nota)}</div>
+      <p class="depo-card-text">"${escapeHtml(d.comentario)}"</p>
+      <div class="depo-card-footer">
+        <span class="depo-card-name">${escapeHtml(formatNomeCliente(d.nome))}</span>
+        ${d.produto ? `<span class="depo-card-product">${escapeHtml(d.produto)}</span>` : ''}
+      </div>
+    </div>`).join('');
+}
+loadDepoimentos();
+
+let notaDepoimento = 0;
+function selecionarNota(n){
+  notaDepoimento = n;
+  document.getElementById('depoStarPicker').classList.remove('field-error');
+  document.querySelectorAll('#depoStarPicker span').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.n,10) <= n);
+  });
+}
+function openDepoimentoModal(){
+  document.getElementById('depoOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDepoimentoModal(){
+  document.getElementById('depoOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeDepoimentoConfirmed(){
+  document.getElementById('depoConfirmed').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function enviarDepoimento(){
+  const nomeEl = document.getElementById('depoNome');
+  const comentarioEl = document.getElementById('depoComentario');
+  const produtoEl = document.getElementById('depoProduto');
+  const starPicker = document.getElementById('depoStarPicker');
+
+  const nome = nomeEl.value.trim();
+  const comentario = comentarioEl.value.trim();
+
+  nomeEl.classList.remove('field-error'); comentarioEl.classList.remove('field-error'); starPicker.classList.remove('field-error');
+  let hasError = false;
+  if (!nome) { nomeEl.classList.add('field-error'); hasError = true; }
+  if (!notaDepoimento) { starPicker.classList.add('field-error'); hasError = true; }
+  if (!comentario) { comentarioEl.classList.add('field-error'); hasError = true; }
+  if (hasError) {
+    (!nome ? nomeEl : (!notaDepoimento ? starPicker : comentarioEl)).scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+
+  const agora = new Date();
+  postToAppsScript({
+    tipo: 'depoimento',
+    dataHora: agora.toLocaleString('pt-BR'),
+    nome,
+    nota: notaDepoimento,
+    produto: produtoEl.value.trim(),
+    comentario
+  });
+
+  closeDepoimentoModal();
+  nomeEl.value = ''; comentarioEl.value = ''; produtoEl.value = '';
+  notaDepoimento = 0;
+  document.querySelectorAll('#depoStarPicker span').forEach(s => s.classList.remove('active'));
+  document.getElementById('depoConfirmed').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
 /* ══ PORTFOLIO FILTER ══ */
 function filterPortfolio(cat){ document.querySelectorAll('.pf-item').forEach(item=>{ item.classList.toggle('hidden', cat!=='todos'&&item.dataset.cat!==cat); }); }
 document.querySelectorAll('.pf-btn').forEach(btn=>{ btn.addEventListener('click',function(){ document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); filterPortfolio(this.dataset.filter); }); });
@@ -1775,7 +1992,7 @@ function closeQuoteCheckout(){
   document.body.style.overflow = '';
 }
 
-function salvarOrcamento(dados){
+function postToAppsScript(dados){
   if (!FORGE3D_CONFIG.salvar_pedidos) return;
   try {
     fetch(FORGE3D_CONFIG.salvar_pedidos, {
@@ -1784,8 +2001,9 @@ function salvarOrcamento(dados){
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dados)
     });
-  } catch(err) { /* não bloqueia o envio do WhatsApp se a planilha falhar */ }
+  } catch(err) { /* não bloqueia o fluxo do site se a planilha falhar */ }
 }
+function salvarOrcamento(dados){ postToAppsScript(dados); }
 
 function sendQuoteWhatsApp(){
   const nameEl = document.getElementById('quoteName');
