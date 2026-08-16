@@ -2,8 +2,8 @@
 <!--
   ══════════════════════════════════════════════════════════════
   FORGE3D — index.html
-  VERSÃO: v8 — 09/08/2026
-  ÚLTIMA MUDANÇA: Revisão de textos (hero, seção Produtos, diferenciais, rodapé) para reduzir redundância
+  VERSÃO: v9 — 12/08/2026
+  ÚLTIMA MUDANÇA: Filtro "Pet" trocado por "Artigos Religiosos" (produtos antigos de Pet mantidos ativos, sem filtro próprio)
 
   ⚠️ ANTES DE EDITAR MANUALMENTE (trocar telefone, texto, etc.):
   Confirme que esta é a versão mais recente enviada na conversa com a Claude.
@@ -978,7 +978,7 @@ footer {
       <button class="pf-btn" type="button" data-filter="utilitario">Utilitários</button>
       <button class="pf-btn" type="button" data-filter="cozinha">Cozinha Prática</button>
       <button class="pf-btn" type="button" data-filter="personalizado">Personalizados</button>
-      <button class="pf-btn" type="button" data-filter="pet">Pets</button>
+      <button class="pf-btn" type="button" data-filter="religioso">Artigos Religiosos</button>
       <button class="pf-btn" type="button" data-filter="luminaria">Luminárias</button>
     </div>
 
@@ -1326,8 +1326,8 @@ const FORGE3D_CONFIG = {
   planilha_depoimentos: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQJalMlnKA5_vRLupE69UGbrimx-CnDi1-oJxUHSXYctJtGBZFP_N-0ccZmFpqkfGvZbRshaSCwcBmX/pub?gid=284360853&single=true&output=csv"
 };
 
-const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária"};
-const CATEGORY_ICONS = {"chaveiro": "🔗", "organizador": "🗂️", "sazonal": "🎄", "brinquedo": "🧸", "decoracao": "🏺", "utilitario": "🛠️", "cozinha": "🍳", "personalizado": "✨", "pet": "🐾", "luminaria": "💡"};
+const CATEGORY_LABELS = {"chaveiro": "Chaveiro", "organizador": "Organizador", "sazonal": "Sazonal", "brinquedo": "Brinquedo", "decoracao": "Decoração", "utilitario": "Utilitário", "cozinha": "Cozinha Prática", "personalizado": "Personalizado", "pet": "Pet", "luminaria": "Luminária", "religioso": "Artigos Religiosos"};
+const CATEGORY_ICONS = {"chaveiro": "🔗", "organizador": "🗂️", "sazonal": "🎄", "brinquedo": "🧸", "decoracao": "🏺", "utilitario": "🛠️", "cozinha": "🍳", "personalizado": "✨", "pet": "🐾", "luminaria": "💡", "religioso": "📿"};
 
 const FALLBACK_PRODUCTS = [
   {"ativo": true, "categoria": "chaveiro", "catLabel": "Chaveiro", "nome": "Chaveiro Nike Air Force One (pé esquerdo)", "foto": "foto_01.jpg", "preco": null, "ordem": 1, "peso": null, "tempo": null, "custoExtra1": "", "custoExtra2": "", "codigo": "P001", "coresDisponiveis": []},
