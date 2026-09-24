@@ -2,8 +2,8 @@
 <!--
   ══════════════════════════════════════════════════════════════
   FORGE3D — index.html
-  VERSÃO: v10 — 22/09/2026
-  ÚLTIMA MUDANÇA: Grade do portfólio agora é responsiva (auto-fill) em vez de 3 colunas fixas — imagens bem menores/mais leves no desktop
+  VERSÃO: v11 — 21/09/2026
+  ÚLTIMA MUDANÇA: Foto da janela de produto mais compacta, com limite de altura adaptado a computador e celular.
 
   ⚠️ ANTES DE EDITAR MANUALMENTE (trocar telefone, texto, etc.):
   Confirme que esta é a versão mais recente enviada na conversa com a Claude.
@@ -404,8 +404,8 @@ section { position:relative; z-index:1; }
 .pf-btn:hover, .pf-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(232,126,4,0.06); }
 
 .portfolio-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  gap:10px;
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
 }
 .pf-item {
   position:relative; width:100%; aspect-ratio:1/1;
@@ -413,6 +413,7 @@ section { position:relative; z-index:1; }
   border-radius:4px; border:1px solid rgba(232,126,4,0.07);
 }
 .pf-item.hidden { display:none !important; }
+.pf-item:focus-visible { outline:2px solid var(--orange); outline-offset:3px; }
 .pf-img {
   position:absolute; inset:0; width:100%; height:100%;
   object-fit:cover; object-position:center; display:block;
@@ -428,18 +429,22 @@ section { position:relative; z-index:1; }
 }
 .pf-placeholder-icon { font-size:22px; opacity:0.3; }
 .pf-placeholder-hint { font-size:9px; color:rgba(192,200,208,0.25); margin-top:2px; text-transform:none; }
-.pf-item:hover .pf-img, .pf-item:hover .pf-placeholder { transform:scale(1.06); }
+.pf-item:hover .pf-img { transform:scale(1.03); }
 .pf-overlay {
   position:absolute; inset:0;
   background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
   opacity:0; transition:opacity 0.35s;
   display:flex; flex-direction:column; justify-content:flex-end; padding:0.75rem;
 }
-.pf-item:hover .pf-overlay { opacity:1; }
+.pf-item:hover .pf-overlay, .pf-item:focus-visible .pf-overlay { opacity:1; }
+@media (hover: none) { .pf-overlay { opacity:1; } }
 .pf-item-name { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; color:#fff; }
 .pf-item-cat { font-size:9px; color:var(--orange); letter-spacing:0.15em; text-transform:uppercase; margin-top:1px; }
 .portfolio-cta { text-align:center; margin-top:2.5rem; }
 .portfolio-cta p { font-size:13px; color:var(--silver); margin-bottom:1rem; }
+.portfolio-pagination { text-align:center; margin-top:1.5rem; }
+.portfolio-count { color:var(--silver); font-size:13px; margin-bottom:0.75rem; }
+.portfolio-more[hidden] { display:none; }
 
 /* ══════════════════════════════════════
    LIGHTBOX
@@ -451,8 +456,9 @@ section { position:relative; z-index:1; }
 }
 .lightbox.open { display:flex; }
 .lb-inner { position:relative; max-width:520px; width:100%; max-height:95vh; overflow-y:auto; background:var(--dark-3); border:1px solid rgba(232,126,4,0.2); }
-.lb-img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
-.lb-placeholder { width:100%; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--dark-4); color:var(--silver); font-size:13px; }
+#lbMedia { padding:0.75rem 2.5rem; }
+.lb-img { width:100%; height:min(280px,38vh); object-fit:contain; display:block; }
+.lb-placeholder { width:100%; height:min(280px,38vh); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--dark-4); color:var(--silver); font-size:13px; }
 .lb-placeholder-icon { font-size:44px; opacity:0.25; }
 .lb-info { padding:1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
 .lb-name { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--silver-light); }
@@ -729,6 +735,7 @@ footer {
   .diff-grid { grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width: 900px) {
+  .portfolio-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
   .nav-menu { display:none; }
   .nav-menu.open { display:flex; flex-direction:column; position:absolute; top:var(--nav-h); left:0; right:0; background:rgba(8,8,8,0.97); padding:1.5rem 2rem; gap:1.5rem; border-bottom:1px solid rgba(232,126,4,0.12); z-index:490; }
   .nav-toggle { display:flex; }
@@ -755,13 +762,14 @@ footer {
   .hero-content { max-width:100%; }
   .hero-bg { background: url('hero-bg.png') center center / cover no-repeat; background-color:var(--dark); }
   .hero-bg::before { background: rgba(8,8,8,0.82); }
-  .portfolio-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
+  .portfolio-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
   .benefits-inner { grid-template-columns:1fr; }
   .benefit-item { border-right:none; border-bottom:1px solid rgba(232,126,4,0.08); }
   .benefit-item:last-child { border-bottom:none; }
   .footer-inner { flex-direction:column; text-align:center; }
   .custom-banner { flex-direction:column; }
   .lb-info { flex-direction:column; align-items:flex-start; }
+  .lb-img, .lb-placeholder { height:min(220px,32vh); }
   .fab { right:1.25rem; }
   .quote-drawer { width:100%; }
   .diff-grid { grid-template-columns:1fr; }
@@ -983,6 +991,10 @@ footer {
     </div>
 
     <div class="portfolio-grid reveal" id="portfolioGrid">
+    </div>
+    <div class="portfolio-pagination">
+      <p class="portfolio-count" id="portfolioCount" role="status" aria-live="polite"></p>
+      <button class="btn-secondary portfolio-more" id="portfolioMore" type="button" aria-controls="portfolioGrid" onclick="showMorePortfolio()" hidden>Ver mais produtos</button>
     </div>
 
     <div class="portfolio-cta reveal">
@@ -1245,6 +1257,7 @@ footer {
   </div>
 </div>
 
+<script src="assets/portfolio/manifest.js"></script>
 <script>
 /* ══ CURSOR ══ */
 const dot  = document.getElementById('cursorDot');
@@ -1541,8 +1554,39 @@ function normalizeSheetRows(rows){
 
 let items = [];
 let currentProducts = FALLBACK_PRODUCTS;
+const PORTFOLIO_PAGE_SIZE = 12;
+let portfolioFilter = 'todos';
+let portfolioLimit = PORTFOLIO_PAGE_SIZE;
+// Só atribuir src perto da área visível: itens ocultos não disputam a conexão.
+const portfolioImageObserver = 'IntersectionObserver' in window
+  ? new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.closest('.pf-item').classList.contains('hidden')) {
+          loadPortfolioImage(entry.target);
+          portfolioImageObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin:'200px 0px' })
+  : null;
+
+function loadPortfolioImage(img){
+  if (!img.dataset.src) return;
+  img.src = img.dataset.src;
+  delete img.dataset.src;
+}
+
+function portfolioImageError(img){
+  const original = img.dataset.original;
+  if (original && img.getAttribute('src') !== original) {
+    img.src = original;
+    return;
+  }
+  img.style.display = 'none';
+  img.nextElementSibling.style.display = 'flex';
+}
 
 function renderPortfolio(products){
+  if (portfolioImageObserver) portfolioImageObserver.disconnect();
   const active = products.filter(p => p.ativo).sort((a,b) => a.ordem - b.ordem);
   currentProducts = active;
   const grid = document.getElementById('portfolioGrid');
@@ -1552,9 +1596,12 @@ function renderPortfolio(products){
     const pesoAttr = (p.peso !== null && p.peso !== undefined) ? p.peso : '';
     const tempoAttr = (p.tempo !== null && p.tempo !== undefined) ? p.tempo : '';
     const coresAttr = JSON.stringify(p.coresDisponiveis||[]);
-    return `<div class="pf-item" data-codigo="${escapeHtml(p.codigo)}" data-cat="${p.categoria}" data-catlabel="${escapeHtml(p.catLabel)}" data-name="${escapeHtml(p.nome)}" data-preco="${precoAttr}" data-peso="${pesoAttr}" data-tempo="${tempoAttr}" data-extra1="${escapeHtml(p.custoExtra1||'')}" data-extra2="${escapeHtml(p.custoExtra2||'')}" data-cores="${escapeHtml(coresAttr)}" onclick="openLb(${idx})">
-        <img class="pf-img" src="${p.foto}" alt="${escapeHtml(p.nome)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">${icon}</span><span>${p.foto}</span><span class="pf-placeholder-hint">Substitua pela sua foto</span></div>
+    const optimized = (window.FORGE3D_IMAGES || {})[p.foto];
+    const thumbnail = optimized ? optimized.thumb : p.foto;
+    const detail = optimized ? optimized.detail : p.foto;
+    return `<div class="pf-item" role="button" tabindex="0" aria-label="${escapeHtml('Ver ' + p.nome)}" data-codigo="${escapeHtml(p.codigo)}" data-cat="${escapeHtml(p.categoria)}" data-catlabel="${escapeHtml(p.catLabel)}" data-name="${escapeHtml(p.nome)}" data-preco="${precoAttr}" data-peso="${pesoAttr}" data-tempo="${tempoAttr}" data-extra1="${escapeHtml(p.custoExtra1||'')}" data-extra2="${escapeHtml(p.custoExtra2||'')}" data-cores="${escapeHtml(coresAttr)}" onclick="openLb(${idx})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLb(${idx});}">
+        <img class="pf-img" data-src="${escapeHtml(thumbnail)}" data-full="${escapeHtml(detail)}" data-original="${escapeHtml(p.foto)}" alt="${escapeHtml(p.nome)}" width="640" height="640" loading="lazy" decoding="async" onerror="portfolioImageError(this)">
+        <div class="pf-placeholder" style="display:none;"><span class="pf-placeholder-icon">${icon}</span><span>Imagem indisponível</span></div>
         <div class="pf-overlay">
           <p class="pf-item-name">${escapeHtml(p.nome)}</p>
           <p class="pf-item-cat">${escapeHtml(p.catLabel)}</p>
@@ -1736,7 +1783,36 @@ function enviarDepoimento(){
 }
 
 /* ══ PORTFOLIO FILTER ══ */
-function filterPortfolio(cat){ document.querySelectorAll('.pf-item').forEach(item=>{ item.classList.toggle('hidden', cat!=='todos'&&item.dataset.cat!==cat); }); }
+function updatePortfolioVisibility(){
+  let matched = 0;
+  if (portfolioImageObserver) portfolioImageObserver.disconnect();
+  items.forEach(item => {
+    const matches = portfolioFilter === 'todos' || item.dataset.cat === portfolioFilter;
+    const visible = matches && ++matched <= portfolioLimit;
+    item.classList.toggle('hidden', !visible);
+    const img = item.querySelector('.pf-img');
+    if (visible && img && img.dataset.src) {
+      if (portfolioImageObserver) portfolioImageObserver.observe(img);
+      else loadPortfolioImage(img);
+    }
+  });
+  document.getElementById('portfolioCount').textContent = matched
+    ? `Exibindo ${Math.min(matched, portfolioLimit)} de ${matched} produtos`
+    : 'Nenhum produto nesta categoria no momento.';
+  document.getElementById('portfolioMore').hidden = matched <= portfolioLimit;
+}
+function filterPortfolio(cat){
+  portfolioFilter = cat;
+  portfolioLimit = PORTFOLIO_PAGE_SIZE;
+  updatePortfolioVisibility();
+}
+function showMorePortfolio(){
+  const previouslyVisible = items.filter(item => !item.classList.contains('hidden')).length;
+  portfolioLimit += PORTFOLIO_PAGE_SIZE;
+  updatePortfolioVisibility();
+  const next = items.filter(item => !item.classList.contains('hidden'))[previouslyVisible];
+  if (next) next.focus({ preventScroll:true });
+}
 document.querySelectorAll('.pf-btn').forEach(btn=>{ btn.addEventListener('click',function(){ document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); filterPortfolio(this.dataset.filter); }); });
 
 /* ══ LIGHTBOX ══ */
@@ -1752,10 +1828,28 @@ function renderLb(idx){
   const catLabel=item.dataset.catlabel || (item.dataset.cat||'').charAt(0).toUpperCase()+(item.dataset.cat||'').slice(1);
   const precoRaw=item.dataset.preco;
   const imgEl=item.querySelector('.pf-img');
-  const imgLoaded=imgEl&&imgEl.style.display!=='none'&&imgEl.complete&&imgEl.naturalWidth>0;
   const media=document.getElementById('lbMedia');
-  if(imgLoaded){ media.innerHTML=`<img class="lb-img" src="${imgEl.src}" alt="${name}">`; }
-  else{ const icon=item.querySelector('.pf-placeholder-icon'); media.innerHTML=`<div class="lb-placeholder"><span class="lb-placeholder-icon">${icon?icon.textContent:'📷'}</span><span style="font-size:11px;color:var(--silver);letter-spacing:0.1em;text-transform:uppercase;">Foto em breve</span></div>`; }
+  const photo = imgEl && (imgEl.dataset.full || imgEl.dataset.src || imgEl.getAttribute('src'));
+  const showUnavailable = () => {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'lb-placeholder';
+    placeholder.textContent = 'Imagem indisponível no momento';
+    media.replaceChildren(placeholder);
+  };
+  if (photo) {
+    const fullImage = new Image();
+    fullImage.className = 'lb-img';
+    fullImage.alt = name;
+    fullImage.decoding = 'async';
+    fullImage.onerror = () => {
+      if (!media.contains(fullImage)) return;
+      if (imgEl.dataset.original && fullImage.getAttribute('src') !== imgEl.dataset.original) {
+        fullImage.src = imgEl.dataset.original;
+      } else showUnavailable();
+    };
+    media.replaceChildren(fullImage);
+    fullImage.src = photo;
+  } else showUnavailable();
   document.getElementById('lbName').textContent=name;
   document.getElementById('lbCat').textContent=catLabel;
   const priceEl=document.getElementById('lbPrice');
