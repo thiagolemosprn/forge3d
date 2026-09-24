@@ -2,8 +2,8 @@
 <!--
   ══════════════════════════════════════════════════════════════
   FORGE3D — index.html
-  VERSÃO: v9 — 12/08/2026
-  ÚLTIMA MUDANÇA: Filtro "Pet" trocado por "Artigos Religiosos" (produtos antigos de Pet mantidos ativos, sem filtro próprio)
+  VERSÃO: v10 — 22/09/2026
+  ÚLTIMA MUDANÇA: Grade do portfólio agora é responsiva (auto-fill) em vez de 3 colunas fixas — imagens bem menores/mais leves no desktop
 
   ⚠️ ANTES DE EDITAR MANUALMENTE (trocar telefone, texto, etc.):
   Confirme que esta é a versão mais recente enviada na conversa com a Claude.
@@ -404,7 +404,7 @@ section { position:relative; z-index:1; }
 .pf-btn:hover, .pf-btn.active { border-color:var(--orange); color:var(--orange); background:rgba(232,126,4,0.06); }
 
 .portfolio-grid {
-  display:grid; grid-template-columns:repeat(3,1fr);
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
   gap:10px;
 }
 .pf-item {
@@ -755,7 +755,7 @@ footer {
   .hero-content { max-width:100%; }
   .hero-bg { background: url('hero-bg.png') center center / cover no-repeat; background-color:var(--dark); }
   .hero-bg::before { background: rgba(8,8,8,0.82); }
-  .portfolio-grid { grid-template-columns:repeat(2,1fr); }
+  .portfolio-grid { grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
   .benefits-inner { grid-template-columns:1fr; }
   .benefit-item { border-right:none; border-bottom:1px solid rgba(232,126,4,0.08); }
   .benefit-item:last-child { border-bottom:none; }
